@@ -1,6 +1,6 @@
 # Relatório de execução dos testes (R5)
 
-Gerado em 15/11/2026 12:14. Total: 67 testes (pass: 65, warn: 2).
+Gerado em 15/11/2026 12:32. Total: 68 testes (pass: 66, warn: 2).
 
 | Teste | Resultado | Linhas com falha |
 |---|---|---|
@@ -21,6 +21,7 @@ Gerado em 15/11/2026 12:14. Total: 67 testes (pass: 65, warn: 2).
 | entre_dim_semana_epi_epi_semana__53__1 | pass | 0 |
 | entre_fct_casos_semana_casos_notificados__1 | pass | 0 |
 | entre_fct_infodengue_semana_casos__0 | pass | 0 |
+| entre_fct_infodengue_semana_casos_provaveis__0 | pass | 0 |
 | entre_fct_internacoes_semana_internacoes__1 | pass | 0 |
 | entre_fct_leitos_mes_leitos_existentes__0 | pass | 0 |
 | entre_rec_sinan_infodengue_divergencia__0 | pass | 0 |

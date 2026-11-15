@@ -5,6 +5,7 @@ with t as (
         cast(geocodigo as varchar)                      as geocodigo,
         try_cast(nullif(trim("SE"), '') as integer)     as semana_id,
         try_cast(nullif(trim(casos), '') as double)     as casos,
+        try_cast(nullif(trim(casprov), '') as double)   as casprov,
         try_cast(nullif(trim(casos_est), '') as double) as casos_est,
         try_cast(nullif(trim(nivel), '') as integer)    as nivel,
         filename

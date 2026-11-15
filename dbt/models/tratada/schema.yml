@@ -161,6 +161,10 @@ models:
       - name: casos
         tests:
           - entre: {minimo: 0}
+      - name: casos_provaveis
+        description: "casprov do InfoDengue: notificações sem as descartadas."
+        tests:
+          - entre: {minimo: 0}
       - name: dados_ate
         tests: [not_null]
 

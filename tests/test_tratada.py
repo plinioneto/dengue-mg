@@ -28,7 +28,7 @@ def banco(tmp_path, monkeypatch):
     cod = "310000"  # primeiro município
     sinan_cols = ["ID_MUNICIP", "ID_MN_RESI", "DT_NOTIFIC", "DT_SIN_PRI", "CLASSI_FIN", "EVOLUCAO", "HOSPITALIZ"]
     # semana 202601 (04/01 a 10/01): 3 notificações, 1 descartada
-    final = [[cod, cod, "20260105", "20260103", "10", "1", "1"],
+    final = [[cod, cod, "20260105", "20260104", "10", "1", "1"],
              [cod, cod, "20260106", "20260104", "5", "", "2"],   # descartado
              [cod, cod, "20260107", "20260105", "11", "1", "2"]]  # sem duplicata
     _carregar(bronze, c, "sinan_final", "DENGBR26.dbc", sinan_cols, final)
@@ -39,8 +39,8 @@ def banco(tmp_path, monkeypatch):
               [["100", cod, "202601", "2", "33", "10", "10", "8"], ["100", cod, "202601", "7", "1", "5", "5", "5"]])
     _carregar(bronze, c, "sih_rd", "RDMG2601.dbc", ["N_AIH", "MUNIC_MOV", "MUNIC_RES", "DT_INTER", "DT_SAIDA", "DIAG_PRINC", "MORTE", "DIAS_PERM"],
               [["a1", cod, cod, "20260106", "20260110", "A90", "0", "4"], ["a2", cod, cod, "20260107", "20260112", "A91", "1", "5"]])
-    _carregar(bronze, c, "infodengue", "alertcity_mg_2026-02-01.json", ["SE", "casos", "casos_est", "nivel", "geocodigo"],
-              [["202601", "2", "2.5", "1", muns[0][0]]])
+    _carregar(bronze, c, "infodengue", "alertcity_mg_2026-02-01.json", ["SE", "casos", "casprov", "casos_est", "nivel", "geocodigo"],
+              [["202601", "4", "2", "2.5", "1", muns[0][0]]])
     c.close()
     return tmp_path
 

@@ -1,12 +1,14 @@
--- Casos de dengue notificados no SINAN por município de residência e semana epidemiológica (data de notificação).
+-- Casos de dengue do SINAN por município de notificação e semana epidemiológica dos primeiros sintomas (DT_SIN_PRI; se vazia, DT_NOTIFIC).
+-- É a convenção do InfoDengue (verificada na reconciliação, ver ADR-0004); o município de notificação é onde se buscou atendimento.
 -- Fato esparso: só há linha onde houve ao menos uma notificação. Descartados (CLASSI_FIN = 5) ficam de fora.
 -- As semanas recentes mudam enquanto os casos estão abertos (regra dos 60 dias); `dados_ate` é a maior data de notificação.
 with base as (
-    select municipio_residencia_6 as cod6,
-           {{ inicio_semana('dt_notific') }} as inicio,
+    select municipio_notificacao_6 as cod6,
+           {{ inicio_semana('dt_ref') }} as inicio,
            hospitali, classi_fin
-    from {{ ref('stg_sinan') }}
-    where not descartado and not data_fora_periodo
+    from (select *, coalesce(dt_sin_pri, dt_notific) as dt_ref from {{ ref('stg_sinan') }})
+    where not descartado
+      and dt_ref between make_date({{ var('ano_inicial') }}, 1, 1) and {{ hoje() }}
 )
 select
     m.geocodigo,
