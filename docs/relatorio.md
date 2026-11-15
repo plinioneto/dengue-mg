@@ -1,0 +1,147 @@
+# Relatório do Projeto Aplicado: plataforma de dados abertos sobre a pressão da dengue na capacidade assistencial de Minas Gerais
+
+Pós-graduação em Engenharia e Arquitetura de Dados com IA (XP Educação). Situação: fim da Sprint 2 (15/11/2026). A Sprint 3 (R7 a R10) não foi iniciada; as seções correspondentes estão marcadas como pendentes.
+
+## 1. Contexto, objetivo e escopo
+
+A dengue pressiona a rede de saúde de Minas Gerais de forma irregular no tempo e no território, e os dados que permitem medir essa pressão estão em fontes distintas, com grãos, códigos de município e defasagens diferentes. O projeto constrói uma plataforma de dados abertos, atualizada continuamente, que junta essas fontes por município e semana epidemiológica. Não há componente de inteligência artificial nem previsão: o produto é a plataforma de dados.
+
+**Objetivo (SMART).** Até 22/11/2026, ter a plataforma com SINAN, CNES, SIH e InfoDengue de MG por município e semana epidemiológica desde 2022, com indicador de pressão sobre a capacidade e o "dados até" de cada indicador.
+
+**Metas mensuráveis.**
+
+| Meta | Situação em 15/11/2026 |
+|---|---|
+| 853 municípios e todas as semanas de 2022 até hoje | Atendida nas dimensões (853 municípios; 258 semanas); fatos esparsos por município e semana |
+| Atualização em até 7 dias após cada publicação das fontes | Pendente (R9, agendamento) |
+| 100% das tabelas finais com testes aprovados | Camada tratada: 66 de 68 testes aprovados e 2 avisos documentados; tabela final pendente (R7) |
+| Divergência SINAN x InfoDengue de até 15% em 90% dos pares município-semana com 10 casos ou mais | Atendida: 90,9% (limite inicial de 5%: 75,3%; ver seção 4.2) |
+
+**Escopo e restrições.** Recorte em MG e histórico desde 2022 (ADR-0001). Equipe de uma pessoa, três sprints de uma semana. Apenas ferramentas abertas e gratuitas. Apenas dados públicos e anonimizados; a camada de consulta expõe agregados, nunca registros individuais (LGPD). Clima (H5) e validação por entrevistas (H7) ficam fora deste ciclo.
+
+## 2. Fontes de dados
+
+| Fonte | Conteúdo | Grão | Atualização | Observação |
+|---|---|---|---|---|
+| SINAN (DATASUS, FTP) | Notificações de dengue, arquivos finais (2022 a 2025) e preliminar (2026) | Notificação individual | Preliminar a cada 1 a 6 dias | Regra dos 60 dias: caso fica aberto até 60 dias e as semanas recentes mudam |
+| CNES, tipo LT (DATASUS, FTP) | Leitos por estabelecimento | Estabelecimento x mês | Mensal | Competência mais recente: 2026-09 |
+| SIH, tipo RD (DATASUS, FTP) | AIH reduzida, internações por dengue | Internação | Mensal, cerca de 2 meses de atraso | Competência mais recente: 2026-08 |
+| InfoDengue (API alertcity) | Casos notificados, prováveis, nowcast e nível de alerta | Município x semana | Semanal | Sem código IBGE; a ingestão acrescenta `geocodigo` |
+| IBGE | Lista dos 853 municípios | Município | Estática | Chave de referência (7 dígitos) |
+| Base territorial do DATASUS (jun/2026) | Região e macrorregião de saúde | Município | Estática | Carregada como seed (89 regiões) |
+
+CNES, SIH e SINAN usam o código de município com 6 dígitos; IBGE e InfoDengue usam 7. A padronização ocorre na camada tratada. O catálogo completo, com grão, chaves e defasagem, está em `docs/catalogo_fontes.md`. Os portais `dadosabertos.saude.gov.br` estiveram fora do ar durante as medições, por isso não são usados; o FTP do DATASUS e a API do InfoDengue estiveram acessíveis.
+
+## 3. Arquitetura e decisões
+
+Três camadas, com a regra de que a bruta nunca corrige dado e as correções ocorrem apenas na tratada (ADR-0002):
+
+1. **Bruta (Parquet, tudo texto).** Cópia fiel de cada arquivo da fonte. A ingestão é idempotente e versionada, com chave (fonte, arquivo, sha256), registrada na tabela `bronze_loads`. Uma nova versão de um arquivo vira nova carga; uma repetição sem mudança é ignorada.
+2. **Tratada (dbt).** Tipagem, padronização dos códigos de município, dimensões e fatos por município e semana epidemiológica.
+3. **Final.** Tabelas de consulta e reconciliação, cada indicador com o seu "dados até".
+
+Pilha (ADR-0003): Python para ingestão, DuckDB e Parquet para armazenamento e consulta, dbt-core com adaptador DuckDB para a modelagem, Streamlit para o painel (Sprint 3), GitHub Actions ou cron em VPS para agendar. A descompactação dos arquivos `.dbc` é implementada em Python puro (PKWare DCL), sem bibliotecas nativas.
+
+Decisões registradas em ADR: 0001 (recorte e histórico), 0002 (camadas e idempotência), 0003 (pilha), 0004 (camada tratada e reconciliação). O diagrama do modelo está em `docs/modelo_dados.md`.
+
+## 4. Execução e resultados
+
+### 4.1 Sprint 1: camada bruta (R1 a R3)
+
+- **R1.** Repositório, ADRs e catálogo de fontes.
+- **R2 e R3.** Ingestão de SINAN, CNES, SIH, InfoDengue e IBGE na camada bruta, em 15/11/2026.
+
+| Fonte | Arquivos | Linhas |
+|---|---|---|
+| SINAN final (2022 a 2025) | 4 | 2.321.461 |
+| SINAN preliminar (2026) | 1 | 66.368 |
+| CNES LT | 57 | 297.837 |
+| SIH RD | 57 | 61.275 |
+| InfoDengue | 1 | 215.809 |
+| IBGE (municípios) | 1 | 853 |
+
+**Evidência de idempotência.** Uma segunda execução da ingestão de todas as fontes não carregou nada: as 120 linhas do log do FTP e a do InfoDengue indicam "sem mudança", sem nenhuma carga nova (`docs/evidencias/R2/` e `R3/`).
+
+### 4.2 Sprint 2: camada tratada, qualidade e reconciliação (R4 a R6)
+
+**R4: camada tratada.** Modelos dbt para dimensões e fatos (`docs/modelo_dados.md`):
+
+| Tabela | Linhas | Dados até |
+|---|---|---|
+| dim_municipio | 853 | - |
+| dim_semana_epi | 258 | - |
+| fct_casos_semana (SINAN) | 71.035 | 2026-11-08 |
+| fct_internacoes_semana (SIH) | 14.502 | 2026-09-27 |
+| fct_leitos_mes (CNES) | 23.162 | 2026-09-01 |
+| fct_infodengue_semana | 215.809 | 2026-11-07 |
+
+As dimensões cobrem os 853 municípios, todos com região de saúde (89 regiões). A semana epidemiológica segue a convenção domingo a sábado, com a semana 1 contendo 4 de janeiro, e foi validada contra datas âncora (por exemplo, SE 2024-01 inicia em 31/12/2023). Os fatos são esparsos, ou seja, há linha apenas onde houve evento, e cada um carrega `dados_ate`. O arquivo final do SINAN prevalece sobre o preliminar para o mesmo ano.
+
+**R5: testes de qualidade.** Testes genéricos do dbt (unicidade, não nulo, relações, valores aceitos), testes próprios (`chave_unica`, `entre`, `data_no_periodo`) e testes singulares (853 municípios, semanas sem buracos, valores plausíveis, um arquivo por ano no SINAN). Resultado: 68 testes, 66 aprovados e 2 avisos, que registram limitações das fontes e não bloqueiam a publicação:
+
+- 24 internações do SIH com data de 2021, presentes nos arquivos de 2022 porque o SIH particiona por competência de alta.
+- 4.919 notificações do SINAN com município de residência fora do cadastro de MG (provavelmente residentes de outras UFs notificados em MG, hipótese não verificada).
+
+Evidência: `docs/evidencias/R5/relatorio_testes.md`.
+
+**R6: reconciliação SINAN x InfoDengue.** Divergência = |SINAN − InfoDengue| / SINAN, por município e semana. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade, quando os casos já foram fechados pela regra dos 60 dias. O primeiro resultado foi 8,6% dos pares dentro de 5%. A investigação, feita sobre os dados reais, encontrou:
+
+1. Os `casos` do InfoDengue incluem notificações depois descartadas. A coluna comparável ao arquivo público do SINAN é `casprov` (casos prováveis).
+2. O InfoDengue agrupa por semana dos primeiros sintomas e por município de notificação. Das quatro combinações testadas (data de notificação ou de sintomas, município de residência ou de notificação), só a de sintomas com município de notificação alinha.
+
+Com a convenção alinhada, 75,3% dos 22.731 pares elegíveis ficam dentro de 5%, com mediana de divergência igual a zero. A cauda restante tem três causas identificadas:
+
+- **Virada de ano.** Os arquivos anuais do SINAN têm cortes próprios (o de 2024 só tem notificações até 28/12/2024; o de 2023 vai até 02/04/2024), então casos de sintomas no fim do ano notificados depois do corte não aparecem.
+- **Irregularidades do InfoDengue.** Em algumas semanas `casprov` é bem menor que o SINAN (SE 2022-51: 254 contra 1.161).
+- **Cauda geral.** Nas semanas 3 a 47, o InfoDengue é maior que o SINAN em cerca de 70% dos pares fora do limite (mediana de +7,5%), compatível com atualizações do SINAN posteriores ao arquivo público. Não foi possível confirmar sem o histórico do InfoDengue.
+
+**Calibração do limite.** Os limites de 5% e 90% eram declarados como iniciais. Sobre os mesmos pares, foram avaliados limites simples, piso absoluto e elegibilidade mais estrita:
+
+| Alternativa | Pares dentro |
+|---|---|
+| Limite de 5% | 75,3% |
+| Limite de 10% | 86,8% |
+| **Limite de 15% (adotado)** | **90,9%** |
+| Limite de 20% | 93,6% |
+| 10% ou 3 casos | 89,7% |
+| 10% ou 5 casos | 91,6% |
+| Elegibilidade mínima de 15, 20 ou 30 casos (limite de 5%) | 74,4% a 75,9% |
+
+Adotou-se o menor limite simples que atinge 90% dos pares. O piso absoluto foi descartado porque só fecha a meta com piso de 5 casos, que num par de 10 casos equivale a tolerar 50% de divergência. A elegibilidade mais estrita não ajuda. Contrariando a hipótese inicial, os municípios grandes divergem mais que os pequenos (a 5%: 68,4% de aderência com 200 casos ou mais, contra 74,1% com 10 a 19 casos).
+
+Por ano, com limite de 15%: 2022, 90,4%; 2023, 86,2%; 2024, 93,7%; 2025, 90,7%; 2026, 84,8%. A meta vale para o conjunto. Os anos de 2023 e 2026 ficam abaixo de 90% isoladamente, o que é coerente com o corte do arquivo de 2023 e com as semanas recentes de 2026, ainda sujeitas a revisão.
+
+Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
+
+### 4.3 Sprint 3 (pendente)
+
+| ID | Requisito | Situação |
+|---|---|---|
+| R7 | Tabela final por município e semana, com indicador de pressão e "dados até" por indicador | A fazer; proposta inicial: internações por dengue por leito disponível no município, por semana (decisão em ADR) |
+| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | A fazer; a base é o versionamento da bruta |
+| R9 | Atualização agendada e monitoramento de frescor | A fazer |
+| R10 | Painel de consulta por município, região de saúde e semana | A fazer; é o primeiro corte se o tempo faltar, seguido de R8 |
+
+## 5. Limitações e ameaças à validade
+
+- **Calibração sobre os mesmos dados.** O limite de 15% foi escolhido depois de observar os resultados. É calibração, não validação independente, e deixa de detectar desvios moderados (5% a 15%), como perda parcial de notificações. Os resultados a 5% e a 10% permanecem no relatório como faixas de referência.
+- **Viés do InfoDengue.** O excesso de cerca de 7,5% do InfoDengue nas semanas 3 a 47 não está explicado; a hipótese de atualizações posteriores do SINAN não foi confirmada.
+- **Qualidade das fontes.** O arquivo final do SINAN de 2025 contém datas de 2026. Os arquivos públicos do SINAN não trazem o número da notificação, então não há deduplicação por esse campo, e a classificação final de "descartado" não aparece nos arquivos públicos. O SIH particiona por competência de alta.
+- **Semanas recentes.** Os casos do SINAN mudam até 60 dias após a notificação; as semanas recentes são provisórias, por isso o "dados até" acompanha cada indicador.
+- **Desempenho.** A descompactação de `.dbc` em Python puro levou cerca de 21 minutos para o arquivo de 2024 (1,66 milhão de linhas). É aceitável para a carga atual, mas deve ser reavaliada se o volume crescer.
+- **Hipóteses.** H1 (correlação entre casos e internações), H2 e H3 (rankings por incidência e por pressão) e H4 (revisão das semanas preliminares) dependem da tabela final e do R8 e ainda não foram verificadas.
+
+## 6. Reprodutibilidade
+
+O passo a passo está no `README.md`. Resumo: `python -m dengue_mg.ingest ...` carrega a bruta; `python -m dengue_mg.tratada` executa seed, modelos e testes do dbt; `python -m dengue_mg.relatorio` gera os relatórios de R5 e R6; os testes em Python rodam com `pytest`. Os dados ficam em `data/`, fora do Git.
+
+## 7. Artefatos de evidência
+
+| Requisito | Artefato |
+|---|---|
+| R1 | `docs/adr/`, `docs/catalogo_fontes.md` |
+| R2 | `docs/evidencias/R2/log_ingestao_ftp.log`, `log_segunda_execucao_ftp.log` |
+| R3 | `docs/evidencias/R3/bronze_loads.csv`, `log_infodengue.log`, `log_segunda_execucao_infodengue.log` |
+| R4 | `docs/modelo_dados.md`, `dbt/models/`, `docs/evidencias/R4/contagens.md` |
+| R5 | `docs/evidencias/R5/relatorio_testes.md` |
+| R6 | `docs/evidencias/R6/relatorio_divergencia.md`, `docs/adr/0004-tratada-e-reconciliacao.md` |
