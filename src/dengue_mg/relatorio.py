@@ -61,6 +61,13 @@ def relatorio_reconciliacao(saida: Optional[str] = None, c=None) -> str:
         L.append("| %s | %d | %d | %s | %.0f%% | %s |" % (
             rec, n, ok, "%.1f%%" % (100 * pct) if pct is not None else "-", 100 * meta,
             "%.1f%%" % (100 * med) if med is not None else "-"))
+    sens = c.execute("""
+        SELECT lim, round(100.0 * avg((divergencia <= lim)::int), 1),
+               round(100.0 * avg((divergencia <= lim)::int) FILTER (WHERE semana_id % 100 BETWEEN 3 AND 47), 1)
+        FROM final.rec_sinan_infodengue, (VALUES (0.05), (0.10), (0.15), (0.20)) t(lim) WHERE elegivel GROUP BY lim ORDER BY lim""").fetchall()
+    L += ["", "## Sensibilidade ao limite de divergência", "",
+          "| Limite | % dos pares dentro | % dentro, sem semanas 1-2 e 48-53 (virada de ano) |", "|---|---|---|"]
+    L += ["| %.0f%% | %s | %s |" % (100 * lim, a, b) for lim, a, b in sens]
     L += ["", "Os limites de 5% e 90% são iniciais; a calibração é parte do R6 (ver ADR-0004).", "",
           "## Municípios com menor aderência (pelo menos 5 pares elegíveis)", "",
           "| Município | Pares | % dentro do limite |", "|---|---|---|"]

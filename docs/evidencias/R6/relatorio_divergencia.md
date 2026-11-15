@@ -1,6 +1,6 @@
 # Reconciliação SINAN x InfoDengue (R6)
 
-Gerado em 15/11/2026 12:32. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade.
+Gerado em 15/11/2026 12:47. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade.
 
 ## Meta (90% dos pares com divergência até 5%)
 
@@ -12,6 +12,15 @@ Gerado em 15/11/2026 12:32. Divergência = |SINAN - InfoDengue| / SINAN. Par ele
 | 2025 | 2784 | 2091 | 75.1% | 90% | 0.0% |
 | 2026 | 1172 | 742 | 63.3% | 90% | 0.0% |
 | total | 22731 | 17109 | 75.3% | 90% | 0.0% |
+
+## Sensibilidade ao limite de divergência
+
+| Limite | % dos pares dentro | % dentro, sem semanas 1-2 e 48-53 (virada de ano) |
+|---|---|---|
+| 5% | 75.3 | 77.4 |
+| 10% | 86.8 | 88.7 |
+| 15% | 90.9 | 92.6 |
+| 20% | 93.6 | 95.2 |
 
 Os limites de 5% e 90% são iniciais; a calibração é parte do R6 (ver ADR-0004).
 
