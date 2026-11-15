@@ -1,0 +1,175 @@
+version: 2
+
+# Camada tratada (R4) e seus testes de qualidade (R5). Chaves, nulos, datas fora do período e valores plausíveis.
+models:
+  - name: dim_municipio
+    description: "Município de MG (853). Código IBGE de 7 dígitos (geocodigo) e de 6 (cod6, usado por CNES, SIH e SINAN)."
+    columns:
+      - name: geocodigo
+        tests: [unique, not_null]
+      - name: cod6
+        tests: [unique, not_null]
+      - name: municipio
+        tests: [not_null]
+      - name: regiao_saude
+        description: "Vem do seed regiao_saude_mg; 'Não informada' enquanto o seed não for preenchido."
+        tests: [not_null]
+
+  - name: dim_semana_epi
+    description: "Semana epidemiológica (domingo a sábado), de 2022 até hoje + 3 semanas."
+    columns:
+      - name: semana_id
+        description: "AAAASS (ex.: 202641)."
+        tests: [unique, not_null]
+      - name: inicio
+        tests:
+          - unique
+          - not_null
+      - name: epi_semana
+        tests:
+          - not_null
+          - entre: {minimo: 1, maximo: 53}
+
+  - name: stg_sinan
+    description: "Notificações de dengue (SINAN) de MG, última versão de cada arquivo, final preferido ao preliminar."
+    columns:
+      - name: dt_notific
+        description: "O teste de período está como aviso: o arquivo final de 2025 traz datas de 2026 (limitação conhecida da fonte)."
+        tests:
+          - not_null:
+              config: {severity: warn}
+          - data_no_periodo:
+              config: {severity: warn}
+      - name: municipio_residencia_6
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_municipio')
+              field: cod6
+              config: {severity: warn}
+      - name: fonte
+        tests:
+          - accepted_values: {values: ['sinan_final', 'sinan_prelim']}
+
+  - name: stg_cnes_leitos
+    columns:
+      - name: competencia
+        tests:
+          - not_null
+          - data_no_periodo
+      - name: municipio_6
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: cod6}
+      - name: qt_exist
+        tests:
+          - entre: {minimo: 0, maximo: 5000}
+
+  - name: stg_sih_dengue
+    columns:
+      - name: dt_inter
+        tests:
+          - not_null
+          - data_no_periodo
+      - name: diag_princ
+        description: "Só dengue (A90, A91), filtro aplicado na ingestão."
+        tests:
+          - not_null
+      - name: dias_perm
+        tests:
+          - entre: {minimo: 0, maximo: 365}
+      - name: morte
+        tests:
+          - accepted_values: {values: [0, 1], quote: false}
+
+  - name: stg_infodengue
+    columns:
+      - name: geocodigo
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: geocodigo}
+      - name: semana_id
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_semana_epi'), field: semana_id}
+      - name: casos
+        tests:
+          - entre: {minimo: 0}
+
+  - name: fct_casos_semana
+    description: "Casos SINAN por município de residência x semana. Grão: geocodigo, semana_id."
+    tests:
+      - chave_unica: {colunas: [geocodigo, semana_id]}
+    columns:
+      - name: geocodigo
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: geocodigo}
+      - name: semana_id
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_semana_epi'), field: semana_id}
+      - name: casos_notificados
+        tests:
+          - not_null
+          - entre: {minimo: 1}
+      - name: dados_ate
+        tests: [not_null]
+
+  - name: fct_leitos_mes
+    description: "Leitos CNES por município x competência. Grão: geocodigo, competencia."
+    tests:
+      - chave_unica: {colunas: [geocodigo, competencia]}
+    columns:
+      - name: geocodigo
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: geocodigo}
+      - name: leitos_existentes
+        tests:
+          - not_null
+          - entre: {minimo: 0}
+      - name: dados_ate
+        tests: [not_null]
+
+  - name: fct_internacoes_semana
+    description: "Internações por dengue (SIH) por município de ocorrência x semana. Grão: geocodigo, semana_id."
+    tests:
+      - chave_unica: {colunas: [geocodigo, semana_id]}
+    columns:
+      - name: geocodigo
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: geocodigo}
+      - name: semana_id
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_semana_epi'), field: semana_id}
+      - name: internacoes
+        tests:
+          - entre: {minimo: 1}
+      - name: dados_ate
+        tests: [not_null]
+
+  - name: fct_infodengue_semana
+    description: "InfoDengue por município x semana. Grão: geocodigo, semana_id."
+    tests:
+      - chave_unica: {colunas: [geocodigo, semana_id]}
+    columns:
+      - name: casos
+        tests:
+          - entre: {minimo: 0}
+      - name: dados_ate
+        tests: [not_null]
+
+  - name: rec_sinan_infodengue
+    description: "Reconciliação SINAN x InfoDengue por município e semana (R6)."
+    tests:
+      - chave_unica: {colunas: [geocodigo, semana_id]}
+    columns:
+      - name: divergencia
+        tests:
+          - entre: {minimo: 0}
+
+  - name: rec_resumo
+    description: "Meta de reconciliação: % de pares elegíveis dentro do limite de divergência."

@@ -11,7 +11,7 @@ Metas: 853 municípios e todas as semanas de 2022 até hoje; atualização em at
 3 sprints de 1 semana: S1 02/11 a 08/11, S2 09/11 a 15/11, S3 16/11 a 22/11/2026 (datas a confirmar). Equipe de uma pessoa.
 
 ## Backlog
-Ver `docs/backlog.md` (R1 a R10, com artefato de evidência de cada um). Estado atual: Sprint 1 em andamento; R1 a R3 têm código e documentação, falta executar e coletar evidências.
+Ver `docs/backlog.md` (R1 a R10, com artefato de evidência de cada um). Estado atual: Sprint 2 em andamento; R1 a R6 têm código e documentação, falta executar a ingestão (S1) e a tratada (S2) e coletar evidências.
 
 ## Decisões já tomadas (não reabrir sem motivo)
 Ver `docs/adr/`. Resumo: MG e 2022+; bruta (Parquet, tudo texto) / tratada / final; ingestão idempotente e versionada, chave (fonte, arquivo, sha256); Python + DuckDB/Parquet + dbt-core (dbt-duckdb) + Streamlit; agendamento por GitHub Actions ou cron em VPS; só ferramentas open source e gratuitas.

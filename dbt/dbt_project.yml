@@ -1,0 +1,39 @@
+name: dengue_mg
+version: "0.2.0"
+config-version: 2
+profile: dengue_mg
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: "../data/dbt_target"
+log-path: "../data/dbt_logs"
+
+vars:
+  # Data de referência do "hoje" (permite reproduzir execuções); vazio = data corrente.
+  data_referencia: ""
+  ano_inicial: 2022
+  # Reconciliação (R6): limites iniciais, a calibrar.
+  rec_limite_divergencia: 0.05
+  rec_min_casos: 10
+  rec_min_semanas_idade: 9
+  rec_meta_pares: 0.90
+
+seeds:
+  dengue_mg:
+    regiao_saude_mg:
+      +schema: tratada
+      +column_types:
+        geocodigo: varchar
+        regiao_saude: varchar
+        macrorregiao_saude: varchar
+
+models:
+  dengue_mg:
+    tratada:
+      +schema: tratada
+      +materialized: table
+    reconciliacao:
+      +schema: final
+      +materialized: table
