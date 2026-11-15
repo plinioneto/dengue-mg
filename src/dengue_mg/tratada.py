@@ -32,7 +32,7 @@ def dbt(args: List[str], hoje: Optional[str] = None):
 def executar(hoje: Optional[str] = None, testar: bool = True) -> int:
     preparar_ambiente()
     ok = True
-    for etapa in (["seed"], ["run"]) + ([["test"]] if testar else []):
+    for etapa in [["seed"], ["run"]] + ([["test"]] if testar else []):
         res = dbt(etapa, hoje)
         ok = ok and res.success
         if not res.success and etapa[0] != "test":

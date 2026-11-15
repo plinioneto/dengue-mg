@@ -68,9 +68,11 @@ models:
   - name: stg_sih_dengue
     columns:
       - name: dt_inter
+        description: "Aviso: o SIH é organizado pela competência de saída, então há internações iniciadas em 2021 em arquivos de 2022; ficam fora dos fatos."
         tests:
           - not_null
-          - data_no_periodo
+          - data_no_periodo:
+              config: {severity: warn}
       - name: diag_princ
         description: "Só dengue (A90, A91), filtro aplicado na ingestão."
         tests:
