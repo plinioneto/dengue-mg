@@ -9,4 +9,4 @@ select
     coalesce(r.regiao_saude, 'Não informada')       as regiao_saude,
     coalesce(r.macrorregiao_saude, 'Não informada') as macrorregiao_saude
 from {{ ref('stg_ibge_municipios') }} m
-left join {{ ref('regiao_saude_mg') }} r on r.geocodigo = m.geocodigo
+left join {{ ref('regiao_saude_mg') }} r on r.cod6 = m.cod6

@@ -25,7 +25,7 @@ seeds:
     regiao_saude_mg:
       +schema: tratada
       +column_types:
-        geocodigo: varchar
+        cod6: varchar
         regiao_saude: varchar
         macrorregiao_saude: varchar
 

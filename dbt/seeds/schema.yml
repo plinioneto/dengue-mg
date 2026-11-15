@@ -1,0 +1,12 @@
+version: 2
+
+seeds:
+  - name: regiao_saude_mg
+    description: "Região e macrorregião de saúde por município de MG. Fonte: base territorial do DATASUS (jun/2026), tabelas rl_municip_regsaud, tb_regsaud, rl_regsaud_macsaud e tb_macsaud."
+    columns:
+      - name: cod6
+        tests: [unique, not_null]
+      - name: regiao_saude
+        tests: [not_null]
+      - name: macrorregiao_saude
+        tests: [not_null]

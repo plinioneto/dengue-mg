@@ -32,7 +32,7 @@ python -m dengue_mg.relatorio        # gera docs/evidencias/R5/relatorio_testes.
 pytest tests/test_tratada.py         # teste de ponta a ponta com dados sintéticos
 ```
 - Modelos em `dbt/` (staging, dimensões, fatos e `rec_*`); modelo de dados em `docs/modelo_dados.md`; regras em `docs/adr/0004-tratada-e-reconciliacao.md`.
-- Região de saúde: preencher `dbt/seeds/regiao_saude_mg.csv` (geocodigo, regiao_saude, macrorregiao_saude). Enquanto vazio, a dimensão traz "Não informada".
+- Região de saúde: preencher `dbt/seeds/regiao_saude_mg.csv` (cod6, regiao_saude, macrorregiao_saude). Preenchido com a base territorial do DATASUS (jun/2026).
 - `--hoje AAAA-MM-DD` fixa a data de referência (execução reprodutível).
 
 ## Evidência da Sprint 2

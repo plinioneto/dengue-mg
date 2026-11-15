@@ -1,1 +1,854 @@
-geocodigo,regiao_saude,macrorregiao_saude
+cod6,regiao_saude,macrorregiao_saude
+310010,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+310020,Sete Lagoas - MG,CENTRO
+310030,Manhuaçu - MG,LESTE DO SUL
+310040,Ponte Nova - MG,LESTE DO SUL
+310050,Ipatinga - MG,VALE DO ACO
+310060,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+310070,Uberaba - MG,TRIANGULO DO SUL
+310080,Campo Belo - MG,OESTE
+310090,Águas Formosas - MG,NORDESTE
+310100,Pedra azul - MG,NORDESTE
+310110,Resplendor - MG,LESTE
+310120,São Lourenço - MG,SUL
+310130,São Lourenço - MG,SUL
+310140,Poços de Caldas - MG,EXTREMO SUL
+310150,Além Paraíba - MG,SUDESTE
+310160,Alfenas/Machado - MG,SUDOESTE
+310163,Barbacena - MG,CENTRO SUL
+310170,Almenara/Jacinto - MG,NORDESTE
+310180,Governador Valadares - MG,LESTE
+310190,Passos - MG,SUDOESTE
+310200,Alfenas/Machado - MG,SUDOESTE
+310205,Manhuaçu - MG,LESTE DO SUL
+310210,Barbacena - MG,CENTRO SUL
+310220,Governador Valadares - MG,LESTE
+310230,Ponte Nova - MG,LESTE DO SUL
+310240,Serro - MG,JEQUITINHONHA
+310250,Ponte Nova - MG,LESTE DO SUL
+310260,Poços de Caldas - MG,EXTREMO SUL
+310270,Pedra azul - MG,NORDESTE
+310280,Lima Duarte - MG,SUDESTE
+310285,Teófilo Otoni/Malacacheta - MG,NORDESTE
+310290,Barbacena - MG,CENTRO SUL
+310300,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+310310,Muriaé - MG,SUDESTE
+310320,Sete Lagoas - MG,CENTRO
+310330,Santos Dumont - MG,SUDESTE
+310340,Araçuaí - MG,JEQUITINHONHA
+310350,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+310360,Lima Duarte - MG,SUDESTE
+310370,Viçosa - MG,LESTE DO SUL
+310375,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+310380,São Gotardo - MG,NOROESTE
+310390,Divinópolis - MG,OESTE
+310400,Araxá - MG,TRIANGULO DO SUL
+310410,Guaxupé - MG,SUDOESTE
+310420,Formiga - MG,OESTE
+310430,Alfenas/Machado - MG,SUDOESTE
+310440,Leopoldina/Cataguases - MG,SUDESTE
+310445,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+310450,Unaí/Paracatu - MG,NOROESTE
+310460,Leopoldina/Cataguases - MG,SUDESTE
+310470,Teófilo Otoni/Malacacheta - MG,NORDESTE
+310480,Curvelo - MG,CENTRO
+310490,São Lourenço - MG,SUL
+310500,Sete Lagoas - MG,CENTRO
+310510,Formiga - MG,OESTE
+310520,Almenara/Jacinto - MG,NORDESTE
+310530,Alfenas/Machado - MG,SUDOESTE
+310540,Itabira - MG,CENTRO
+310550,Muriaé - MG,SUDESTE
+310560,Barbacena - MG,CENTRO SUL
+310570,Ponte Nova - MG,LESTE DO SUL
+310590,São João Del Rei - MG,CENTRO SUL
+310600,João Monlevade - MG,CENTRO
+310610,Juiz de Fora - MG,SUDESTE
+310620,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+310630,Ipatinga - MG,VALE DO ACO
+310640,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+310650,Araçuaí - MG,JEQUITINHONHA
+310660,Águas Formosas - MG,NORDESTE
+310665,Taiobeiras - MG,NORTE
+310670,Betim - MG,CENTRO
+310680,Lima Duarte - MG,SUDESTE
+310690,São João Nepomuceno - MG,SUDESTE
+310700,Sete Lagoas - MG,CENTRO
+310710,Três Pontas - MG,SUL
+310720,Lima Duarte - MG,SUDESTE
+310730,Bocaiúva - MG,NORTE
+310740,Bom Despacho - MG,OESTE
+310750,Lima Duarte - MG,SUDESTE
+310760,Passos - MG,SUDOESTE
+310770,Itabira - MG,CENTRO
+310780,Caratinga - MG,VALE DO ACO
+310790,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+310800,São João Del Rei - MG,CENTRO SUL
+310810,Betim - MG,CENTRO
+310820,Unaí/Paracatu - MG,NOROESTE
+310825,Januária - MG,NORTE
+310830,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+310840,Alfenas/Machado - MG,SUDOESTE
+310850,Francisco Sá - MG,NORTE
+310855,João Pinheiro - MG,NOROESTE
+310860,Brasília de Minas - MG,NORTE
+310870,Ubá - MG,SUDESTE
+310880,Ipatinga - MG,VALE DO ACO
+310890,Itajubá - MG,EXTREMO SUL
+310900,Betim - MG,CENTRO
+310910,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+310920,Curvelo - MG,CENTRO
+310925,Ipatinga - MG,VALE DO ACO
+310930,Unaí/Paracatu - MG,NOROESTE
+310940,Pirapora - MG,NORTE
+310945,Unaí/Paracatu - MG,NOROESTE
+310950,Guaxupé - MG,SUDOESTE
+310960,Sete Lagoas - MG,CENTRO
+310970,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+310980,Ituiutaba - MG,TRIANGULO DO NORTE
+310990,Sete Lagoas - MG,CENTRO
+311000,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+311010,Carangola - MG,SUDESTE
+311020,Viçosa - MG,LESTE DO SUL
+311030,Poços de Caldas - MG,EXTREMO SUL
+311040,Campo Belo - MG,OESTE
+311050,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+311060,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+311070,Três Corações - MG,SUL
+311080,Itambacuri - MG,NORDESTE
+311090,Varginha  - MG,SUL
+311100,Alfenas/Machado - MG,SUDOESTE
+311110,Ituiutaba - MG,TRIANGULO DO NORTE
+311115,Brasília de Minas - MG,NORTE
+311120,Campo Belo - MG,OESTE
+311130,Alfenas/Machado - MG,SUDOESTE
+311140,Uberaba - MG,TRIANGULO DO SUL
+311150,Araxá - MG,TRIANGULO DO SUL
+311160,Alfenas/Machado - MG,SUDOESTE
+311170,Viçosa - MG,LESTE DO SUL
+311180,Ituiutaba - MG,TRIANGULO DO NORTE
+311190,Campo Belo - MG,OESTE
+311200,Campo Belo - MG,OESTE
+311205,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+311210,Carangola - MG,SUDESTE
+311220,Barbacena - MG,CENTRO SUL
+311230,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+311240,Cássia - MG,SUDOESTE
+311250,Sete Lagoas - MG,CENTRO
+311260,Ituiutaba - MG,TRIANGULO DO NORTE
+311265,Governador Valadares - MG,LESTE
+311270,Francisco Sá - MG,NORTE
+311280,Piumhi - MG,SUDOESTE
+311290,Manhuaçu - MG,LESTE DO SUL
+311300,Padre Paraíso - MG,NORDESTE
+311310,Conselheiro Lafaiete - MG,CENTRO SUL
+311320,Barbacena - MG,CENTRO SUL
+311330,Carangola - MG,SUDESTE
+311340,Caratinga - MG,VALE DO ACO
+311350,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+311360,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+311370,Nanuque - MG,NORDESTE
+311380,Guanhães - MG,CENTRO
+311390,Três Corações - MG,SUL
+311400,Oliveira/Santo Antônio do Amparo - MG,OESTE
+311410,São Lourenço - MG,SUL
+311420,Divinópolis - MG,OESTE
+311430,São Gotardo - MG,NOROESTE
+311440,Passos - MG,SUDOESTE
+311450,Oliveira/Santo Antônio do Amparo - MG,OESTE
+311455,Frutal/Iturama - MG,TRIANGULO DO SUL
+311460,Lavras - MG,SUL
+311470,Alfenas/Machado - MG,SUDOESTE
+311480,São Lourenço - MG,SUL
+311490,Conselheiro Lafaiete - MG,CENTRO SUL
+311500,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+311510,Cássia - MG,SUDOESTE
+311520,São João Del Rei - MG,CENTRO SUL
+311530,Leopoldina/Cataguases - MG,SUDESTE
+311535,Itabira - MG,CENTRO
+311540,Conselheiro Lafaiete - MG,CENTRO SUL
+311545,Padre Paraíso - MG,NORDESTE
+311547,Janaúba/Monte Azul - MG,NORTE
+311550,São Lourenço - MG,SUL
+311560,Sete Lagoas - MG,CENTRO
+311570,Mantena/Itabirinha - MG,LESTE
+311580,Ituiutaba - MG,TRIANGULO DO NORTE
+311590,Juiz de Fora - MG,SUDESTE
+311600,Manhuaçu - MG,LESTE DO SUL
+311610,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+311615,Unaí/Paracatu - MG,NOROESTE
+311620,Juiz de Fora - MG,SUDESTE
+311630,Barbacena - MG,CENTRO SUL
+311640,Cássia - MG,SUDOESTE
+311650,Montes Claros  - MG,NORTE
+311660,Divinópolis - MG,OESTE
+311670,Ubá - MG,SUDESTE
+311680,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+311690,Frutal/Iturama - MG,TRIANGULO DO SUL
+311700,Itaobim - MG,NORDESTE
+311710,Alfenas/Machado - MG,SUDOESTE
+311720,Itajubá - MG,EXTREMO SUL
+311730,Uberaba - MG,TRIANGULO DO SUL
+311740,Manhuaçu - MG,LESTE DO SUL
+311750,Serro - MG,JEQUITINHONHA
+311760,Pará de Minas/Nova Serrana - MG,OESTE
+311770,São Lourenço - MG,SUL
+311780,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+311783,Januária - MG,NORTE
+311787,Vespasiano/Lagoa Santa - MG,CENTRO
+311790,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+311800,Congonhas - MG,CENTRO SUL
+311810,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+311820,Uberaba - MG,TRIANGULO DO SUL
+311830,Conselheiro Lafaiete - MG,CENTRO SUL
+311840,Resplendor - MG,LESTE
+311850,Itajubá - MG,EXTREMO SUL
+311860,Contagem - MG,CENTRO
+311870,Três Pontas - MG,SUL
+311880,Coração de Jesus - MG,NORTE
+311890,Sete Lagoas - MG,CENTRO
+311900,Varginha  - MG,SUL
+311910,Curvelo - MG,CENTRO
+311920,Governador Valadares - MG,LESTE
+311930,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+311940,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+311950,Araçuaí - MG,JEQUITINHONHA
+311960,Juiz de Fora - MG,SUDESTE
+311970,São João Del Rei - MG,CENTRO SUL
+311980,Bom Despacho - MG,OESTE
+311990,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+311995,Formiga - MG,OESTE
+312000,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+312010,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312015,Águas Formosas - MG,NORDESTE
+312020,Campo Belo - MG,OESTE
+312030,Francisco Sá - MG,NORTE
+312040,Conselheiro Lafaiete - MG,CENTRO SUL
+312050,São Lourenço - MG,SUL
+312060,Betim - MG,CENTRO
+312070,Patos de Minas - MG,NOROESTE
+312080,São Lourenço - MG,SUL
+312083,Resplendor - MG,LESTE
+312087,Taiobeiras - MG,NORTE
+312090,Curvelo - MG,CENTRO
+312100,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312110,Itajubá - MG,EXTREMO SUL
+312120,Cássia - MG,SUDOESTE
+312125,Uberaba - MG,TRIANGULO DO SUL
+312130,São João Nepomuceno - MG,SUDESTE
+312140,Congonhas - MG,CENTRO SUL
+312150,Barbacena - MG,CENTRO SUL
+312160,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312170,Ponte Nova - MG,LESTE DO SUL
+312180,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+312190,Ubá - MG,SUDESTE
+312200,Carangola - MG,SUDESTE
+312210,Mantena/Itabirinha - MG,LESTE
+312220,Governador Valadares - MG,LESTE
+312230,Divinópolis - MG,OESTE
+312235,Pedra azul - MG,NORDESTE
+312240,Alfenas/Machado - MG,SUDOESTE
+312245,Pedra azul - MG,NORDESTE
+312247,Unaí/Paracatu - MG,NOROESTE
+312250,Ipatinga - MG,VALE DO ACO
+312260,Guanhães - MG,CENTRO
+312270,Ponte Nova - MG,LESTE DO SUL
+312280,São Lourenço - MG,SUL
+312290,Leopoldina/Cataguases - MG,SUDESTE
+312300,São João Del Rei - MG,CENTRO SUL
+312310,Guanhães - MG,CENTRO
+312320,Bom Despacho - MG,OESTE
+312330,Ubá - MG,SUDESTE
+312340,Piumhi - MG,SUDOESTE
+312350,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+312352,Manhuaçu - MG,LESTE DO SUL
+312360,Varginha  - MG,SUL
+312370,Governador Valadares - MG,LESTE
+312380,Bocaiúva - MG,NORTE
+312385,Caratinga - MG,VALE DO ACO
+312390,Congonhas - MG,CENTRO SUL
+312400,Ubá - MG,SUDESTE
+312410,Betim - MG,CENTRO
+312420,Carangola - MG,SUDESTE
+312430,Janaúba/Monte Azul - MG,NORTE
+312440,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+312450,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+312460,Além Paraíba - MG,SUDESTE
+312470,Bom Despacho - MG,OESTE
+312480,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+312490,Muriaé - MG,SUDESTE
+312500,Juiz de Fora - MG,SUDESTE
+312510,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+312520,Alfenas/Machado - MG,SUDOESTE
+312530,Carangola - MG,SUDESTE
+312540,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312550,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312560,Almenara/Jacinto - MG,NORDESTE
+312570,Curvelo - MG,CENTRO
+312580,Governador Valadares - MG,LESTE
+312590,Itabira - MG,CENTRO
+312595,Carangola - MG,SUDESTE
+312600,Betim - MG,CENTRO
+312610,Formiga - MG,OESTE
+312620,Unaí/Paracatu - MG,NOROESTE
+312630,Passos - MG,SUDOESTE
+312640,Sete Lagoas - MG,CENTRO
+312650,Araçuaí - MG,JEQUITINHONHA
+312660,Bocaiúva - MG,NORTE
+312670,Francisco Sá - MG,NORTE
+312675,Teófilo Otoni/Malacacheta - MG,NORDESTE
+312680,Teófilo Otoni/Malacacheta - MG,NORDESTE
+312690,Governador Valadares - MG,LESTE
+312695,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312700,Frutal/Iturama - MG,TRIANGULO DO SUL
+312705,Águas Formosas - MG,NORDESTE
+312707,Salinas - MG,NORTE
+312710,Frutal/Iturama - MG,TRIANGULO DO SUL
+312720,Sete Lagoas - MG,CENTRO
+312730,Governador Valadares - MG,LESTE
+312733,Janaúba/Monte Azul - MG,NORTE
+312735,Montes Claros  - MG,NORTE
+312737,Resplendor - MG,LESTE
+312738,Juiz de Fora - MG,SUDESTE
+312740,Itajubá - MG,EXTREMO SUL
+312750,Governador Valadares - MG,LESTE
+312760,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+312770,Governador Valadares - MG,LESTE
+312780,Francisco Sá - MG,NORTE
+312790,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+312800,Guanhães - MG,CENTRO
+312810,Piumhi - MG,SUDOESTE
+312820,Ponte Nova - MG,LESTE DO SUL
+312825,Bocaiúva - MG,NORTE
+312830,Guaxupé - MG,SUDOESTE
+312840,Ubá - MG,SUDESTE
+312850,São João Nepomuceno - MG,SUDESTE
+312860,Patos de Minas - MG,NOROESTE
+312870,Guaxupé - MG,SUDOESTE
+312880,Ubá - MG,SUDESTE
+312890,Patos de Minas - MG,NOROESTE
+312900,Ubá - MG,SUDESTE
+312910,Ituiutaba - MG,TRIANGULO DO NORTE
+312920,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+312930,Ipatinga - MG,VALE DO ACO
+312940,Barbacena - MG,CENTRO SUL
+312950,Araxá - MG,TRIANGULO DO SUL
+312960,Pirapora - MG,NORTE
+312965,Brasília de Minas - MG,NORTE
+312970,Cássia - MG,SUDOESTE
+312980,Contagem - MG,CENTRO
+312990,Poços de Caldas - MG,EXTREMO SUL
+313000,São João Del Rei - MG,CENTRO SUL
+313005,São Francisco - MG,NORTE
+313010,Betim - MG,CENTRO
+313020,Pará de Minas/Nova Serrana - MG,OESTE
+313030,Formiga - MG,OESTE
+313040,Lavras - MG,SUL
+313050,Três Pontas - MG,SUL
+313055,Caratinga - MG,VALE DO ACO
+313060,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+313065,Taiobeiras - MG,NORTE
+313070,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+313080,Lavras - MG,SUL
+313090,Caratinga - MG,VALE DO ACO
+313100,Sete Lagoas - MG,CENTRO
+313110,Curvelo - MG,CENTRO
+313115,Ipatinga - MG,VALE DO ACO
+313120,Manhuaçu - MG,LESTE DO SUL
+313130,Ipatinga - MG,VALE DO ACO
+313140,Ituiutaba - MG,TRIANGULO DO NORTE
+313150,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+313160,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+313170,Itabira - MG,CENTRO
+313180,Mantena/Itabirinha - MG,LESTE
+313190,Ouro Preto - MG,CENTRO
+313200,Montes Claros  - MG,NORTE
+313210,Januária - MG,NORTE
+313220,Itaúna - MG,OESTE
+313230,Padre Paraíso - MG,NORDESTE
+313240,Itajubá - MG,EXTREMO SUL
+313250,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+313260,Leopoldina/Cataguases - MG,SUDESTE
+313270,Itambacuri - MG,NORDESTE
+313280,Itabira - MG,CENTRO
+313290,São Sebastião do Paraíso - MG,SUDOESTE
+313300,São Lourenço - MG,SUL
+313310,São Lourenço - MG,SUL
+313320,Governador Valadares - MG,LESTE
+313330,Itaobim - MG,NORDESTE
+313340,Frutal/Iturama - MG,TRIANGULO DO SUL
+313350,Divinópolis - MG,OESTE
+313360,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+313370,Itaúna - MG,OESTE
+313375,Passos - MG,SUDOESTE
+313380,Itaúna - MG,OESTE
+313390,Conselheiro Lafaiete - MG,CENTRO SUL
+313400,Itaobim - MG,NORDESTE
+313410,Resplendor - MG,LESTE
+313420,Ituiutaba - MG,TRIANGULO DO NORTE
+313430,Lavras - MG,SUL
+313440,Frutal/Iturama - MG,TRIANGULO DO SUL
+313450,Lavras - MG,SUL
+313460,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+313470,Almenara/Jacinto - MG,NORDESTE
+313480,São Sebastião do Paraíso - MG,SUDOESTE
+313490,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+313500,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+313505,Janaúba/Monte Azul - MG,NORTE
+313507,Governador Valadares - MG,LESTE
+313510,Janaúba/Monte Azul - MG,NORTE
+313520,Januária - MG,NORTE
+313530,Lagoa da Prata/Santo Antônio do Monte - MG,OESTE
+313535,Brasília de Minas - MG,NORTE
+313540,Congonhas - MG,CENTRO SUL
+313545,Araçuaí - MG,JEQUITINHONHA
+313550,Ponte Nova - MG,LESTE DO SUL
+313560,Coração de Jesus - MG,NORTE
+313570,Sete Lagoas - MG,CENTRO
+313580,Almenara/Jacinto - MG,NORDESTE
+313590,São Lourenço - MG,SUL
+313600,Almenara/Jacinto - MG,NORDESTE
+313610,Ipatinga - MG,VALE DO ACO
+313620,João Monlevade - MG,CENTRO
+313630,João Pinheiro - MG,NOROESTE
+313640,Bocaiúva - MG,NORTE
+313650,Almenara/Jacinto - MG,NORDESTE
+313652,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+313655,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+313657,Francisco Sá - MG,NORTE
+313660,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+313665,Betim - MG,CENTRO
+313670,Juiz de Fora - MG,SUDESTE
+313680,Montes Claros  - MG,NORTE
+313690,Guaxupé - MG,SUDOESTE
+313695,Manga - MG,NORTE
+313700,Teófilo Otoni/Malacacheta - MG,NORDESTE
+313710,Patos de Minas - MG,NOROESTE
+313720,Lagoa da Prata/Santo Antônio do Monte - MG,OESTE
+313730,Coração de Jesus - MG,NORTE
+313740,São João Del Rei - MG,CENTRO SUL
+313750,Patos de Minas - MG,NOROESTE
+313753,João Pinheiro - MG,NOROESTE
+313760,Vespasiano/Lagoa Santa - MG,CENTRO
+313770,Manhuaçu - MG,LESTE DO SUL
+313780,São Lourenço - MG,SUL
+313790,Conselheiro Lafaiete - MG,CENTRO SUL
+313800,Leopoldina/Cataguases - MG,SUDESTE
+313810,Pirapora - MG,NORTE
+313820,Lavras - MG,SUL
+313830,Pará de Minas/Nova Serrana - MG,OESTE
+313835,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+313840,Leopoldina/Cataguases - MG,SUDESTE
+313850,Lima Duarte - MG,SUDESTE
+313860,Lima Duarte - MG,SUDESTE
+313862,Frutal/Iturama - MG,TRIANGULO DO SUL
+313865,Brasília de Minas - MG,NORTE
+313867,Manhuaçu - MG,LESTE DO SUL
+313868,Brasília de Minas - MG,NORTE
+313870,Lavras - MG,SUL
+313880,Bom Despacho - MG,OESTE
+313890,Águas Formosas - MG,NORDESTE
+313900,Alfenas/Machado - MG,SUDOESTE
+313910,São João Del Rei - MG,CENTRO SUL
+313920,Teófilo Otoni/Malacacheta - MG,NORDESTE
+313925,Janaúba/Monte Azul - MG,NORTE
+313930,Manga - MG,NORTE
+313940,Manhuaçu - MG,LESTE DO SUL
+313950,Manhuaçu - MG,LESTE DO SUL
+313960,Mantena/Itabirinha - MG,LESTE
+313970,Sete Lagoas - MG,CENTRO
+313980,São João Nepomuceno - MG,SUDESTE
+313990,Itajubá - MG,EXTREMO SUL
+314000,Ouro Preto - MG,CENTRO
+314010,Governador Valadares - MG,LESTE
+314015,Betim - MG,CENTRO
+314020,São João Nepomuceno - MG,SUDESTE
+314030,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+314040,Itajubá - MG,EXTREMO SUL
+314050,Bom Despacho - MG,OESTE
+314053,Manhuaçu - MG,LESTE DO SUL
+314055,Almenara/Jacinto - MG,NORDESTE
+314060,Guanhães - MG,CENTRO
+314070,Betim - MG,CENTRO
+314080,Juiz de Fora - MG,SUDESTE
+314085,Janaúba/Monte Azul - MG,NORTE
+314090,Manhuaçu - MG,LESTE DO SUL
+314100,Janaúba/Monte Azul - MG,NORTE
+314110,Vespasiano/Lagoa Santa - MG,CENTRO
+314120,São Gotardo - MG,NOROESTE
+314130,Formiga - MG,OESTE
+314140,Itaobim - MG,NORDESTE
+314150,Mantena/Itabirinha - MG,LESTE
+314160,Ubá - MG,SUDESTE
+314170,Ipatinga - MG,VALE DO ACO
+314180,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+314190,São Lourenço - MG,SUL
+314200,Montes Claros  - MG,NORTE
+314210,Muriaé - MG,SUDESTE
+314220,Muriaé - MG,SUDESTE
+314225,Manga - MG,NORTE
+314230,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+314240,Bom Despacho - MG,OESTE
+314250,Curvelo - MG,CENTRO
+314260,Varginha  - MG,SUL
+314270,Manga - MG,NORTE
+314280,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+314290,Janaúba/Monte Azul - MG,NORTE
+314300,Guaxupé - MG,SUDOESTE
+314310,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+314315,Itaobim - MG,NORDESTE
+314320,São Sebastião do Paraíso - MG,SUDOESTE
+314330,Montes Claros  - MG,NORTE
+314340,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+314345,Taiobeiras - MG,NORTE
+314350,Sete Lagoas - MG,CENTRO
+314360,Curvelo - MG,CENTRO
+314370,Itabira - MG,CENTRO
+314380,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+314390,Muriaé - MG,SUDESTE
+314400,Manhuaçu - MG,LESTE DO SUL
+314410,Guaxupé - MG,SUDOESTE
+314420,Governador Valadares - MG,LESTE
+314430,Nanuque - MG,NORDESTE
+314435,Ipatinga - MG,VALE DO ACO
+314437,Unaí/Paracatu - MG,NOROESTE
+314440,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+314450,São João Del Rei - MG,CENTRO SUL
+314460,Lavras - MG,SUL
+314465,Taiobeiras - MG,NORTE
+314467,Mantena/Itabirinha - MG,LESTE
+314470,João Monlevade - MG,CENTRO
+314480,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+314490,Itambacuri - MG,NORDESTE
+314500,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+314505,Janaúba/Monte Azul - MG,NORTE
+314510,Passos - MG,SUDOESTE
+314520,Pará de Minas/Nova Serrana - MG,OESTE
+314530,Teófilo Otoni/Malacacheta - MG,NORDESTE
+314535,Teófilo Otoni/Malacacheta - MG,NORDESTE
+314537,Salinas - MG,NORTE
+314540,Lima Duarte - MG,SUDESTE
+314545,Bocaiúva - MG,NORTE
+314550,São Lourenço - MG,SUL
+314560,Oliveira/Santo Antônio do Amparo - MG,OESTE
+314570,Santos Dumont - MG,SUDESTE
+314580,Pará de Minas/Nova Serrana - MG,OESTE
+314585,Ponte Nova - MG,LESTE DO SUL
+314587,Carangola - MG,SUDESTE
+314590,Congonhas - MG,CENTRO SUL
+314600,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+314610,Ouro Preto - MG,CENTRO
+314620,Teófilo Otoni/Malacacheta - MG,NORDESTE
+314625,Salinas - MG,NORTE
+314630,Padre Paraíso - MG,NORDESTE
+314640,Sete Lagoas - MG,CENTRO
+314650,Formiga - MG,OESTE
+314655,Janaúba/Monte Azul - MG,NORTE
+314660,Barbacena - MG,CENTRO SUL
+314670,Leopoldina/Cataguases - MG,SUDESTE
+314675,Almenara/Jacinto - MG,NORDESTE
+314690,Sete Lagoas - MG,CENTRO
+314700,Unaí/Paracatu - MG,NOROESTE
+314710,Pará de Minas/Nova Serrana - MG,OESTE
+314720,Alfenas/Machado - MG,SUDOESTE
+314730,Itajubá - MG,EXTREMO SUL
+314740,Sete Lagoas - MG,CENTRO
+314750,Itabira - MG,CENTRO
+314760,São Lourenço - MG,SUL
+314770,Oliveira/Santo Antônio do Amparo - MG,OESTE
+314780,Lima Duarte - MG,SUDESTE
+314790,Passos - MG,SUDOESTE
+314795,Brasília de Minas - MG,NORTE
+314800,Patos de Minas - MG,NOROESTE
+314810,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+314820,Muriaé - MG,SUDESTE
+314830,Viçosa - MG,LESTE DO SUL
+314840,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+314850,Águas Formosas - MG,NORDESTE
+314860,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+314870,Pedra azul - MG,NORDESTE
+314875,Carangola - MG,SUDESTE
+314880,Viçosa - MG,LESTE DO SUL
+314890,Lagoa da Prata/Santo Antônio do Monte - MG,OESTE
+314900,Carangola - MG,SUDESTE
+314910,Itajubá - MG,EXTREMO SUL
+314915,Januária - MG,NORTE
+314920,Araxá - MG,TRIANGULO DO SUL
+314930,Vespasiano/Lagoa Santa - MG,CENTRO
+314940,Lima Duarte - MG,SUDESTE
+314950,São João Nepomuceno - MG,SUDESTE
+314960,Pará de Minas/Nova Serrana - MG,OESTE
+314970,Divinópolis - MG,OESTE
+314980,Araxá - MG,TRIANGULO DO SUL
+314990,Lavras - MG,SUL
+314995,Ipatinga - MG,VALE DO ACO
+315000,Itambacuri - MG,NORDESTE
+315010,Juiz de Fora - MG,SUDESTE
+315015,Caratinga - MG,VALE DO ACO
+315020,Ponte Nova - MG,LESTE DO SUL
+315030,São João Del Rei - MG,CENTRO SUL
+315040,Betim - MG,CENTRO
+315050,Piumhi - MG,SUDOESTE
+315053,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+315057,São Francisco - MG,NORTE
+315060,Itaúna - MG,OESTE
+315070,Frutal/Iturama - MG,TRIANGULO DO SUL
+315080,Conselheiro Lafaiete - MG,CENTRO SUL
+315090,Itajubá - MG,EXTREMO SUL
+315100,Itajubá - MG,EXTREMO SUL
+315110,Além Paraíba - MG,SUDESTE
+315120,Pirapora - MG,NORTE
+315130,Ubá - MG,SUDESTE
+315140,Pará de Minas/Nova Serrana - MG,OESTE
+315150,Piumhi - MG,SUDOESTE
+315160,Frutal/Iturama - MG,TRIANGULO DO SUL
+315170,Alfenas/Machado - MG,SUDOESTE
+315180,Poços de Caldas - MG,EXTREMO SUL
+315190,Manhuaçu - MG,LESTE DO SUL
+315200,Sete Lagoas - MG,CENTRO
+315210,Ponte Nova - MG,LESTE DO SUL
+315213,Pirapora - MG,NORTE
+315217,Itaobim - MG,NORDESTE
+315220,Janaúba/Monte Azul - MG,NORTE
+315230,Viçosa - MG,LESTE DO SUL
+315240,Teófilo Otoni/Malacacheta - MG,NORDESTE
+315250,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+315260,São Lourenço - MG,SUL
+315270,São João Del Rei - MG,CENTRO SUL
+315280,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+315290,São Sebastião do Paraíso - MG,SUDOESTE
+315300,Araxá - MG,TRIANGULO DO SUL
+315310,Ubá - MG,SUDESTE
+315320,Curvelo - MG,CENTRO
+315330,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+315340,Patos de Minas - MG,NOROESTE
+315350,Manhuaçu - MG,LESTE DO SUL
+315360,Sete Lagoas - MG,CENTRO
+315370,Sete Lagoas - MG,CENTRO
+315380,Conselheiro Lafaiete - MG,CENTRO SUL
+315390,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+315400,Ponte Nova - MG,LESTE DO SUL
+315410,Leopoldina/Cataguases - MG,SUDESTE
+315415,Manhuaçu - MG,LESTE DO SUL
+315420,São João Del Rei - MG,CENTRO SUL
+315430,Resplendor - MG,LESTE
+315440,Barbacena - MG,CENTRO SUL
+315445,Unaí/Paracatu - MG,NOROESTE
+315450,Janaúba/Monte Azul - MG,NORTE
+315460,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+315470,Lavras - MG,SUL
+315480,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+315490,Ponte Nova - MG,LESTE DO SUL
+315500,Ponte Nova - MG,LESTE DO SUL
+315510,Almenara/Jacinto - MG,NORDESTE
+315520,Conselheiro Lafaiete - MG,CENTRO SUL
+315530,Betim - MG,CENTRO
+315540,Juiz de Fora - MG,SUDESTE
+315550,São Gotardo - MG,NOROESTE
+315560,Taiobeiras - MG,NORTE
+315570,João Monlevade - MG,CENTRO
+315580,Ubá - MG,SUDESTE
+315590,Lima Duarte - MG,SUDESTE
+315600,Guanhães - MG,CENTRO
+315610,São João Del Rei - MG,CENTRO SUL
+315620,São João Nepomuceno - MG,SUDESTE
+315630,Ubá - MG,SUDESTE
+315640,Patrocínio/Monte Carmelo - MG,TRIANGULO DO NORTE
+315645,Muriaé - MG,SUDESTE
+315650,Salinas - MG,NORTE
+315660,Almenara/Jacinto - MG,NORDESTE
+315670,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+315680,Guanhães - MG,CENTRO
+315690,Uberaba - MG,TRIANGULO DO SUL
+315700,Salinas - MG,NORTE
+315710,Almenara/Jacinto - MG,NORDESTE
+315720,Itabira - MG,CENTRO
+315725,Caratinga - MG,VALE DO ACO
+315727,Lima Duarte - MG,SUDESTE
+315730,Barbacena - MG,CENTRO SUL
+315733,São João Del Rei - MG,CENTRO SUL
+315737,Salinas - MG,NORTE
+315740,Ponte Nova - MG,LESTE DO SUL
+315750,Governador Valadares - MG,LESTE
+315760,Pirapora - MG,NORTE
+315765,Águas Formosas - MG,NORDESTE
+315770,Araxá - MG,TRIANGULO DO SUL
+315780,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+315790,Manhuaçu - MG,LESTE DO SUL
+315800,Itabira - MG,CENTRO
+315810,Almenara/Jacinto - MG,NORDESTE
+315820,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+315830,Três Pontas - MG,SUL
+315840,Leopoldina/Cataguases - MG,SUDESTE
+315850,Sete Lagoas - MG,CENTRO
+315860,Juiz de Fora - MG,SUDESTE
+315870,Barbacena - MG,CENTRO SUL
+315880,Campo Belo - MG,OESTE
+315890,Manhuaçu - MG,LESTE DO SUL
+315895,Ipatinga - MG,VALE DO ACO
+315900,Vespasiano/Lagoa Santa - MG,CENTRO
+315910,Conselheiro Lafaiete - MG,CENTRO SUL
+315920,Poços de Caldas - MG,EXTREMO SUL
+315930,Lima Duarte - MG,SUDESTE
+315935,Caratinga - MG,VALE DO ACO
+315940,Barbacena - MG,CENTRO SUL
+315950,Resplendor - MG,LESTE
+315960,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+315970,São Gotardo - MG,NOROESTE
+315980,Ituiutaba - MG,TRIANGULO DO NORTE
+315990,Oliveira/Santo Antônio do Amparo - MG,OESTE
+316000,Além Paraíba - MG,SUDESTE
+316010,Ponte Nova - MG,LESTE DO SUL
+316020,Serro - MG,JEQUITINHONHA
+316030,Almenara/Jacinto - MG,NORDESTE
+316040,Lagoa da Prata/Santo Antônio do Monte - MG,OESTE
+316045,Taiobeiras - MG,NORTE
+316050,Itabira - MG,CENTRO
+316060,Curvelo - MG,CENTRO
+316070,Santos Dumont - MG,SUDESTE
+316080,Três Corações - MG,SUL
+316090,Congonhas - MG,CENTRO SUL
+316095,Caratinga - MG,VALE DO ACO
+316100,João Monlevade - MG,CENTRO
+316105,Mantena/Itabirinha - MG,LESTE
+316110,São Francisco - MG,NORTE
+316120,Oliveira/Santo Antônio do Amparo - MG,OESTE
+316130,Frutal/Iturama - MG,TRIANGULO DO SUL
+316140,Muriaé - MG,SUDESTE
+316150,Ubá - MG,SUDESTE
+316160,Governador Valadares - MG,LESTE
+316165,Governador Valadares - MG,LESTE
+316170,Patos de Minas - MG,NOROESTE
+316180,Divinópolis - MG,OESTE
+316190,Itabira - MG,CENTRO
+316200,Varginha  - MG,SUL
+316210,São Gotardo - MG,NOROESTE
+316220,Passos - MG,SUDOESTE
+316225,Coração de Jesus - MG,NORTE
+316230,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316240,Brasília de Minas - MG,NORTE
+316245,Manga - MG,NORTE
+316250,São João Del Rei - MG,CENTRO SUL
+316255,Manhuaçu - MG,LESTE DO SUL
+316257,Mantena/Itabirinha - MG,LESTE
+316260,Ipatinga - MG,VALE DO ACO
+316265,Coração de Jesus - MG,NORTE
+316270,Taiobeiras - MG,NORTE
+316280,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+316290,São João Nepomuceno - MG,SUDESTE
+316292,Betim - MG,CENTRO
+316294,Passos - MG,SUDOESTE
+316295,Vespasiano/Lagoa Santa - MG,CENTRO
+316300,Governador Valadares - MG,LESTE
+316310,Pará de Minas/Nova Serrana - MG,OESTE
+316320,Itajubá - MG,EXTREMO SUL
+316330,Itambacuri - MG,NORDESTE
+316340,Ponte Nova - MG,LESTE DO SUL
+316350,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+316360,Manhuaçu - MG,LESTE DO SUL
+316370,São Lourenço - MG,SUL
+316380,Viçosa - MG,LESTE DO SUL
+316390,Passos - MG,SUDOESTE
+316400,Ponte Nova - MG,LESTE DO SUL
+316410,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+316420,São Francisco - MG,NORTE
+316430,Piumhi - MG,SUDOESTE
+316440,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316443,Muriaé - MG,SUDESTE
+316447,Caratinga - MG,VALE DO ACO
+316450,Peçanha/São João Evangelista/Santa Maria do Suaçuí - MG,LESTE
+316460,Divinópolis - MG,OESTE
+316470,São Sebastião do Paraíso - MG,SUDOESTE
+316480,Itabira - MG,CENTRO
+316490,São Lourenço - MG,SUL
+316500,São João Del Rei - MG,CENTRO SUL
+316510,São Sebastião do Paraíso - MG,SUDOESTE
+316520,Três Corações - MG,SUL
+316530,São João Del Rei - MG,CENTRO SUL
+316540,Itajubá - MG,EXTREMO SUL
+316550,Governador Valadares - MG,LESTE
+316553,Contagem - MG,CENTRO
+316555,Teófilo Otoni/Malacacheta - MG,NORDESTE
+316556,Ponte Nova - MG,LESTE DO SUL
+316557,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316560,São João Nepomuceno - MG,SUDESTE
+316570,Ubá - MG,SUDESTE
+316580,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316590,Diamantina/Itamarandiba - MG,JEQUITINHONHA
+316600,Conselheiro Lafaiete - MG,CENTRO SUL
+316610,Guanhães - MG,CENTRO
+316620,Barbacena - MG,CENTRO SUL
+316630,Ponte Nova - MG,LESTE DO SUL
+316640,São Lourenço - MG,SUL
+316650,Serro - MG,JEQUITINHONHA
+316660,Bom Despacho - MG,OESTE
+316670,Nanuque - MG,NORDESTE
+316680,Patos de Minas - MG,NOROESTE
+316690,Alfenas/Machado - MG,SUDOESTE
+316695,Janaúba/Monte Azul - MG,NORTE
+316700,São Lourenço - MG,SUL
+316710,Serro - MG,JEQUITINHONHA
+316720,Sete Lagoas - MG,CENTRO
+316730,Ubá - MG,SUDESTE
+316740,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316750,Juiz de Fora - MG,SUDESTE
+316760,Manhuaçu - MG,LESTE DO SUL
+316770,Governador Valadares - MG,LESTE
+316780,São Lourenço - MG,SUL
+316790,Ubá - MG,SUDESTE
+316800,Taiobeiras - MG,NORTE
+316805,Manhuaçu - MG,LESTE DO SUL
+316810,Araxá - MG,TRIANGULO DO SUL
+316820,Formiga - MG,OESTE
+316830,Belo Horizonte/Nova Lima/Santa Luzia   - MG,CENTRO
+316840,Governador Valadares - MG,LESTE
+316850,Viçosa - MG,LESTE DO SUL
+316860,Teófilo Otoni/Malacacheta - MG,NORDESTE
+316870,Coronel Fabriciano/Timóteo - MG,VALE DO ACO
+316880,São João Del Rei - MG,CENTRO SUL
+316890,São Gotardo - MG,NOROESTE
+316900,Ubá - MG,SUDESTE
+316905,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316910,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316920,Carangola - MG,SUDESTE
+316930,Três Corações - MG,SUL
+316935,Curvelo - MG,CENTRO
+316940,Três Pontas - MG,SUL
+316950,Governador Valadares - MG,LESTE
+316960,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+316970,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+316980,Pouso Alegre/Santa Rita do Sapucaí - MG,EXTREMO SUL
+316990,Ubá - MG,SUDESTE
+317000,Brasília de Minas - MG,NORTE
+317005,Caratinga - MG,VALE DO ACO
+317010,Uberaba - MG,TRIANGULO DO SUL
+317020,Uberlândia/Araguari - MG,TRIANGULO DO NORTE
+317030,Águas Formosas - MG,NORDESTE
+317040,Unaí/Paracatu - MG,NOROESTE
+317043,Frutal/Iturama - MG,TRIANGULO DO SUL
+317047,Unaí/Paracatu - MG,NOROESTE
+317050,Ponte Nova - MG,LESTE DO SUL
+317052,São Francisco - MG,NORTE
+317057,Caratinga - MG,VALE DO ACO
+317060,Piumhi - MG,SUDOESTE
+317065,Taiobeiras - MG,NORTE
+317070,Varginha  - MG,SUL
+317075,Patos de Minas - MG,NOROESTE
+317080,Pirapora - MG,NORTE
+317090,Brasília de Minas - MG,NORTE
+317100,Patos de Minas - MG,NOROESTE
+317103,Janaúba/Monte Azul - MG,NORTE
+317107,Turmalina/Minas Novas/Capelinha - MG,JEQUITINHONHA
+317110,Uberaba - MG,TRIANGULO DO SUL
+317115,Caratinga - MG,VALE DO ACO
+317120,Vespasiano/Lagoa Santa - MG,CENTRO
+317130,Viçosa - MG,LESTE DO SUL
+317140,Muriaé - MG,SUDESTE
+317150,Governador Valadares - MG,LESTE
+317160,Araçuaí - MG,JEQUITINHONHA
+317170,São Lourenço - MG,SUL
+317180,Guanhães - MG,CENTRO
+317190,Governador Valadares - MG,LESTE
+317200,Ubá - MG,SUDESTE
+317210,Além Paraíba - MG,SUDESTE
+317220,Itajubá - MG,EXTREMO SUL
