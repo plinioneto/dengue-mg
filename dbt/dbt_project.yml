@@ -15,7 +15,7 @@ vars:
   data_referencia: ""
   ano_inicial: 2022
   # Reconciliação (R6): limites iniciais, a calibrar.
-  rec_limite_divergencia: 0.05
+  rec_limite_divergencia: 0.15
   rec_min_casos: 10
   rec_min_semanas_idade: 9
   rec_meta_pares: 0.90

@@ -1,17 +1,17 @@
 # Reconciliação SINAN x InfoDengue (R6)
 
-Gerado em 15/11/2026 12:47. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade.
+Gerado em 15/11/2026 15:09. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade.
 
-## Meta (90% dos pares com divergência até 5%)
+## Meta (90% dos pares com divergência até 15%)
 
 | Recorte | Pares elegíveis | Dentro do limite | % dentro | Meta | Mediana da divergência |
 |---|---|---|---|---|---|
-| 2022 | 1879 | 1535 | 81.7% | 90% | 0.0% |
-| 2023 | 5318 | 3635 | 68.4% | 90% | 0.2% |
-| 2024 | 11578 | 9106 | 78.6% | 90% | 0.0% |
-| 2025 | 2784 | 2091 | 75.1% | 90% | 0.0% |
-| 2026 | 1172 | 742 | 63.3% | 90% | 0.0% |
-| total | 22731 | 17109 | 75.3% | 90% | 0.0% |
+| 2022 | 1879 | 1699 | 90.4% | 90% | 0.0% |
+| 2023 | 5318 | 4582 | 86.2% | 90% | 0.2% |
+| 2024 | 11578 | 10853 | 93.7% | 90% | 0.0% |
+| 2025 | 2784 | 2525 | 90.7% | 90% | 0.0% |
+| 2026 | 1172 | 994 | 84.8% | 90% | 0.0% |
+| total | 22731 | 20653 | 90.9% | 90% | 0.0% |
 
 ## Sensibilidade ao limite de divergência
 
@@ -22,32 +22,32 @@ Gerado em 15/11/2026 12:47. Divergência = |SINAN - InfoDengue| / SINAN. Par ele
 | 15% | 90.9 | 92.6 |
 | 20% | 93.6 | 95.2 |
 
-Os limites de 5% e 90% são iniciais; a calibração é parte do R6 (ver ADR-0004).
+Limite calibrado no R6 (ADR-0004): 15%, o menor entre 5%, 10% e 15% que atinge 90% dos pares. As faixas de 5% e 10% ficam como referência.
 
 ## Municípios com menor aderência (pelo menos 5 pares elegíveis)
 
 | Município | Pares | % dentro do limite |
 |---|---|---|
 | Bertópolis | 5 | 0.0 |
-| Cambuí | 11 | 9.1 |
-| Além Paraíba | 44 | 11.4 |
-| Contagem | 183 | 14.8 |
-| Ribeirão das Neves | 113 | 15.0 |
-| Belo Horizonte | 244 | 15.6 |
-| Uberaba | 162 | 16.0 |
-| Matozinhos | 24 | 16.7 |
-| Antônio Dias | 10 | 20.0 |
-| Nazareno | 13 | 23.1 |
-| Lagoa da Prata | 90 | 26.7 |
-| Betim | 148 | 30.4 |
-| Jaíba | 26 | 30.8 |
-| Vespasiano | 48 | 31.3 |
-| Arcos | 67 | 32.8 |
-| Nova Lima | 117 | 33.3 |
-| Fama | 6 | 33.3 |
-| Carmo da Mata | 52 | 34.6 |
-| Governador Valadares | 184 | 35.3 |
-| Felixlândia | 28 | 35.7 |
+| Cambuí | 11 | 18.2 |
+| Uberaba | 162 | 28.4 |
+| Belo Horizonte | 244 | 35.7 |
+| Antônio Dias | 10 | 40.0 |
+| Contagem | 183 | 41.5 |
+| Chiador | 12 | 41.7 |
+| Matozinhos | 24 | 45.8 |
+| Simão Pereira | 13 | 46.2 |
+| Ribeirão das Neves | 113 | 47.8 |
+| Vespasiano | 48 | 47.9 |
+| Fama | 6 | 50.0 |
+| Abaeté | 27 | 51.9 |
+| Além Paraíba | 44 | 54.5 |
+| Esmeraldas | 43 | 60.5 |
+| Nazareno | 13 | 61.5 |
+| Funilândia | 13 | 61.5 |
+| Presidente Olegário | 19 | 63.2 |
+| Pirapora | 69 | 63.8 |
+| Berilo | 14 | 64.3 |
 
 ## 30 maiores divergências entre pares elegíveis
 

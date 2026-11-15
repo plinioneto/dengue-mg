@@ -1,6 +1,6 @@
 # Relatório de execução dos testes (R5)
 
-Gerado em 15/11/2026 12:47. Total: 68 testes (pass: 66, warn: 2).
+Gerado em 15/11/2026 15:09. Total: 68 testes (pass: 66, warn: 2).
 
 | Teste | Resultado | Linhas com falha |
 |---|---|---|

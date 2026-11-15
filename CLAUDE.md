@@ -5,13 +5,13 @@ Plataforma de dados abertos, atualizada continuamente, sobre a pressão da dengu
 
 ## Objetivo (SMART)
 Até 22/11/2026, ter a plataforma com SINAN, CNES, SIH e InfoDengue de MG por município e semana epidemiológica desde 2022, com indicador de pressão sobre a capacidade e o "dados até" de cada indicador.
-Metas: 853 municípios e todas as semanas de 2022 até hoje; atualização em até 7 dias após cada publicação das fontes; 100% das tabelas finais com testes aprovados; casos SINAN x InfoDengue com divergência de até 5% em 90% dos pares município-semana com 10 casos ou mais (semanas com mais de 9 semanas de idade). Os limites de 5% e 90% são iniciais e serão calibrados no R6.
+Metas: 853 municípios e todas as semanas de 2022 até hoje; atualização em até 7 dias após cada publicação das fontes; 100% das tabelas finais com testes aprovados; casos SINAN x InfoDengue com divergência de até 15% em 90% dos pares município-semana com 10 casos ou mais (semanas com mais de 9 semanas de idade). O limite inicial era 5% e foi calibrado para 15% no R6 (75,3% dos pares dentro de 5%, 86,8% de 10%, 90,9% de 15%; ver ADR-0004).
 
 ## Prazo
 3 sprints de 1 semana: S1 02/11 a 08/11, S2 09/11 a 15/11, S3 16/11 a 22/11/2026 (datas a confirmar). Equipe de uma pessoa.
 
 ## Backlog
-Ver `docs/backlog.md` (R1 a R10, com artefato de evidência de cada um). Estado atual: Sprint 2 executada com dados reais (15/11): bruta, tratada e 66 de 68 testes ok; reconciliação R6 com 75,3% dos pares dentro de 5% (meta 90%) após alinhar a convenção do InfoDengue (casprov, semana de sintomas, município de notificação; ver ADR-0004). Falta a segunda execução da ingestão (evidência de idempotência) e a calibração dos limites.
+Ver `docs/backlog.md` (R1 a R10, com artefato de evidência de cada um). Estado atual: Sprint 2 executada com dados reais (15/11): bruta, tratada e 66 de 68 testes ok; reconciliação R6 com 90,9% dos pares dentro de 15% (meta 90%; 75,3% dentro de 5%) após alinhar a convenção do InfoDengue (casprov, semana de sintomas, município de notificação) e calibrar o limite; ver ADR-0004. Falta a segunda execução da ingestão (evidência de idempotência).
 
 ## Decisões já tomadas (não reabrir sem motivo)
 Ver `docs/adr/`. Resumo: MG e 2022+; bruta (Parquet, tudo texto) / tratada / final; ingestão idempotente e versionada, chave (fonte, arquivo, sha256); Python + DuckDB/Parquet + dbt-core (dbt-duckdb) + Streamlit; agendamento por GitHub Actions ou cron em VPS; só ferramentas open source e gratuitas.

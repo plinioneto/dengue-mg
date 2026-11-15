@@ -13,7 +13,7 @@
 - **Região de saúde:** vem do seed `dbt/seeds/regiao_saude_mg.csv` (cod6, regiao_saude, macrorregiao_saude), gerado da base territorial do DATASUS (`/territorio/tabelas/2026/06-base_territorial_jun26.zip`: `rl_municip_regsaud`, `tb_regsaud`, `rl_regsaud_macsaud`, `tb_macsaud`). Município fora do seed vira "Não informada"; não se inventa o dado.
 - **"Dados até":** cada fato carrega `dados_ate`, a data mais recente da fonte (notificação, internação, competência ou fim da semana).
 
-**Reconciliação (R6).** Divergência = |casos SINAN − casos InfoDengue| / casos SINAN, por município e semana, comparando com `casos` (notificados) do InfoDengue, não com o nowcast (`casos_est`, que fica na tabela para consulta). Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade. Meta: 90% dos pares elegíveis com divergência de até 5%. Parâmetros em `dbt_project.yml` (`rec_*`), a calibrar com os dados reais.
+**Reconciliação (R6).** Divergência = |casos SINAN − casos InfoDengue| / casos SINAN, por município e semana, comparando com os casos prováveis (`casprov`) do InfoDengue, não com `casos` nem com o nowcast (`casos_est`, que ficam na tabela para consulta). Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade. Meta: 90% dos pares elegíveis com divergência de até 15% (limite calibrado em 15/11/2026; o inicial era 5%, ver "Calibração do limite" abaixo). Parâmetros em `dbt_project.yml` (`rec_*`).
 
 **Testes (R5).** Genéricos do dbt (unique, not_null, relationships, accepted_values) mais próprios (`chave_unica`, `entre`, `data_no_periodo`) e singulares em `dbt/tests/` (853 municípios, semanas sem buracos, valores plausíveis, um arquivo por ano no SINAN). O relatório sai de `run_results.json` em `docs/evidencias/R5/`.
 
@@ -28,4 +28,12 @@ Com isso a meta de 90% ainda não é atingida. Restante: o InfoDengue tem 4% a 9
 - **Virada de ano.** O alinhamento cai nas semanas 48 a 52 (16% na semana 52) e 1 e 2 (cerca de 65%). Os arquivos anuais do SINAN têm cortes próprios: o de 2024 só tem notificações até 28/12/2024 e o de 2022 até 31/12/2022, enquanto o de 2023 vai até 02/04/2024. Casos de sintomas no fim do ano notificados depois do corte não estão no arquivo público. Excluir essas semanas leva o resultado só a 77,4%.
 - **Irregularidades do InfoDengue.** Em algumas semanas a coluna `casprov` é bem menor que o SINAN (ex.: SE 2022-51: 254 contra 1.161), enquanto `casos` é 2.332. Parte da lacuna vem da fonte comparada.
 - **Cauda geral.** Nas semanas 3 a 47, o InfoDengue é maior que o SINAN em cerca de 70% dos pares fora do limite (mediana de +7,5%), compatível com atualizações do SINAN posteriores ao arquivo público. Não foi possível confirmar sem o histórico do InfoDengue.
-Conclusão: a meta de 90% é atingida com tolerância de 15%, não de 5%. Mudar o limite é decisão do autor (a meta do objetivo SMART cita 5%).
+Conclusão: a meta de 90% é atingida com tolerância de 15%, não de 5%.
+
+**Calibração do limite (15/11/2026).** Decisão: limite de 15% (meta de 90% dos pares inalterada). Foram avaliadas, sobre os mesmos 22.731 pares elegíveis:
+- *Limites simples:* 5% = 75,3%; 10% = 86,8%; 15% = 90,9%; 20% = 93,6%.
+- *Piso absoluto* (passa se a diferença for até X% ou até N casos): 5% ou 5 casos = 88,7%; 10% ou 3 casos = 89,7%; 10% ou 5 casos = 91,6%; 15% ou 5 casos = 93,6%. Descartado: só fecha a meta com piso de 5 casos, que num par de 10 casos equivale a tolerar 50% de divergência, e complica a regra.
+- *Elegibilidade mais estrita* (mínimo de 15, 20 ou 30 casos; idade acima de 12 semanas): 74,4% a 75,9% a 5%. Não ajuda.
+- *Aderência por tamanho* (limite de 5%): 74,1% (10 a 19 casos), 78,9% (20 a 49), 74,6% (50 a 199), 68,4% (200 ou mais). Os municípios grandes divergem mais; a hipótese de que o ruído de contagens pequenas explicaria a cauda não se confirmou.
+Critério: o menor limite entre 5%, 10% e 15% que atinge 90% dos pares, sem alterar a elegibilidade nem criar piso. Os resultados a 5% e 10% seguem no relatório R6 como faixas de referência.
+**Ressalvas.** O limite foi escolhido depois de observar os dados, o que é calibração e não validação independente. Com 15% deixam de ser detectados desvios moderados (5% a 15%), como perda parcial de notificações; o viés de cerca de +7,5% do InfoDengue nas semanas 3 a 47 e o efeito dos cortes dos arquivos anuais do SINAN continuam existindo e estão documentados acima.

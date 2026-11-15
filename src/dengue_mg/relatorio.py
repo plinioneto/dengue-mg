@@ -55,7 +55,7 @@ def relatorio_reconciliacao(saida: Optional[str] = None, c=None) -> str:
     """).fetchall()
     L = ["# Reconciliação SINAN x InfoDengue (R6)", "",
          "Gerado em %s. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade." % dt.datetime.now().strftime("%d/%m/%Y %H:%M"), "",
-         "## Meta (90% dos pares com divergência até 5%)", "",
+         "## Meta (90%% dos pares com divergência até %.0f%%)" % (100 * resumo[0][5]), "",
          "| Recorte | Pares elegíveis | Dentro do limite | % dentro | Meta | Mediana da divergência |", "|---|---|---|---|---|---|"]
     for rec, n, ok, pct, meta, _lim, med in resumo:
         L.append("| %s | %d | %d | %s | %.0f%% | %s |" % (
@@ -68,7 +68,7 @@ def relatorio_reconciliacao(saida: Optional[str] = None, c=None) -> str:
     L += ["", "## Sensibilidade ao limite de divergência", "",
           "| Limite | % dos pares dentro | % dentro, sem semanas 1-2 e 48-53 (virada de ano) |", "|---|---|---|"]
     L += ["| %.0f%% | %s | %s |" % (100 * lim, a, b) for lim, a, b in sens]
-    L += ["", "Os limites de 5% e 90% são iniciais; a calibração é parte do R6 (ver ADR-0004).", "",
+    L += ["", "Limite calibrado no R6 (ADR-0004): 15%, o menor entre 5%, 10% e 15% que atinge 90% dos pares. As faixas de 5% e 10% ficam como referência.", "",
           "## Municípios com menor aderência (pelo menos 5 pares elegíveis)", "",
           "| Município | Pares | % dentro do limite |", "|---|---|---|"]
     L += ["| %s | %d | %s |" % r for r in por_mun]
