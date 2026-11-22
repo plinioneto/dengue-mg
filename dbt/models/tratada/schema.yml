@@ -179,3 +179,4 @@ models:
 
   - name: rec_resumo
     description: "Meta de reconciliação: % de pares elegíveis dentro do limite de divergência."
+

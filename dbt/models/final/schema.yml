@@ -1,0 +1,44 @@
+version: 2
+
+# Tabela final (R7): município x semana epidemiológica, com "dados até" por indicador. Dicionário em docs/dicionario_dados.md.
+models:
+  - name: indicadores_municipio_semana
+    description: "Um registro por município de MG (853) e semana epidemiológica de 2022 até a corrente. Valores nulos depois do 'dados até' de cada grupo (desconhecido, não zero)."
+    tests:
+      - chave_unica: {colunas: [geocodigo, semana_id]}
+    columns:
+      - name: geocodigo
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: geocodigo}
+      - name: semana_id
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_semana_epi'), field: semana_id}
+      - name: regiao_saude
+        tests: [not_null]
+      - name: casos_notificados
+        tests:
+          - entre: {minimo: 0, maximo: 200000}
+      - name: casos_dados_ate
+        tests: [not_null]
+      - name: casos_provisorio
+        tests: [not_null]
+      - name: infodengue_dados_ate
+        tests: [not_null]
+      - name: internacoes
+        tests:
+          - entre: {minimo: 0, maximo: 20000}
+      - name: internacoes_dados_ate
+        tests: [not_null]
+      - name: leitos_clinicos_pediatricos
+        tests:
+          - entre: {minimo: 0, maximo: 5000}
+      - name: leitos_dados_ate
+        tests: [not_null]
+      - name: pressao_internacoes_por_leito
+        description: "Internações por dengue na semana por leito clínico e pediátrico existente (ADR-0005). Nulo sem numerador ou sem leito."
+        tests:
+          - entre: {minimo: 0, maximo: 1000}
+      - name: pressao_dados_ate
+        tests: [not_null]

@@ -37,3 +37,6 @@ models:
     reconciliacao:
       +schema: final
       +materialized: table
+    final:
+      +schema: final
+      +materialized: table

@@ -1,0 +1,80 @@
+# R9: atualização agendada da plataforma (ingestão incremental, dbt com testes, revisão do SINAN e frescor).
+# A ingestão compara tamanho e data do servidor antes de baixar, então execuções sem publicação nova são rápidas.
+# Diária: as fontes publicam a cada 1 a 6 dias (SINAN), semanal (InfoDengue) ou mensal (CNES, SIH); a meta é atualizar em até 7 dias.
+name: atualizacao
+
+on:
+  schedule:
+    - cron: "17 9 * * *"     # 09:17 UTC (06:17 em Brasília)
+  workflow_dispatch:
+    inputs:
+      sem_ingestao:
+        description: "Só reprocessar tratada e final (sem baixar das fontes)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: atualizacao
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      # data/ fica fora do Git; o cache leva o DuckDB e os Parquet de uma execução para a seguinte.
+      # Se o cache for descartado (inatividade de 7 dias ou limite de 10 GB), a execução refaz a carga completa (idempotente).
+      - name: Restaurar dados
+        uses: actions/cache/restore@v4
+        with:
+          path: data
+          key: dados-${{ github.run_id }}
+          restore-keys: dados-
+
+      - name: Atualizar
+        env:
+          PYTHONPATH: src
+        run: |
+          set +e
+          python -m dengue_mg.pipeline ${{ inputs.sem_ingestao && '--sem-ingestao' || '' }}
+          codigo=$?
+          echo "codigo_saida=$codigo" >> "$GITHUB_ENV"
+          exit 0   # o código é avaliado no fim, depois de salvar dados e log
+
+      - name: Salvar dados
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: data
+          key: dados-${{ github.run_id }}
+
+      - name: Resumo e log de execuções
+        if: always()
+        run: |
+          {
+            echo "## Execução ${{ github.run_id }} (código de saída: ${codigo_saida:-?})"
+            echo '```'
+            tail -n 20 data/logs/execucoes.jsonl 2>/dev/null || echo "sem log"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: log-execucoes-${{ github.run_id }}
+          path: |
+            data/logs/execucoes.jsonl
+            docs/evidencias/R8/
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: Falhar se alguma etapa falhou ou há fonte atrasada
+        if: always()
+        run: test "${codigo_saida:-1}" = "0"

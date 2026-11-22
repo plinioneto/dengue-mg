@@ -8,10 +8,10 @@
 | R4 | Camada tratada: dimensões de município (com região de saúde) e de semana epidemiológica; fatos de casos, leitos e internações por dengue | S2 | Diagrama do modelo e modelos SQL | H1 a H3, H6 | Feito (executado em 15/11) |
 | R5 | Testes de qualidade: chaves, nulos, datas fora do período, valores plausíveis | S2 | Relatório de execução dos testes | Objetivo (M, qualidade) | Feito (66 de 68 testes passam, 2 avisos da fonte) |
 | R6 | Reconciliação dos casos SINAN com InfoDengue | S2 | Relatório de divergência por município e semana | H6, Objetivo (M) | Executado; limite calibrado para 15%: 90,9% dos pares dentro (meta 90%); 75,3% dentro de 5% (ADR-0004) |
-| R7 | Tabela final por município e semana: casos, internações, leitos, indicador de pressão, "dados até" por indicador | S3 | Tabela final e dicionário de dados | H1 a H3 | A fazer |
-| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | S3 | Relatório de revisão média por semana | H4 | A fazer (a base é o versionamento da bruta) |
-| R9 | Atualização automática agendada e monitoramento de frescor | S3 | Fluxo agendado e log de execuções | Objetivo (M, frescor) | A fazer |
-| R10 | Painel de consulta por município, região de saúde e semana | S3 | Capturas do painel | Objetivo (S) | A fazer |
+| R7 | Tabela final por município e semana: casos, internações, leitos, indicador de pressão, "dados até" por indicador | S3 | Tabela final e dicionário de dados | H1 a H3 | Código, testes e dicionário prontos; falta executar com dados reais (ADR-0005) |
+| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | S3 | Relatório de revisão média por semana | H4 | Código e testes prontos; o relatório real depende de 2 ou mais versões do SINAN preliminar (o agendamento as produz) |
+| R9 | Atualização automática agendada e monitoramento de frescor | S3 | Fluxo agendado e log de execuções | Objetivo (M, frescor) | Código, fluxo e testes prontos; falta a primeira execução agendada e o log |
+| R10 | Painel de consulta por município, região de saúde e semana | S3 | Capturas do painel | Objetivo (S) | Código e testes prontos; faltam as capturas com dados reais |
 
 Se o tempo faltar, o corte é pela ordem inversa de prioridade: primeiro R10, depois R8.
-Indicador de pressão: a definir no R7 (proposta inicial: internações por dengue por leito disponível no município, por semana; registrar a decisão em ADR).
+Indicador de pressão: definido no ADR-0005 (internações por dengue na semana por leito clínico e pediátrico existente no município).

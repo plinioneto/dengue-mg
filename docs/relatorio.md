@@ -113,14 +113,22 @@ Por ano, com limite de 15%: 2022, 90,4%; 2023, 86,2%; 2024, 93,7%; 2025, 90,7%; 
 
 Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
 
-### 4.3 Sprint 3 (pendente)
+### 4.3 Sprint 3: tabela final, revisão, agendamento e painel (R7 a R10)
 
 | ID | Requisito | Situação |
 |---|---|---|
-| R7 | Tabela final por município e semana, com indicador de pressão e "dados até" por indicador | A fazer; proposta inicial: internações por dengue por leito disponível no município, por semana (decisão em ADR) |
-| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | A fazer; a base é o versionamento da bruta |
-| R9 | Atualização agendada e monitoramento de frescor | A fazer |
-| R10 | Painel de consulta por município, região de saúde e semana | A fazer; é o primeiro corte se o tempo faltar, seguido de R8 |
+| R7 | Tabela final por município e semana, com indicador de pressão e "dados até" por indicador | Modelo, testes e dicionário prontos; falta executar com dados reais |
+| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | Código e testes prontos; o relatório depende de duas ou mais versões do SINAN preliminar |
+| R9 | Atualização agendada e monitoramento de frescor | Fluxo, pipeline e verificação de frescor prontos; falta a primeira execução agendada |
+| R10 | Painel de consulta por município, região de saúde e semana | Painel pronto e testado; faltam as capturas com dados reais |
+
+**R7.** A tabela `final.indicadores_municipio_semana` tem um registro por município (853) e semana desde 2022, em grade densa. Cada grupo de indicadores (casos do SINAN, InfoDengue, internações do SIH e leitos do CNES) traz o seu "dados até"; depois dele o valor é nulo, e não zero. O indicador de pressão é o número de internações por dengue na semana por leito clínico e pediátrico existente no município (ADR-0005). Não mede ocupação, porque as fontes abertas não a trazem. Município sem leito clínico ou pediátrico fica com pressão nula e sinalizado. Testes: chave única, grade completa (853 municípios por todas as semanas), faixas plausíveis, "dados até" preenchido e coerência da pressão e dos valores posteriores ao "dados até".
+
+**R8.** Cada versão do SINAN preliminar na bruta é recontada por município e semana dos primeiros sintomas e comparada com a versão mais recente do mesmo arquivo. A revisão é agregada pela idade da semana na data de publicação da versão. Na carga atual há uma só versão do arquivo de 2026 (`bronze_loads`), então a revisão ainda não é mensurável; o agendamento do R9 gera as versões seguintes. A hipótese H4 permanece em aberto até lá.
+
+**R9.** O pipeline executa a ingestão incremental de cada fonte (uma falha não impede as demais), o dbt com testes, o R8 e a verificação de frescor, e publica os Parquet do painel só depois disso. Cada etapa é registrada em `execucoes` e em `data/logs/execucoes.jsonl`. Tolerâncias de frescor: SINAN e InfoDengue, 14 dias; CNES, 75; SIH, 90; latência de carga de até 7 dias após a publicação da fonte (meta do objetivo). O fluxo do GitHub Actions roda todo dia e falha (e-mail de alerta) se uma etapa falhar ou uma fonte estiver atrasada. Os dados persistem entre execuções por cache do Actions; se o cache for descartado, a execução refaz a carga completa de forma idempotente.
+
+**R10.** Painel em Streamlit com filtros de região de saúde, município e intervalo de semanas, indicadores com o "dados até" de cada fonte, séries de casos, internações e pressão, ranking de municípios por pressão e quadro de frescor. Lê só os Parquet publicados (agregados), nunca registros individuais.
 
 ## 5. Limitações e ameaças à validade
 
@@ -129,6 +137,9 @@ Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
 - **Qualidade das fontes.** O arquivo final do SINAN de 2025 contém datas de 2026. Os arquivos públicos do SINAN não trazem o número da notificação, então não há deduplicação por esse campo, e a classificação final de "descartado" não aparece nos arquivos públicos. O SIH particiona por competência de alta.
 - **Semanas recentes.** Os casos do SINAN mudam até 60 dias após a notificação; as semanas recentes são provisórias, por isso o "dados até" acompanha cada indicador.
 - **Desempenho.** A descompactação de `.dbc` em Python puro levou cerca de 21 minutos para o arquivo de 2024 (1,66 milhão de linhas). É aceitável para a carga atual, mas deve ser reavaliada se o volume crescer.
+- **Sem população.** Não há fonte de população no escopo, então não existe incidência por 100 mil; o ranking por incidência (H2) exige acrescentar as estimativas do IBGE.
+- **Pressão não é ocupação.** O indicador usa leitos existentes e internações por semana; não há ocupação diária nas fontes abertas (ADR-0005).
+- **Persistência do agendamento.** O cache do Actions pode ser descartado (inatividade de 7 dias ou limite de 10 GB); a recarga completa leva horas por causa da descompactação de .dbc em Python.
 - **Hipóteses.** H1 (correlação entre casos e internações), H2 e H3 (rankings por incidência e por pressão) e H4 (revisão das semanas preliminares) dependem da tabela final e do R8 e ainda não foram verificadas.
 
 ## 6. Reprodutibilidade
@@ -145,3 +156,7 @@ O passo a passo está no `README.md`. Resumo: `python -m dengue_mg.ingest ...` c
 | R4 | `docs/modelo_dados.md`, `dbt/models/`, `docs/evidencias/R4/contagens.md` |
 | R5 | `docs/evidencias/R5/relatorio_testes.md` |
 | R6 | `docs/evidencias/R6/relatorio_divergencia.md`, `docs/adr/0004-tratada-e-reconciliacao.md` |
+| R7 | `dbt/models/final/`, `docs/dicionario_dados.md`, `docs/adr/0005-indicador-de-pressao-e-tabela-final.md` |
+| R8 | `docs/evidencias/R8/relatorio_revisao.md` (gerado por `python -m dengue_mg.revisao`) |
+| R9 | `.github/workflows/atualizacao.yml`, log de execuções (`data/logs/execucoes.jsonl`, artefato do fluxo) |
+| R10 | `app/painel.py`, `docs/evidencias/R10/` (capturas) |
