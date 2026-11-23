@@ -24,7 +24,7 @@ def test_pipeline_registra_etapas_e_frescor(banco):
     assert c.execute("SELECT count(DISTINCT execucao) FROM execucoes").fetchone()[0] == 2
     frescor = {r[0]: r[1:] for r in c.execute("SELECT indicador, situacao, idade_dias, tolerancia_dias FROM final.frescor").fetchall()}
     assert set(frescor) == {"casos_sinan", "infodengue", "leitos_cnes", "internacoes_sih"}
-    assert frescor["casos_sinan"][0] == "atrasado" and frescor["casos_sinan"][1] == (dt.date(2026, 3, 1) - dt.date(2026, 1, 7)).days
+    assert frescor["casos_sinan"][0] == "atrasado" and frescor["casos_sinan"][1] == (dt.date(2026, 3, 1) - dt.date(2026, 1, 17)).days
     c.close()
     linhas = [json.loads(l) for l in open(os.path.join(bronze.DATA, "logs", "execucoes.jsonl"), encoding="utf-8")]
     assert {l["etapa"] for l in linhas} == {"tratada_e_final", "revisao_sinan", "frescor", "publicacao"} and all(l["status"] == "ok" for l in linhas)

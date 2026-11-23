@@ -54,12 +54,40 @@ def serie(c, semana_de: int, semana_ate: int, regiao: Optional[str] = None, geoc
     return [dict(zip(cols, r)) for r in cur.fetchall()]
 
 
-def ranking(c, semana_id: int, regiao: Optional[str] = None, limite: int = 20):
-    """Municípios do recorte com maior pressão na semana (H3); só os que têm a pressão conhecida."""
+CRITERIOS = {
+    "pressao_pico": ("Pressão: pico semanal", "pressao_pico"),
+    "pressao_media": ("Pressão: média semanal", "pressao_media"),
+    "internacoes": ("Internações no período", "internacoes"),
+    "casos": ("Casos notificados no período", "casos"),
+}
+
+
+def mais_afetados(c, semana_de: int, semana_ate: int, criterio: str = "pressao_pico", regiao: Optional[str] = None,
+                  minimo_internacoes: int = 0, limite: int = 20):
+    """Municípios mais afetados no período, ordenados pelo critério (chaves de CRITERIOS); só entram os que têm valor maior que zero no critério.
+
+    Por município: casos e internações somados nas semanas conhecidas, leitos clínicos e pediátricos da última semana do período com leito
+    informado, pressão média e pico semanal (só semanas com pressão conhecida) e a semana do pico. `minimo_internacoes` evita ordenar a
+    pressão por poucas internações (ex.: 1 internação em 3 leitos); vale para os critérios de pressão.
+    """
+    if criterio not in CRITERIOS:
+        raise ValueError("critério desconhecido: %s" % criterio)
     w, p = _filtro(regiao, None)
-    w += (" AND" if w else " WHERE") + " semana_id = ? AND pressao_internacoes_por_leito IS NOT NULL"
-    cur = c.execute("SELECT municipio, regiao_saude, casos_notificados, internacoes, leitos_clinicos_pediatricos, pressao_internacoes_por_leito "
-                    "FROM %s%s ORDER BY pressao_internacoes_por_leito DESC, internacoes DESC LIMIT ?" % (T, w), p + [semana_id, limite])
+    w += (" AND" if w else " WHERE") + " semana_id BETWEEN ? AND ?"
+    p += [semana_de, semana_ate]
+    minimo = minimo_internacoes if criterio.startswith("pressao") else 0
+    ordem = CRITERIOS[criterio][1]
+    cur = c.execute(f"""
+        SELECT any_value(municipio) AS municipio, any_value(regiao_saude) AS regiao_saude,
+               sum(casos_notificados) AS casos, sum(internacoes) AS internacoes,
+               arg_max(leitos_clinicos_pediatricos, semana_id) FILTER (WHERE leitos_clinicos_pediatricos IS NOT NULL) AS leitos,
+               avg(pressao_internacoes_por_leito) AS pressao_media,
+               max(pressao_internacoes_por_leito) AS pressao_pico,
+               arg_max(semana_id, pressao_internacoes_por_leito) FILTER (WHERE pressao_internacoes_por_leito IS NOT NULL) AS semana_do_pico
+        FROM {T}{w} GROUP BY geocodigo
+        HAVING coalesce(sum(internacoes), 0) >= ?
+           AND {ordem} > 0
+        ORDER BY {ordem} DESC, internacoes DESC NULLS LAST, casos DESC NULLS LAST, municipio LIMIT ?""", p + [minimo, limite])
     cols = [d[0] for d in cur.description]
     return [dict(zip(cols, r)) for r in cur.fetchall()]
 

@@ -30,8 +30,17 @@ def test_consultas(final):
     assert estado["internacoes"] == 2 and estado["leitos_clinicos_pediatricos"] == 10 and estado["pressao_internacoes_por_leito"] == pytest.approx(0.2)
     # depois do "dados até" do SIH o valor é nulo
     assert consulta.serie(c, 202608, 202608)[0]["pressao_internacoes_por_leito"] is None
-    r = consulta.ranking(c, 202601)
-    assert [x["municipio"] for x in r][0] == "Município 0" and r[0]["pressao_internacoes_por_leito"] == pytest.approx(0.2)
+    # municípios mais afetados: só o município 0 tem pressão conhecida (0,2); o de 202602 é incompleto no SIH
+    r = consulta.mais_afetados(c, 202601, 202602, "pressao_pico")
+    assert [x["municipio"] for x in r] == ["Município 0"]
+    assert r[0]["pressao_pico"] == pytest.approx(0.2) and r[0]["internacoes"] == 2 and r[0]["leitos"] == 10 and r[0]["semana_do_pico"] == 202601
+    # critério de casos: os dois municípios com casos; o piso de internações só vale para pressão
+    casos = consulta.mais_afetados(c, 202601, 202602, "casos")
+    assert [(x["municipio"], x["casos"]) for x in casos] == [("Município 0", 2), ("Município 2", 1)]
+    # piso de internações elimina o município com poucas internações no critério de pressão
+    assert consulta.mais_afetados(c, 202601, 202602, "pressao_media", minimo_internacoes=3) == []
+    with pytest.raises(ValueError):
+        consulta.mais_afetados(c, 202601, 202602, "inexistente")
     assert {f["indicador"] for f in consulta.frescor(c)} == {"casos_sinan", "infodengue", "leitos_cnes", "internacoes_sih"}
     c.close()
 
@@ -44,3 +53,8 @@ def test_app_executa_sem_erro(final, monkeypatch):
     assert not at.exception, [e.value for e in at.exception]
     assert "Pressão da dengue" in at.title[0].value
     assert any("Dados até" in c.value for c in at.caption)
+
+    # ranking com o piso de internações em 0: o município 0 aparece (gráfico e tabela renderizam sem erro)
+    at.number_input[0].set_value(0).run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert any("Município 0" in df.value.to_string() for df in at.dataframe)

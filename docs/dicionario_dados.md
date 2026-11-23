@@ -2,7 +2,7 @@
 
 `final.indicadores_municipio_semana` (publicada em `data/publicacao/indicadores_municipio_semana.parquet`). Grão: **um registro por município de MG (853) e semana epidemiológica**, de 2022 até a semana corrente (domingo a sábado; a SE 1 é a que contém 4 de janeiro). Chave: (`geocodigo`, `semana_id`). Regras e limitações em `docs/adr/0005-indicador-de-pressao-e-tabela-final.md`.
 
-**Nulo não é zero.** Até o "dados até" de cada grupo, ausência de registro na fonte significa zero ocorrência. Depois dele, o valor é nulo (ainda desconhecido).
+**Nulo não é zero.** Uma semana só tem valor quando está completa até o "dados até" do grupo, isto é, quando o sábado que a fecha não é posterior a ele. Nessas semanas, ausência de registro na fonte significa zero ocorrência. Semana incompleta ou posterior ao "dados até" tem valor nulo (ainda desconhecido).
 
 | Coluna | Tipo | Descrição | Fonte |
 |---|---|---|---|

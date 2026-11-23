@@ -1,6 +1,7 @@
 -- R7: tabela final, um registro por município (853) x semana epidemiológica (de 2022 até a semana corrente), em formato denso.
--- Cada grupo de indicadores traz o seu "dados até" (data mais recente da fonte). Depois dessa data, o valor é NULO (desconhecido),
--- não zero; até ela, ausência de registro no fato esparso significa zero ocorrência.
+-- Cada grupo de indicadores traz o seu "dados até" (data mais recente da fonte). Uma semana só conta como conhecida quando está COMPLETA
+-- (o sábado que a fecha não é posterior ao "dados até"); semana incompleta ou posterior é NULA (desconhecida), não zero.
+-- Em semana conhecida, ausência de registro no fato esparso significa zero ocorrência.
 -- Indicador de pressão (ADR-0005): internações por dengue na semana por leito clínico e pediátrico existente no município.
 with semanas as (
     select * from {{ ref('dim_semana_epi') }} where inicio <= {{ hoje() }}
@@ -51,23 +52,23 @@ select
     semana_id, epi_ano, epi_semana, inicio as inicio_semana, fim as fim_semana,
 
     -- casos (SINAN): município de notificação, semana dos primeiros sintomas
-    case when inicio <= casos_ate then coalesce(casos_notificados, 0) end        as casos_notificados,
-    case when inicio <= casos_ate then coalesce(casos_hospitalizados, 0) end     as casos_hospitalizados,
-    case when inicio <= casos_ate then coalesce(casos_confirmados, 0) end        as casos_confirmados,
+    case when fim <= casos_ate then coalesce(casos_notificados, 0) end        as casos_notificados,
+    case when fim <= casos_ate then coalesce(casos_hospitalizados, 0) end     as casos_hospitalizados,
+    case when fim <= casos_ate then coalesce(casos_confirmados, 0) end        as casos_confirmados,
     casos_ate                                                                    as casos_dados_ate,
     -- semana ainda aberta pela regra dos 60 dias: o valor pode ser revisto (ver R8)
     (cast(({{ hoje() }} - fim) // 7 as integer) <= {{ var('rec_min_semanas_idade') }}) as casos_provisorio,
 
     -- InfoDengue (casos prováveis, nowcast e nível de alerta)
-    case when inicio <= infodengue_ate then coalesce(casos_provaveis_infodengue, 0) end as casos_provaveis_infodengue,
+    case when fim <= infodengue_ate then coalesce(casos_provaveis_infodengue, 0) end as casos_provaveis_infodengue,
     casos_estimados_infodengue,
     nivel_alerta_infodengue,
     infodengue_ate                                                               as infodengue_dados_ate,
 
     -- internações (SIH): município onde ocorreram, semana da data de internação
-    case when inicio <= internacoes_ate then coalesce(internacoes, 0) end        as internacoes,
-    case when inicio <= internacoes_ate then coalesce(obitos, 0) end             as obitos,
-    case when inicio <= internacoes_ate then coalesce(dias_internacao, 0) end    as dias_internacao,
+    case when fim <= internacoes_ate then coalesce(internacoes, 0) end        as internacoes,
+    case when fim <= internacoes_ate then coalesce(obitos, 0) end             as obitos,
+    case when fim <= internacoes_ate then coalesce(dias_internacao, 0) end    as dias_internacao,
     internacoes_ate                                                              as internacoes_dados_ate,
 
     -- leitos (CNES, mensal)
@@ -78,7 +79,7 @@ select
     leitos_ate                                                                   as leitos_dados_ate,
 
     -- indicador de pressão: nulo quando falta o numerador (SIH ainda não chegou) ou o município não tem leito clínico/pediátrico
-    case when inicio <= internacoes_ate and inicio >= leitos_desde and coalesce(leitos_clinicos_pediatricos, 0) > 0
+    case when fim <= internacoes_ate and inicio >= leitos_desde and coalesce(leitos_clinicos_pediatricos, 0) > 0
          then coalesce(internacoes, 0) * 1.0 / leitos_clinicos_pediatricos end   as pressao_internacoes_por_leito,
     case when inicio >= leitos_desde and coalesce(leitos_clinicos_pediatricos, 0) = 0 then true else false end as sem_leito_clinico_pediatrico,
     -- a pressão só é conhecida até a menor das datas de que depende

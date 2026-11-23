@@ -20,8 +20,8 @@ def test_tratada_ponta_a_ponta(banco, monkeypatch):
     res = tratada.dbt(["run"], HOJE)
     assert res.success, res.exception
     c = bronze.con()
-    # SINAN: 1 descartado e 1 duplicata saem; o preliminar de 2026 é ignorado; o de 2025 (sem final) entra
-    assert c.execute("SELECT count(*) FROM tratada.stg_sinan").fetchone()[0] == 4
+    # SINAN: 1 descartado sai; o preliminar de 2026 é ignorado; o de 2025 (sem final) entra; o caso de 17/01 em outro município entra
+    assert c.execute("SELECT count(*) FROM tratada.stg_sinan").fetchone()[0] == 5
     assert c.execute("SELECT casos_notificados, casos_hospitalizados FROM tratada.fct_casos_semana WHERE semana_id = 202601").fetchone() == (2, 1)
     assert c.execute("SELECT internacoes, obitos FROM tratada.fct_internacoes_semana WHERE semana_id = 202601").fetchone() == (2, 1)
     # leito hospital-dia (tipo 7) não conta
@@ -40,6 +40,12 @@ def test_tratada_ponta_a_ponta(banco, monkeypatch):
     # município sem leito: zero internações, pressão nula (não divide por zero) e sinalizado
     assert c.execute("SELECT internacoes, leitos_clinicos_pediatricos, pressao_internacoes_por_leito, sem_leito_clinico_pediatrico "
                      "FROM final.indicadores_municipio_semana WHERE geocodigo = '3100010' AND semana_id = 202601").fetchone() == (0, 0, None, True)
+    # semana só conta quando completa: o SIH vai até quarta 14/01, então a semana 202602 (fecha em 17/01) é desconhecida (nula) nas internações,
+    # enquanto os casos do SINAN (até sábado 17/01) já a contam
+    assert c.execute("SELECT casos_notificados, internacoes, pressao_internacoes_por_leito FROM final.indicadores_municipio_semana "
+                     "WHERE geocodigo = '3100020' AND semana_id = 202602").fetchone() == (1, None, None)
+    assert c.execute("SELECT internacoes_dados_ate, casos_dados_ate FROM final.indicadores_municipio_semana LIMIT 1").fetchone() == (
+        __import__("datetime").date(2026, 1, 14), __import__("datetime").date(2026, 1, 17))
     # depois do "dados até" o valor é desconhecido (nulo), não zero; antes da primeira competência de leitos também
     assert c.execute("SELECT casos_notificados, internacoes, pressao_internacoes_por_leito FROM final.indicadores_municipio_semana "
                      "WHERE geocodigo = '3100000' AND semana_id = 202608").fetchone() == (None, None, None)

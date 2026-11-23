@@ -49,7 +49,7 @@ streamlit run app/painel.py          # painel (R10), lê data/publicacao/*.parqu
 - **R8:** compara cada versão do SINAN preliminar da bruta com a mais recente. Precisa de duas ou mais cargas com conteúdo diferente; enquanto houver uma só, o relatório diz que não há o que medir.
 - **R9:** `.github/workflows/atualizacao.yml` roda o pipeline todo dia (09:17 UTC) e pode ser disparado à mão. Código de saída: 0 certo, 1 etapa falhou, 2 fonte atrasada. O log fica em `data/logs/execucoes.jsonl` e na tabela `execucoes`, e sobe como artefato do fluxo. Alternativa em VPS (ADR-0003), a partir da pasta do projeto:
   `17 9 * * *  cd /caminho/dengue-mg && PYTHONPATH=src python -m dengue_mg.pipeline >> data/logs/cron.log 2>&1`
-- **R10:** o painel não abre o DuckDB de trabalho (que fica travado durante a atualização): lê os Parquet que o pipeline publica em `data/publicacao/`. Expõe só agregados. Capturas: `python scripts/capturar_painel.py` (requer Playwright) grava em `docs/evidencias/R10/`.
+- **R10:** o painel não abre o DuckDB de trabalho (que fica travado durante a atualização): lê os Parquet que o pipeline publica em `data/publicacao/`. Expõe só agregados, com uma seção de municípios mais afetados (por pico ou média da pressão, internações ou casos, com mínimo de internações ajustável). Capturas: `python scripts/capturar_painel.py` (requer Playwright) grava em `docs/evidencias/R10/`.
 
 ## Evidência da Sprint 3
 - R7: `docs/dicionario_dados.md` e a tabela `final.indicadores_municipio_semana`. R8: `docs/evidencias/R8/relatorio_revisao.md`. R9: `.github/workflows/atualizacao.yml` e o log de execuções. R10: `docs/evidencias/R10/`.
