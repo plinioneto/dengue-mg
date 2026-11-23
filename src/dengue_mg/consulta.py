@@ -78,7 +78,7 @@ def mais_afetados(c, semana_de: int, semana_ate: int, criterio: str = "pressao_p
     minimo = minimo_internacoes if criterio.startswith("pressao") else 0
     ordem = CRITERIOS[criterio][1]
     cur = c.execute(f"""
-        SELECT any_value(municipio) AS municipio, any_value(regiao_saude) AS regiao_saude,
+        SELECT geocodigo, any_value(municipio) AS municipio, any_value(regiao_saude) AS regiao_saude,
                sum(casos_notificados) AS casos, sum(internacoes) AS internacoes,
                arg_max(leitos_clinicos_pediatricos, semana_id) FILTER (WHERE leitos_clinicos_pediatricos IS NOT NULL) AS leitos,
                avg(pressao_internacoes_por_leito) AS pressao_media,

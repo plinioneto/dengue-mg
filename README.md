@@ -53,3 +53,9 @@ streamlit run app/painel.py          # painel (R10), lê data/publicacao/*.parqu
 
 ## Evidência da Sprint 3
 - R7: `docs/dicionario_dados.md` e a tabela `final.indicadores_municipio_semana`. R8: `docs/evidencias/R8/relatorio_revisao.md`. R9: `.github/workflows/atualizacao.yml` e o log de execuções. R10: `docs/evidencias/R10/`.
+
+## Análise exploratória das hipóteses H1 e H3
+```
+python -m dengue_mg.hipoteses        # lê data/publicacao/*.parquet e grava docs/evidencias/hipoteses/analise_h1_h3.md
+```
+H1: correlação semanal entre casos e internações (estado e municípios, com defasagem de 0 a 4 semanas). H3: ranking por pressão x ranking por volume de casos (sem população, a incidência e o H2 ficam pendentes).
