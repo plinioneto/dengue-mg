@@ -38,6 +38,16 @@ jobs:
           key: dados-${{ github.run_id }}
           restore-keys: dados-
 
+      # Falha cedo (em segundos) se o servidor do GitHub não alcançar as fontes, em vez de descobrir isso depois de minutos de carga.
+      - name: Verificar acesso às fontes
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m dengue_mg.ingest --lista cnes_lt | head -n 3
+          curl -fsS -o /dev/null --max-time 60 "https://servicodados.ibge.gov.br/api/v1/localidades/estados/31/municipios"
+          curl -fsS -o /dev/null --max-time 90 "https://info.dengue.mat.br/api/alertcity?geocode=3106200&disease=dengue&format=json&ew_start=1&ew_end=53&ey_start=2026&ey_end=2026"
+          echo "Fontes acessíveis."
+
       - name: Atualizar
         env:
           PYTHONPATH: src
