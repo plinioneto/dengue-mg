@@ -60,3 +60,15 @@ def test_app_executa_sem_erro(final, monkeypatch):
     at.number_input[0].set_value(0).run()
     assert not at.exception, [e.value for e in at.exception]
     assert any("Município 0" in df.value.to_string() for df in at.dataframe)
+
+
+def test_relatorio_de_hipoteses_com_o_fluxo_publicado(final, tmp_path):
+    """Ponta a ponta: o pipeline publica o fluxo agregado e o relatório de hipóteses (H1, H2 parcial e H3) o lê."""
+    from dengue_mg import consulta, hipoteses
+    c = consulta.abrir(str(final / "data" / "publicacao"))
+    txt = open(hipoteses.relatorio(c, str(tmp_path / "h.md")), encoding="utf-8").read()
+    c.close()
+    assert "## H3: a capacidade relevante depende da região de saúde?" in txt
+    assert "mesmo município" in txt and "Total" in txt
+    # fluxo sintético: 3 internações; 2 no próprio município de residência e 1 de residente do município 0 internado no município 2
+    assert "| Total | 3 | 2 | 1 |" in txt

@@ -54,8 +54,11 @@ streamlit run app/painel.py          # painel (R10), lê data/publicacao/*.parqu
 ## Evidência da Sprint 3
 - R7: `docs/dicionario_dados.md` e a tabela `final.indicadores_municipio_semana`. R8: `docs/evidencias/R8/relatorio_revisao.md`. R9: `.github/workflows/atualizacao.yml` e o log de execuções. R10: `docs/evidencias/R10/`.
 
-## Análise exploratória das hipóteses H1 e H2 (parcial)
+## Análise exploratória das hipóteses (H1, H2 parcial e H3)
 ```
-python -m dengue_mg.hipoteses        # lê data/publicacao/*.parquet e grava docs/evidencias/hipoteses/analise_h1_h2.md
+python -m dengue_mg.pipeline --sem-ingestao   # reprocessa e publica, incluindo o fluxo agregado de internações (apoio à H3)
+python -m dengue_mg.hipoteses                 # lê data/publicacao/*.parquet e grava docs/evidencias/hipoteses/analise_hipoteses.md
 ```
-H1: correlação semanal entre casos e internações (estado e municípios, com defasagem de 0 a 4 semanas). H2 (parcial): ranking por pressão x ranking por volume de casos (sem população, a incidência fica pendente). A H3 (internações por município de residência x de ocorrência) ainda não foi analisada.
+- **H1:** correlação semanal entre casos e internações (estado e municípios, defasagem de 0 a 4 semanas) e semana do pico de casos x semana do pico de internações, por ano.
+- **H2 (parcial):** ranking por pressão x ranking por volume de casos (sem população, a incidência fica pendente).
+- **H3:** fluxo das internações entre município de residência e de ocorrência (`final.fluxo_internacoes_ano`, só agregados): quanto se fecha dentro da região de saúde e quais municípios funcionam como polo.

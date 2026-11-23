@@ -34,8 +34,8 @@ def banco(tmp_path, monkeypatch):
               [["100", cod, "202601", "2", "33", "10", "10", "8"], ["100", cod, "202601", "7", "1", "5", "5", "5"]])
     _carregar(bronze, c, "sih_rd", "RDMG2601.dbc", ["N_AIH", "MUNIC_MOV", "MUNIC_RES", "DT_INTER", "DT_SAIDA", "DIAG_PRINC", "MORTE", "DIAS_PERM"],
               [["a1", cod, cod, "20260106", "20260110", "A90", "0", "4"], ["a2", cod, cod, "20260107", "20260112", "A91", "1", "5"],
-               # quarta 14/01: o "dados até" do SIH cai no meio da semana 202602, que fica incompleta
-               ["a3", "310002", "310002", "20260114", "20260115", "A90", "0", "1"]])
+               # quarta 14/01: o "dados até" do SIH cai no meio da semana 202602, que fica incompleta; residente do município 0 internado no município 2
+               ["a3", "310002", "310000", "20260114", "20260115", "A90", "0", "1"]])
     _carregar(bronze, c, "infodengue", "alertcity_mg_2026-02-01.json", ["SE", "casos", "casprov", "casos_est", "nivel", "geocodigo"],
               [["202601", "4", "2", "2.5", "1", muns[0][0]]])
     c.close()

@@ -8,7 +8,7 @@ from typing import List, Optional
 
 import duckdb
 
-PUBLICADAS = ["indicadores_municipio_semana", "frescor"]
+PUBLICADAS = ["indicadores_municipio_semana", "frescor", "fluxo_internacoes_ano"]
 
 T = "final.indicadores_municipio_semana"
 AGREGADOS = """

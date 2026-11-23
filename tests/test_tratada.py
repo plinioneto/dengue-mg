@@ -40,6 +40,9 @@ def test_tratada_ponta_a_ponta(banco, monkeypatch):
     # município sem leito: zero internações, pressão nula (não divide por zero) e sinalizado
     assert c.execute("SELECT internacoes, leitos_clinicos_pediatricos, pressao_internacoes_por_leito, sem_leito_clinico_pediatrico "
                      "FROM final.indicadores_municipio_semana WHERE geocodigo = '3100010' AND semana_id = 202601").fetchone() == (0, 0, None, True)
+    # fluxo agregado (H3): 2 internações de residentes do município 0 em casa e 1 de residente do 0 internado no município 2
+    assert c.execute("SELECT cod6_residencia, cod6_ocorrencia, internacoes FROM final.fluxo_internacoes_ano ORDER BY cod6_ocorrencia").fetchall() == [
+        ("310000", "310000", 2), ("310000", "310002", 1)]
     # semana só conta quando completa: o SIH vai até quarta 14/01, então a semana 202602 (fecha em 17/01) é desconhecida (nula) nas internações,
     # enquanto os casos do SINAN (até sábado 17/01) já a contam
     assert c.execute("SELECT casos_notificados, internacoes, pressao_internacoes_por_leito FROM final.indicadores_municipio_semana "

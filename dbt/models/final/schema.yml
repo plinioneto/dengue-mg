@@ -42,3 +42,20 @@ models:
           - entre: {minimo: 0, maximo: 1000}
       - name: pressao_dados_ate
         tests: [not_null]
+
+  - name: fluxo_internacoes_ano
+    description: "Fluxo agregado de internações por dengue entre município de residência e de ocorrência, por ano (apoio à H3). Só contagens por par; sem registros individuais."
+    tests:
+      - chave_unica: {colunas: [ano, cod6_residencia, cod6_ocorrencia]}
+    columns:
+      - name: ano
+        tests: [not_null]
+      - name: cod6_ocorrencia
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_municipio'), field: cod6}
+      - name: regiao_ocorrencia
+        tests: [not_null]
+      - name: internacoes
+        tests:
+          - entre: {minimo: 1}
