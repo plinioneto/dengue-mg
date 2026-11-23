@@ -11,7 +11,7 @@ Metas: 853 municípios e todas as semanas de 2022 até hoje; atualização em at
 3 sprints de 1 semana: S1 02/11 a 08/11, S2 09/11 a 15/11, S3 16/11 a 22/11/2026 (datas a confirmar). Equipe de uma pessoa.
 
 ## Backlog
-Ver `docs/backlog.md` (R1 a R10, com artefato de evidência de cada um). Estado atual: Sprint 2 executada com dados reais (15/11): bruta, tratada e 66 de 68 testes ok; reconciliação R6 com 90,9% dos pares dentro de 15% (meta 90%; 75,3% dentro de 5%) após alinhar a convenção do InfoDengue (casprov, semana de sintomas, município de notificação) e calibrar o limite; ver ADR-0004. Segunda execução da ingestão sem nenhuma carga nova (idempotência comprovada em docs/evidencias/R2 e R3).
+Ver `docs/backlog.md` (R1 a R10, com artefato de evidência de cada um). Estado atual: Sprint 2 executada com dados reais (15/11): bruta, tratada e 66 de 68 testes ok; reconciliação R6 com 90,9% dos pares dentro de 15% (meta 90%; 75,3% dentro de 5%) após alinhar a convenção do InfoDengue (casprov, semana de sintomas, município de notificação) e calibrar o limite; ver ADR-0004. Segunda execução da ingestão sem nenhuma carga nova (idempotência comprovada em docs/evidencias/R2 e R3). Sprint 3 (R7 a R10): pipeline executado em 22/11 com dados reais (tabela final com 218.368 linhas, 84 de 86 testes, frescor ok, R6 em 90,85%); falta o fluxo agendado rodar no GitHub (merge na `main`) e as capturas do painel (R10).
 
 ## Decisões já tomadas (não reabrir sem motivo)
 Ver `docs/adr/`. Resumo: MG e 2022+; bruta (Parquet, tudo texto) / tratada / final; ingestão idempotente e versionada, chave (fonte, arquivo, sha256); Python + DuckDB/Parquet + dbt-core (dbt-duckdb) + Streamlit; agendamento por GitHub Actions ou cron em VPS; só ferramentas open source e gratuitas.
@@ -24,7 +24,7 @@ Ver `docs/adr/`. Resumo: MG e 2022+; bruta (Parquet, tudo texto) / tratada / fin
 - O FTP `ftp.datasus.gov.br` e a API do InfoDengue são acessíveis; os portais `dadosabertos.saude.gov.br` estiveram fora do ar, por isso não são usados.
 
 ## Hipóteses (priorizadas)
-H1 (verificar com a tabela final): correlação entre casos (SINAN) e internações (SIH) por município. H6: reconciliação SINAN x InfoDengue. H4: revisão das semanas preliminares. H2/H3: ranking de municípios por incidência x por pressão. **H5 (clima) e H7 (validação por entrevistas) estão fora deste ciclo.**
+H1 (verificar com a tabela final): correlação entre casos (SINAN) e internações (SIH) por município. H6: reconciliação SINAN x InfoDengue. H4: revisão das semanas preliminares. H2: ranking de municípios por incidência x por pressão. H3: a capacidade relevante depende da região de saúde (internações por município de residência x de ocorrência, SIH). **H5 (clima) e H7 (validação por entrevistas) estão fora deste ciclo.**
 
 ## Convenções
 - Textos, comentários, documentação e mensagens em português (Brasil). Redação impessoal na documentação do relatório (sem primeira pessoa).

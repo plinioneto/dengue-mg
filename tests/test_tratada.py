@@ -12,39 +12,6 @@ pytest.importorskip("duckdb")
 HOJE = "2026-03-01"
 
 
-def _carregar(bronze, c, fonte, nome, colunas, linhas):
-    bronze.gravar(c, fonte, nome, "%064x" % abs(hash((fonte, nome))), [(colunas, linhas)])
-
-
-@pytest.fixture()
-def banco(tmp_path, monkeypatch):
-    monkeypatch.setenv("DENGUE_DATA", str(tmp_path / "data"))
-    from dengue_mg import bronze
-    importlib.reload(bronze)
-    c = bronze.con()
-    # 853 municípios sintéticos (código de 7 dígitos; o 6 primeiros são o código do SINAN/CNES/SIH)
-    muns = [["%06d0" % (310000 + i), "Município %d" % i, "Micro", "Meso"] for i in range(853)]
-    _carregar(bronze, c, "ibge_municipios", "municipios_mg.json", ["geocodigo", "nome", "microrregiao", "mesorregiao"], muns)
-    cod = "310000"  # primeiro município
-    sinan_cols = ["ID_MUNICIP", "ID_MN_RESI", "DT_NOTIFIC", "DT_SIN_PRI", "CLASSI_FIN", "EVOLUCAO", "HOSPITALIZ"]
-    # semana 202601 (04/01 a 10/01): 3 notificações, 1 descartada
-    final = [[cod, cod, "20260105", "20260104", "10", "1", "1"],
-             [cod, cod, "20260106", "20260104", "5", "", "2"],   # descartado
-             [cod, cod, "20260107", "20260105", "11", "1", "2"]]  # sem duplicata
-    _carregar(bronze, c, "sinan_final", "DENGBR26.dbc", sinan_cols, final)
-    # preliminar do mesmo ano não deve entrar (já há final)
-    _carregar(bronze, c, "sinan_prelim", "DENGBR26.dbc", sinan_cols, [[cod, cod, "20260108", "", "10", "", "2"]])
-    _carregar(bronze, c, "sinan_prelim", "DENGBR25.dbc", sinan_cols, [[cod, cod, "20251231", "", "10", "", "2"]])
-    _carregar(bronze, c, "cnes_lt", "LTMG2601.dbc", ["CNES", "CODUFMUN", "COMPETEN", "TP_LEITO", "CODLEITO", "QT_EXIST", "QT_CONTR", "QT_SUS"],
-              [["100", cod, "202601", "2", "33", "10", "10", "8"], ["100", cod, "202601", "7", "1", "5", "5", "5"]])
-    _carregar(bronze, c, "sih_rd", "RDMG2601.dbc", ["N_AIH", "MUNIC_MOV", "MUNIC_RES", "DT_INTER", "DT_SAIDA", "DIAG_PRINC", "MORTE", "DIAS_PERM"],
-              [["a1", cod, cod, "20260106", "20260110", "A90", "0", "4"], ["a2", cod, cod, "20260107", "20260112", "A91", "1", "5"]])
-    _carregar(bronze, c, "infodengue", "alertcity_mg_2026-02-01.json", ["SE", "casos", "casprov", "casos_est", "nivel", "geocodigo"],
-              [["202601", "4", "2", "2.5", "1", muns[0][0]]])
-    c.close()
-    return tmp_path
-
-
 def test_tratada_ponta_a_ponta(banco, monkeypatch):
     from dengue_mg import bronze, tratada
     importlib.reload(tratada)
@@ -53,8 +20,8 @@ def test_tratada_ponta_a_ponta(banco, monkeypatch):
     res = tratada.dbt(["run"], HOJE)
     assert res.success, res.exception
     c = bronze.con()
-    # SINAN: 1 descartado e 1 duplicata saem; o preliminar de 2026 é ignorado; o de 2025 (sem final) entra
-    assert c.execute("SELECT count(*) FROM tratada.stg_sinan").fetchone()[0] == 4
+    # SINAN: 1 descartado sai; o preliminar de 2026 é ignorado; o de 2025 (sem final) entra; o caso de 17/01 em outro município entra
+    assert c.execute("SELECT count(*) FROM tratada.stg_sinan").fetchone()[0] == 5
     assert c.execute("SELECT casos_notificados, casos_hospitalizados FROM tratada.fct_casos_semana WHERE semana_id = 202601").fetchone() == (2, 1)
     assert c.execute("SELECT internacoes, obitos FROM tratada.fct_internacoes_semana WHERE semana_id = 202601").fetchone() == (2, 1)
     # leito hospital-dia (tipo 7) não conta
@@ -63,6 +30,30 @@ def test_tratada_ponta_a_ponta(banco, monkeypatch):
     # reconciliação: 2 casos no SINAN, 2 no InfoDengue, nenhum par elegível (menos de 10 casos)
     assert c.execute("SELECT casos_sinan, casos_infodengue, divergencia FROM final.rec_sinan_infodengue WHERE semana_id = 202601").fetchone() == (2, 2, 0.0)
     assert c.execute("SELECT count(*) FROM final.rec_sinan_infodengue WHERE elegivel").fetchone()[0] == 0
+    # R7: tabela final densa (853 municípios x semanas até a corrente), com "dados até" e pressão
+    n_sem = c.execute("SELECT count(*) FROM tratada.dim_semana_epi WHERE inicio <= date '%s'" % HOJE).fetchone()[0]
+    assert c.execute("SELECT count(*) FROM final.indicadores_municipio_semana").fetchone()[0] == 853 * n_sem
+    linha = c.execute("SELECT casos_notificados, internacoes, leitos_clinicos_pediatricos, pressao_internacoes_por_leito, "
+                      "sem_leito_clinico_pediatrico, leitos_competencia FROM final.indicadores_municipio_semana "
+                      "WHERE geocodigo = '3100000' AND semana_id = 202601").fetchone()
+    assert linha[:5] == (2, 2, 10, 0.2, False) and str(linha[5]) == "2026-01-01"
+    # município sem leito: zero internações, pressão nula (não divide por zero) e sinalizado
+    assert c.execute("SELECT internacoes, leitos_clinicos_pediatricos, pressao_internacoes_por_leito, sem_leito_clinico_pediatrico "
+                     "FROM final.indicadores_municipio_semana WHERE geocodigo = '3100010' AND semana_id = 202601").fetchone() == (0, 0, None, True)
+    # fluxo agregado (H3): 2 internações de residentes do município 0 em casa e 1 de residente do 0 internado no município 2
+    assert c.execute("SELECT cod6_residencia, cod6_ocorrencia, internacoes FROM final.fluxo_internacoes_ano ORDER BY cod6_ocorrencia").fetchall() == [
+        ("310000", "310000", 2), ("310000", "310002", 1)]
+    # semana só conta quando completa: o SIH vai até quarta 14/01, então a semana 202602 (fecha em 17/01) é desconhecida (nula) nas internações,
+    # enquanto os casos do SINAN (até sábado 17/01) já a contam
+    assert c.execute("SELECT casos_notificados, internacoes, pressao_internacoes_por_leito FROM final.indicadores_municipio_semana "
+                     "WHERE geocodigo = '3100020' AND semana_id = 202602").fetchone() == (1, None, None)
+    assert c.execute("SELECT internacoes_dados_ate, casos_dados_ate FROM final.indicadores_municipio_semana LIMIT 1").fetchone() == (
+        __import__("datetime").date(2026, 1, 14), __import__("datetime").date(2026, 1, 17))
+    # depois do "dados até" o valor é desconhecido (nulo), não zero; antes da primeira competência de leitos também
+    assert c.execute("SELECT casos_notificados, internacoes, pressao_internacoes_por_leito FROM final.indicadores_municipio_semana "
+                     "WHERE geocodigo = '3100000' AND semana_id = 202608").fetchone() == (None, None, None)
+    assert c.execute("SELECT leitos_clinicos_pediatricos FROM final.indicadores_municipio_semana "
+                     "WHERE geocodigo = '3100000' AND semana_id = 202552").fetchone() == (None,)
     c.close()
     # testes de qualidade: os dados sintéticos têm limitações propositais só como aviso (warn), nenhuma falha
     teste = tratada.dbt(["test"], HOJE)

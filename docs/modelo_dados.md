@@ -14,6 +14,8 @@ erDiagram
     fct_casos_semana ||--|| rec_sinan_infodengue : "geocodigo, semana_id"
     fct_infodengue_semana ||--|| rec_sinan_infodengue : "geocodigo, semana_id"
     rec_sinan_infodengue }o--|| rec_resumo : "agrega"
+    dim_municipio ||--o{ indicadores_municipio_semana : geocodigo
+    dim_semana_epi ||--o{ indicadores_municipio_semana : semana_id
 
     dim_municipio {
         varchar geocodigo PK "IBGE, 7 dígitos"
@@ -64,6 +66,15 @@ erDiagram
         int nivel
         date dados_ate
     }
+    indicadores_municipio_semana {
+        varchar geocodigo FK
+        int semana_id FK
+        bigint casos_notificados
+        bigint internacoes
+        bigint leitos_clinicos_pediatricos
+        double pressao_internacoes_por_leito
+        date pressao_dados_ate "e um dados_ate por grupo"
+    }
     rec_sinan_infodengue {
         varchar geocodigo
         int semana_id
@@ -75,4 +86,4 @@ erDiagram
     }
 ```
 
-Os fatos são esparsos (só há linha onde houve registro); a densificação município x semana (853 municípios, todas as semanas) é feita na tabela final do R7. Os modelos `stg_*` limpam e tipam a bruta; regras em `docs/adr/0004-tratada-e-reconciliacao.md`.
+Os fatos são esparsos (só há linha onde houve registro); a densificação município x semana (853 municípios, todas as semanas) é feita na tabela final `final.indicadores_municipio_semana` (R7; dicionário em `docs/dicionario_dados.md`). Os modelos `stg_*` limpam e tipam a bruta; regras em `docs/adr/0004-tratada-e-reconciliacao.md`.
