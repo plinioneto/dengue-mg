@@ -1,4 +1,4 @@
-"""H1 e H3: análise exploratória sobre uma tabela final sintética com relações conhecidas."""
+"""H1 e H2 (parcial): análise exploratória sobre uma tabela final sintética com relações conhecidas."""
 import duckdb
 import pytest
 
@@ -52,9 +52,9 @@ def test_h1_municipios_filtra_e_correlaciona(c):
     assert int(res.loc[res["mediana"].idxmax(), "defasagem_semanas"]) == 1
 
 
-def test_h3_compara_rankings(c):
+def test_h2_parcial_compara_rankings(c):
     from dengue_mg import hipoteses
-    h = hipoteses.h3(c, 2022, 2022)
+    h = hipoteses.h2_parcial(c, 2022, 2022)
     assert list(h["periodo"]) == ["2022", "2022 a 2022"]
     # com piso de 5 internações no período: A (internações somadas) e B passam; C (0 internações) não
     linha = h.iloc[0]
@@ -66,4 +66,4 @@ def test_relatorio_grava_markdown(c, tmp_path):
     saida = hipoteses.relatorio(c, str(tmp_path / "r.md"))
     txt = open(saida, encoding="utf-8").read()
     assert "| 0 | 40 |" in txt and "40,00" not in txt   # contagens aparecem como inteiros
-    assert "H1: correlação entre casos e internações" in txt and "H3: ranking por pressão" in txt and "Defasagem com maior mediana" in txt
+    assert "H1: correlação entre casos e internações" in txt and "H2 (parcial): ranking por pressão" in txt and "Defasagem com maior mediana" in txt

@@ -24,7 +24,7 @@ Ver `docs/adr/`. Resumo: MG e 2022+; bruta (Parquet, tudo texto) / tratada / fin
 - O FTP `ftp.datasus.gov.br` e a API do InfoDengue são acessíveis; os portais `dadosabertos.saude.gov.br` estiveram fora do ar, por isso não são usados.
 
 ## Hipóteses (priorizadas)
-H1 (verificar com a tabela final): correlação entre casos (SINAN) e internações (SIH) por município. H6: reconciliação SINAN x InfoDengue. H4: revisão das semanas preliminares. H2/H3: ranking de municípios por incidência x por pressão. **H5 (clima) e H7 (validação por entrevistas) estão fora deste ciclo.**
+H1 (verificar com a tabela final): correlação entre casos (SINAN) e internações (SIH) por município. H6: reconciliação SINAN x InfoDengue. H4: revisão das semanas preliminares. H2: ranking de municípios por incidência x por pressão. H3: a capacidade relevante depende da região de saúde (internações por município de residência x de ocorrência, SIH). **H5 (clima) e H7 (validação por entrevistas) estão fora deste ciclo.**
 
 ## Convenções
 - Textos, comentários, documentação e mensagens em português (Brasil). Redação impessoal na documentação do relatório (sem primeira pessoa).

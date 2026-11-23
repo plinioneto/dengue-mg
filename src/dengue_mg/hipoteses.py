@@ -1,16 +1,16 @@
-"""Análise exploratória das hipóteses H1 e H3 sobre a tabela final (`final.indicadores_municipio_semana`).
+"""Análise exploratória das hipóteses H1 e H2 (parcial) sobre a tabela final (`final.indicadores_municipio_semana`).
 
 H1: há correlação entre casos (SINAN) e internações (SIH) por município? Mede-se a correlação semanal, sem defasagem e com internações
     até 4 semanas depois dos casos, no estado e por município.
-H3: o ranking de municípios por pressão difere do ranking por volume de casos? Sem população não há incidência (H2 fica de fora);
-    o volume de casos é a referência disponível.
+H2 (parcial): o ranking de municípios por pressão difere do ranking por casos? A H2 compara com a incidência, que exige população
+    (indisponível); o volume de casos é a referência disponível aqui. A H3 (residência x ocorrência das internações) não está neste módulo.
 
 É exploratória: correlação não é causalidade, e os resultados dependem das regras da tabela final (ADR-0005). Semanas de casos
 provisórios (idade de até 9 semanas) ficam fora do H1, porque ainda mudam (R8).
 
 Uso (a partir da pasta do projeto, depois de `python -m dengue_mg.pipeline`):
     python -m dengue_mg.hipoteses
-Lê `data/publicacao/*.parquet` e grava `docs/evidencias/hipoteses/analise_h1_h3.md`.
+Lê `data/publicacao/*.parquet` e grava `docs/evidencias/hipoteses/analise_h1_h2.md`.
 """
 import datetime as dt
 import os
@@ -94,7 +94,7 @@ def resumo_municipios(m: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(linhas)
 
 
-def h3(c, ano_de: int, ano_ate: int) -> pd.DataFrame:
+def h2_parcial(c, ano_de: int, ano_ate: int) -> pd.DataFrame:
     """Compara o topo por casos com o topo por pressão (pico) e por internações, por ano e no período inteiro."""
     linhas = []
     recortes = [(str(a), a * 100 + 1, a * 100 + 53) for a in range(ano_de, ano_ate + 1)] + [("2022 a %d" % ano_ate, ano_de * 100 + 1, ano_ate * 100 + 53)]
@@ -130,14 +130,14 @@ def _tabela(df: pd.DataFrame, formatos: Optional[dict] = None) -> str:
 
 
 def relatorio(c, saida: Optional[str] = None) -> str:
-    saida = saida or os.path.join(os.environ.get("DENGUE_EVIDENCIAS", os.path.join(RAIZ, "docs", "evidencias")), "hipoteses", "analise_h1_h3.md")
+    saida = saida or os.path.join(os.environ.get("DENGUE_EVIDENCIAS", os.path.join(RAIZ, "docs", "evidencias")), "hipoteses", "analise_h1_h2.md")
     df = carregar(c)
     est, ano, mun = h1_estado(df), h1_por_ano(df), h1_municipios(df)
     res = resumo_municipios(mun) if not mun.empty else pd.DataFrame()
     anos = [int(i) // 100 for i in df["semana_id"].unique()]
-    h3df = h3(c, min(anos), max(anos))
+    h2df = h2_parcial(c, min(anos), max(anos))
     pct = lambda v: ("%.1f%%" % (100 * v)).replace(".", ",")
-    L = ["# Análise exploratória das hipóteses H1 e H3", "",
+    L = ["# Análise exploratória das hipóteses H1 e H2 (parcial)", "",
          "Gerado em %s sobre `final.indicadores_municipio_semana` (semanas de casos não provisórios; internações até o último \"dados até\" do SIH)." % dt.datetime.now().strftime("%d/%m/%Y %H:%M"), "",
          "Análise exploratória: correlação não é causalidade. Casos são do município de notificação e internações do município de ocorrência; o SIH só traz internações do SUS.", "",
          "## H1: correlação entre casos e internações", "",
@@ -152,9 +152,9 @@ def relatorio(c, saida: Optional[str] = None) -> str:
               "Entram os municípios com ao menos %d semanas com casos e %d internações no período: **%d de 853**." % (MIN_SEMANAS_COM_CASOS, MIN_INTERNACOES, len(mun)), "",
               _tabela(res, {"pct_rho_ge_05": pct}), "",
               "Defasagem com maior mediana: **%d semana(s)**." % melhor, ""]
-    L += ["## H3: ranking por pressão x ranking por volume de casos", "",
-          "Sem população, a incidência não pode ser calculada (H2 fica pendente); a referência é o volume de casos. Pressão: pico semanal, com mínimo de %d internações no período (como no painel). Compara-se o topo %d de cada critério e a correlação de postos (Spearman) entre casos e pressão nos municípios que têm os dois valores." % (MIN_INTERNACOES_RANKING, TOPO), "",
-          _tabela(h3df), ""]
+    L += ["## H2 (parcial): ranking por pressão x ranking por volume de casos", "",
+          "Sem população, a incidência não pode ser calculada (a H2 completa fica pendente); a referência é o volume de casos. Pressão: pico semanal, com mínimo de %d internações no período (como no painel). Compara-se o topo %d de cada critério e a correlação de postos (Spearman) entre casos e pressão nos municípios que têm os dois valores." % (MIN_INTERNACOES_RANKING, TOPO), "",
+          _tabela(h2df), ""]
     os.makedirs(os.path.dirname(saida), exist_ok=True)
     with open(saida, "w", encoding="utf-8") as f:
         f.write("\n".join(L))
@@ -167,7 +167,7 @@ def main():
     caminho = relatorio(c)
     c.close()
     print(open(caminho, encoding="utf-8").read())
-    print("[H1/H3] relatório gravado em:", caminho)
+    print("[H1/H2] relatório gravado em:", caminho)
 
 
 if __name__ == "__main__":
