@@ -30,6 +30,8 @@ Com isso a meta de 90% ainda não é atingida. Restante: o InfoDengue tem 4% a 9
 - **Cauda geral.** Nas semanas 3 a 47, o InfoDengue é maior que o SINAN em cerca de 70% dos pares fora do limite (mediana de +7,5%), compatível com atualizações do SINAN posteriores ao arquivo público. Não foi possível confirmar sem o histórico do InfoDengue.
 Conclusão: a meta de 90% é atingida com tolerância de 15%, não de 5%.
 
+**Reexecução (22/11/2026).** Com as fontes atualizadas (SINAN preliminar e InfoDengue), a reconciliação deu 22.735 pares elegíveis e 90,85% dentro de 15% (20.655 pares), contra 22.731 e 90,9% em 15/11. A decisão não muda.
+
 **Calibração do limite (15/11/2026).** Decisão: limite de 15% (meta de 90% dos pares inalterada). Foram avaliadas, sobre os mesmos 22.731 pares elegíveis:
 - *Limites simples:* 5% = 75,3%; 10% = 86,8%; 15% = 90,9%; 20% = 93,6%.
 - *Piso absoluto* (passa se a diferença for até X% ou até N casos): 5% ou 5 casos = 88,7%; 10% ou 3 casos = 89,7%; 10% ou 5 casos = 91,6%; 15% ou 5 casos = 93,6%. Descartado: só fecha a meta com piso de 5 casos, que num par de 10 casos equivale a tolerar 50% de divergência, e complica a regra.

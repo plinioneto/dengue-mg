@@ -14,8 +14,8 @@ A dengue pressiona a rede de saúde de Minas Gerais de forma irregular no tempo 
 |---|---|
 | 853 municípios e todas as semanas de 2022 até hoje | Atendida nas dimensões (853 municípios; 258 semanas); fatos esparsos por município e semana |
 | Atualização em até 7 dias após cada publicação das fontes | Pendente (R9, agendamento) |
-| 100% das tabelas finais com testes aprovados | Camada tratada: 66 de 68 testes aprovados e 2 avisos documentados; tabela final pendente (R7) |
-| Divergência SINAN x InfoDengue de até 15% em 90% dos pares município-semana com 10 casos ou mais | Atendida: 90,9% (limite inicial de 5%: 75,3%; ver seção 4.2) |
+| 100% das tabelas finais com testes aprovados | Execução de 22/11/2026: 84 de 86 testes aprovados (inclui a tabela final), 0 erros e 2 avisos de limitação das fontes (SIH: 24 internações de 2021 em arquivos de 2022; SINAN: 4.924 notificações com município de residência fora da dimensão de MG) |
+| Divergência SINAN x InfoDengue de até 15% em 90% dos pares município-semana com 10 casos ou mais | Atendida: 90,9% (20.655 de 22.735 pares em 22/11/2026; limite inicial de 5%: 75,3% em 15/11; ver seção 4.2) |
 
 **Escopo e restrições.** Recorte em MG e histórico desde 2022 (ADR-0001). Equipe de uma pessoa, três sprints de uma semana. Apenas ferramentas abertas e gratuitas. Apenas dados públicos e anonimizados; a camada de consulta expõe agregados, nunca registros individuais (LGPD). Clima (H5) e validação por entrevistas (H7) ficam fora deste ciclo.
 
@@ -109,7 +109,7 @@ Com a convenção alinhada, 75,3% dos 22.731 pares elegíveis ficam dentro de 5%
 
 Adotou-se o menor limite simples que atinge 90% dos pares. O piso absoluto foi descartado porque só fecha a meta com piso de 5 casos, que num par de 10 casos equivale a tolerar 50% de divergência. A elegibilidade mais estrita não ajuda. Contrariando a hipótese inicial, os municípios grandes divergem mais que os pequenos (a 5%: 68,4% de aderência com 200 casos ou mais, contra 74,1% com 10 a 19 casos).
 
-Por ano, com limite de 15%: 2022, 90,4%; 2023, 86,2%; 2024, 93,7%; 2025, 90,7%; 2026, 84,8%. A meta vale para o conjunto. Os anos de 2023 e 2026 ficam abaixo de 90% isoladamente, o que é coerente com o corte do arquivo de 2023 e com as semanas recentes de 2026, ainda sujeitas a revisão.
+Por ano, com limite de 15%: 2022, 90,4%; 2023, 86,2%; 2024, 93,7%; 2025, 90,7%; 2026, 84,7% (reexecução de 22/11/2026 com as fontes atualizadas: 22.735 pares elegíveis, 90,85% no conjunto; as demais faixas variaram menos de 0,2 ponto). A meta vale para o conjunto. Os anos de 2023 e 2026 ficam abaixo de 90% isoladamente, o que é coerente com o corte do arquivo de 2023 e com as semanas recentes de 2026, ainda sujeitas a revisão.
 
 Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
 
@@ -117,16 +117,16 @@ Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
 
 | ID | Requisito | Situação |
 |---|---|---|
-| R7 | Tabela final por município e semana, com indicador de pressão e "dados até" por indicador | Modelo, testes e dicionário prontos; falta executar com dados reais |
-| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | Código e testes prontos; o relatório depende de duas ou mais versões do SINAN preliminar |
-| R9 | Atualização agendada e monitoramento de frescor | Fluxo, pipeline e verificação de frescor prontos; falta a primeira execução agendada |
-| R10 | Painel de consulta por município, região de saúde e semana | Painel pronto e testado; faltam as capturas com dados reais |
+| R7 | Tabela final por município e semana, com indicador de pressão e "dados até" por indicador | Feito e executado em 22/11/2026: 218.368 linhas (853 municípios x 256 semanas, de 202201 a 202647); testes da tabela final aprovados |
+| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | Executado em 22/11/2026 com 2 versões do SINAN preliminar de 2026 (cargas de 15/11 e 22/11); ver `docs/evidencias/R8/relatorio_revisao.md` |
+| R9 | Atualização agendada e monitoramento de frescor | Pipeline executado manualmente em 22/11/2026 (10 etapas registradas em `execucoes`, frescor `ok` nos 4 indicadores); o fluxo agendado do GitHub Actions ainda não rodou, pois depende do merge na `main` |
+| R10 | Painel de consulta por município, região de saúde e semana | Painel pronto e testado sobre dados sintéticos; capturas com dados reais em `docs/evidencias/R10/` |
 
 **R7.** A tabela `final.indicadores_municipio_semana` tem um registro por município (853) e semana desde 2022, em grade densa. Cada grupo de indicadores (casos do SINAN, InfoDengue, internações do SIH e leitos do CNES) traz o seu "dados até"; depois dele o valor é nulo, e não zero. O indicador de pressão é o número de internações por dengue na semana por leito clínico e pediátrico existente no município (ADR-0005). Não mede ocupação, porque as fontes abertas não a trazem. Município sem leito clínico ou pediátrico fica com pressão nula e sinalizado. Testes: chave única, grade completa (853 municípios por todas as semanas), faixas plausíveis, "dados até" preenchido e coerência da pressão e dos valores posteriores ao "dados até".
 
-**R8.** Cada versão do SINAN preliminar na bruta é recontada por município e semana dos primeiros sintomas e comparada com a versão mais recente do mesmo arquivo. A revisão é agregada pela idade da semana na data de publicação da versão. Na carga atual há uma só versão do arquivo de 2026 (`bronze_loads`), então a revisão ainda não é mensurável; o agendamento do R9 gera as versões seguintes. A hipótese H4 permanece em aberto até lá.
+**R8.** Cada versão do SINAN preliminar na bruta é recontada por município e semana dos primeiros sintomas e comparada com a versão mais recente do mesmo arquivo. A revisão é agregada pela idade da semana na data de publicação da versão. Na execução de 22/11/2026 a bruta tinha duas versões do arquivo de 2026 (cargas de 15/11 e de 22/11), o que permite uma primeira medida de revisão (resultado em `docs/evidencias/R8/relatorio_revisao.md`). Com apenas uma semana entre as versões, a medida cobre só as semanas recentes; o agendamento do R9 acumula as versões seguintes e a hipótese H4 ganha poder com o tempo.
 
-**R9.** O pipeline executa a ingestão incremental de cada fonte (uma falha não impede as demais), o dbt com testes, o R8 e a verificação de frescor, e publica os Parquet do painel só depois disso. Cada etapa é registrada em `execucoes` e em `data/logs/execucoes.jsonl`. Tolerâncias de frescor: SINAN e InfoDengue, 14 dias; CNES, 75; SIH, 90; latência de carga de até 7 dias após a publicação da fonte (meta do objetivo). O fluxo do GitHub Actions roda todo dia e falha (e-mail de alerta) se uma etapa falhar ou uma fonte estiver atrasada. Os dados persistem entre execuções por cache do Actions; se o cache for descartado, a execução refaz a carga completa de forma idempotente.
+**R9.** O pipeline executa a ingestão incremental de cada fonte (uma falha não impede as demais), o dbt com testes, o R8 e a verificação de frescor, e publica os Parquet do painel só depois disso. Cada etapa é registrada em `execucoes` e em `data/logs/execucoes.jsonl`. Tolerâncias de frescor: SINAN e InfoDengue, 14 dias; CNES, 75; SIH, 90; latência de carga de até 7 dias após a publicação da fonte (meta do objetivo). O fluxo do GitHub Actions roda todo dia e falha (e-mail de alerta) se uma etapa falhar ou uma fonte estiver atrasada. Em 22/11/2026 o pipeline foi executado manualmente com sucesso. Os dados persistem entre execuções por cache do Actions; se o cache for descartado, a execução refaz a carga completa de forma idempotente.
 
 **R10.** Painel em Streamlit com filtros de região de saúde, município e intervalo de semanas, indicadores com o "dados até" de cada fonte, séries de casos, internações e pressão, ranking de municípios por pressão e quadro de frescor. Lê só os Parquet publicados (agregados), nunca registros individuais.
 
