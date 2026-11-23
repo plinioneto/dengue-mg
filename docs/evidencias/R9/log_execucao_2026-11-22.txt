@@ -1,0 +1,36 @@
+Log da execução do pipeline em 22/11/2026 (excertos do terminal, com cortes indicados por "...").
+Os horários do dbt estão em UTC; o pipeline começou às 20:25 no horário local.
+
+== 1ª tentativa (pasta data/ vazia: carga completa, interrompida no SIH) ==
+Execução 20261122T195437-67e257
+[+] ibge: 853 municípios
+[OK] ingestao:ibge: 3s
+[OK] ingestao:cnes_lt: 47s
+[+] sih_rd RDMG2201.dbc: 54 linhas em 32s -> data\bronze\sih_rd\RDMG2201__17c97ccb.parquet
+...
+[+] sih_rd RDMG2504.dbc: 1991 linhas em 38s -> data\bronze\sih_rd\RDMG2504__84ed43b8.parquet
+(interrompida; bruta da Sprint 2 copiada para data\)
+
+== Execução completa sobre a bruta reaproveitada ==
+Execução 20261122T202543-071ce3
+[=] ibge: sem mudança
+[OK] ingestao:ibge: 1s
+[+] cnes_lt LTMG2610.dbc: 5224 linhas em 0s -> data\bronze\cnes_lt\LTMG2610__04f1ea96.parquet
+[OK] ingestao:cnes_lt: 3s
+[OK] ingestao:sih_rd: 1s
+[=] sinan_final DENGBR24.dbc: sem mudança no servidor (2026-02-27, 287558389 bytes)
+[OK] ingestao:sinan_final: 0s
+[+] sinan_prelim DENGBR26.dbc: 67456 linhas em 106s -> data\bronze\sinan_prelim\DENGBR26__3c93a3b3.parquet
+[OK] ingestao:sinan_prelim: 112s
+[+] infodengue: 216662 linhas
+[OK] ingestao:infodengue: 1483s
+...
+23:52:40  Done. PASS=14 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=14
+...
+23:52:43  Done. PASS=84 WARN=2 ERROR=0 SKIP=0 NO-OP=0 TOTAL=86
+[OK] tratada_e_final: 18s seed, run e test aprovados
+[OK] revisao_sinan: 0s 2 versões; relatório (...)\docs\evidencias\R8\relatorio_revisao.md
+[OK] frescor: 0s casos_sinan=ok (dados até 2026-11-14); infodengue=ok (dados até 2026-11-14); leitos_cnes=ok (dados até 2026-10-01); internacoes_sih=ok (dados até 2026-09-27)
+[OK] publicacao: 0s indicadores_municipio_semana.parquet, frescor.parquet
+
+Tabela `execucoes` após a execução: 10 etapas registradas (select count(*) from execucoes -> 10).
