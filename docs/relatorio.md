@@ -118,13 +118,25 @@ Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
 | ID | Requisito | Situação |
 |---|---|---|
 | R7 | Tabela final por município e semana, com indicador de pressão e "dados até" por indicador | Feito e executado em 22/11/2026: 218.368 linhas (853 municípios x 256 semanas, de 202201 a 202647); testes da tabela final aprovados |
-| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | Executado em 22/11/2026 com 2 versões do SINAN preliminar de 2026 (cargas de 15/11 e 22/11); ver `docs/evidencias/R8/relatorio_revisao.md` |
+| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | Executado em 22/11/2026 com 2 versões do SINAN preliminar de 2026: a revisão é grande até 8 semanas de idade e desprezível a partir de 9 (ver `docs/evidencias/R8/relatorio_revisao.md`) |
 | R9 | Atualização agendada e monitoramento de frescor | Pipeline executado manualmente em 22/11/2026 (10 etapas registradas em `execucoes`, frescor `ok` nos 4 indicadores); o fluxo agendado do GitHub Actions ainda não rodou, pois depende do merge na `main` |
 | R10 | Painel de consulta por município, região de saúde e semana | Painel pronto e testado sobre dados sintéticos; capturas com dados reais em `docs/evidencias/R10/` |
 
 **R7.** A tabela `final.indicadores_municipio_semana` tem um registro por município (853) e semana desde 2022, em grade densa. Cada grupo de indicadores (casos do SINAN, InfoDengue, internações do SIH e leitos do CNES) traz o seu "dados até"; depois dele o valor é nulo, e não zero. O indicador de pressão é o número de internações por dengue na semana por leito clínico e pediátrico existente no município (ADR-0005). Não mede ocupação, porque as fontes abertas não a trazem. Município sem leito clínico ou pediátrico fica com pressão nula e sinalizado. Testes: chave única, grade completa (853 municípios por todas as semanas), faixas plausíveis, "dados até" preenchido e coerência da pressão e dos valores posteriores ao "dados até".
 
-**R8.** Cada versão do SINAN preliminar na bruta é recontada por município e semana dos primeiros sintomas e comparada com a versão mais recente do mesmo arquivo. A revisão é agregada pela idade da semana na data de publicação da versão. Na execução de 22/11/2026 a bruta tinha duas versões do arquivo de 2026 (cargas de 15/11 e de 22/11), o que permite uma primeira medida de revisão (resultado em `docs/evidencias/R8/relatorio_revisao.md`). Com apenas uma semana entre as versões, a medida cobre só as semanas recentes; o agendamento do R9 acumula as versões seguintes e a hipótese H4 ganha poder com o tempo.
+**R8.** Cada versão do SINAN preliminar na bruta é recontada por município e semana dos primeiros sintomas (sem descartados) e comparada com a versão mais recente do mesmo arquivo. A revisão é agregada pela idade da semana na data de publicação da versão. Em 22/11/2026 a bruta tinha duas versões do arquivo de 2026: a primeira publicada em 10/11 (carregada em 15/11) e a segunda publicada em 16/11 (carregada em 22/11). Resultado (`docs/evidencias/R8/relatorio_revisao.md`):
+
+| Idade da semana na versão 1 | Revisão estadual | Pares município-semana (10 casos ou mais) revistos em mais de 15% |
+|---|---|---|
+| 0 semana | +70,4% | 100% (29 pares) |
+| 1 semana | +21,8% | 56,0% (25 pares) |
+| 2 a 8 semanas | de -14,3% a +0,3% | de 15,4% a 23,8% |
+| 9 a 12 semanas | de -1,1% a 0,0% | 0% |
+| 13 semanas ou mais | -0,8% | 1,5% (1.148 pares) |
+
+As semanas mais recentes ganham casos: a versão 1 tinha 70,4% a menos de casos que a versão 2 na semana de idade 0 e 21,8% a menos na de idade 1. Nas semanas de 3 a 8 semanas o sinal se inverte (a versão 2 tem de 4% a 14% menos casos que a 1), compatível com casos descartados ou reclassificados depois da investigação; a causa não foi verificada. A partir de 9 semanas de idade a revisão é pequena (revisão absoluta média por município de 0,4% a 2,3%, e nenhum par acima de 15% nas idades de 9 a 12). Isso sustenta o uso de 9 semanas como critério de semana fechada, que vale para a marcação `casos_provisorio` da tabela final e para a elegibilidade do R6, coerente com a regra dos 60 dias.
+
+Limitação: são só duas versões, com 6 dias entre as publicações, e cada idade de 0 a 12 semanas corresponde a uma única semana epidemiológica (não é média ao longo do tempo). Os valores por idade são, portanto, indicativos; a medida se consolida com as versões acumuladas pelo agendamento do R9.
 
 **R9.** O pipeline executa a ingestão incremental de cada fonte (uma falha não impede as demais), o dbt com testes, o R8 e a verificação de frescor, e publica os Parquet do painel só depois disso. Cada etapa é registrada em `execucoes` e em `data/logs/execucoes.jsonl`. Tolerâncias de frescor: SINAN e InfoDengue, 14 dias; CNES, 75; SIH, 90; latência de carga de até 7 dias após a publicação da fonte (meta do objetivo). O fluxo do GitHub Actions roda todo dia e falha (e-mail de alerta) se uma etapa falhar ou uma fonte estiver atrasada. Em 22/11/2026 o pipeline foi executado manualmente com sucesso. Os dados persistem entre execuções por cache do Actions; se o cache for descartado, a execução refaz a carga completa de forma idempotente.
 
@@ -140,7 +152,7 @@ Evidência: `docs/evidencias/R6/relatorio_divergencia.md` e ADR-0004.
 - **Sem população.** Não há fonte de população no escopo, então não existe incidência por 100 mil; o ranking por incidência (H2) exige acrescentar as estimativas do IBGE.
 - **Pressão não é ocupação.** O indicador usa leitos existentes e internações por semana; não há ocupação diária nas fontes abertas (ADR-0005).
 - **Persistência do agendamento.** O cache do Actions pode ser descartado (inatividade de 7 dias ou limite de 10 GB); a recarga completa leva horas por causa da descompactação de .dbc em Python.
-- **Hipóteses.** H1 (correlação entre casos e internações), H2 e H3 (rankings por incidência e por pressão) e H4 (revisão das semanas preliminares) dependem da tabela final e do R8 e ainda não foram verificadas.
+- **Hipóteses.** H1 (correlação entre casos e internações), H2 e H3 (rankings por incidência e por pressão) e H4 (revisão das semanas preliminares) dependem da tabela final e do R8. A H4 teve uma primeira medida (seção 4.3, R8), com apenas duas versões; H1, H2 e H3 ainda não foram verificadas.
 
 ## 6. Reprodutibilidade
 

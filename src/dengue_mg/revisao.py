@@ -103,7 +103,7 @@ def relatorio(c, saida: Optional[str] = None) -> str:
     else:
         res = resumo_por_idade(c)
         linhas += ["Cada versão anterior é comparada com a mais recente do mesmo arquivo. Idade = semanas completas entre o fim da semana "
-                   "epidemiológica e a publicação da versão (%d+ agrupa as mais antigas). Revisão positiva = casos que a versão ainda não tinha." % (IDADE_MAX + 1), "",
+                   "epidemiológica e a publicação da versão (%d+ agrupa as mais antigas). Revisão positiva = casos que a versão ainda não tinha; negativa = casos que a versão tinha e a mais recente não tem (por exemplo, descartados ou reclassificados depois)." % (IDADE_MAX + 1), "",
                    "| Idade (semanas) | Semanas comparadas | Revisão média estadual | Pares município-semana (≥%d casos) | Revisão absoluta média por município | Pares revistos em mais de %d%% |" % (MIN_CASOS, int(LIMITE * 100)),
                    "|---|---|---|---|---|---|"]
         pct = lambda x: "-" if x is None else "%.1f%%" % (100 * x)
@@ -115,8 +115,9 @@ def relatorio(c, saida: Optional[str] = None) -> str:
             w = csv.writer(f)
             w.writerow(["idade_semanas", "semanas", "revisao_estadual_media", "pares_municipais", "revisao_municipal_abs_media", "pct_pares_acima_do_limite"])
             w.writerows(res)
-        linhas += ["", "Leitura: a revisão tende a zero com a idade da semana; a idade a partir da qual fica abaixo de %d%% mostra quando o valor "
-                   "pode ser tratado como fechado (a regra dos 60 dias prevê cerca de 9 semanas)." % int(LIMITE * 100)]
+        linhas += ["", "Leitura: a idade a partir da qual a revisão absoluta e a parcela de pares acima de %d%% ficam próximas de zero mostra quando a semana "
+                   "pode ser tratada como fechada (a regra dos 60 dias prevê cerca de 9 semanas). Cada idade resume uma semana por par de versões, "
+                   "então poucas versões dão uma medida só indicativa." % int(LIMITE * 100)]
     os.makedirs(os.path.dirname(saida), exist_ok=True)
     with open(saida, "w", encoding="utf-8") as f:
         f.write("\n".join(linhas) + "\n")
