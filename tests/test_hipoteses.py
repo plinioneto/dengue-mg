@@ -65,4 +65,5 @@ def test_relatorio_grava_markdown(c, tmp_path):
     from dengue_mg import hipoteses
     saida = hipoteses.relatorio(c, str(tmp_path / "r.md"))
     txt = open(saida, encoding="utf-8").read()
+    assert "| 0 | 40 |" in txt and "40,00" not in txt   # contagens aparecem como inteiros
     assert "H1: correlação entre casos e internações" in txt and "H3: ranking por pressão" in txt and "Defasagem com maior mediana" in txt

@@ -27,6 +27,7 @@ MIN_SEMANAS_COM_CASOS = 20      # município entra na correlação com ao menos 
 MIN_INTERNACOES = 10            # e ao menos 10 internações somadas no período
 TOPO = 20
 MIN_INTERNACOES_RANKING = 5     # mesmo piso do painel nos critérios de pressão
+COLUNAS_INTEIRAS = {"defasagem_semanas", "semanas", "ano", "municipios", "municipios_comparados"}
 
 
 def carregar(c) -> pd.DataFrame:
@@ -122,6 +123,8 @@ def _tabela(df: pd.DataFrame, formatos: Optional[dict] = None) -> str:
             return "-"
         if col in formatos:
             return formatos[col](v)
+        if col in COLUNAS_INTEIRAS or col.startswith("topo"):
+            return str(int(v))
         return ("%.2f" % v).replace(".", ",") if isinstance(v, float) else str(v)
     return cab + "\n".join("| " + " | ".join(f(c, v) for c, v in r.items()) + " |" for _, r in df.iterrows()) + "\n"
 
