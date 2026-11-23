@@ -11,7 +11,7 @@ import duckdb
 import pandas as pd
 import streamlit as st
 
-from dengue_mg import consulta
+from dengue_mg import ajuda, consulta
 
 st.set_page_config(page_title="Dengue e capacidade assistencial em MG", layout="wide")
 
@@ -37,6 +37,8 @@ except duckdb.Error:
 st.title("Pressão da dengue na capacidade assistencial: Minas Gerais")
 st.caption("Dados abertos (SINAN, CNES, SIH e InfoDengue), agregados por município e semana epidemiológica. "
            "A pressão é **internações por dengue na semana por leito clínico e pediátrico**; não é taxa de ocupação (ADR-0005).")
+with st.popover("Como a pressão é calculada?"):
+    st.markdown(ajuda.PRESSAO)
 
 with st.sidebar:
     st.header("Recorte")
@@ -68,7 +70,9 @@ for col_ui, (rot, col, chave) in zip(k, [("Casos notificados (SINAN)", "casos_no
                                           ("Pressão (internações por leito)", "pressao_internacoes_por_leito", "pressao")]):
     val, sem = ultimo(col)
     col_ui.metric(rot, "-" if val is None else ("%.2f" % val if col == "pressao_internacoes_por_leito" else "{:,.0f}".format(val).replace(",", ".")),
-                  help="Última semana do recorte com valor conhecido: %s" % (rotulo.get(int(sem)) if sem else "nenhuma"))
+                  help=("Última semana completa do recorte com valor conhecido: %s." % (rotulo.get(int(sem)) if sem else "nenhuma"))
+                  + (" Pressão = internações por dengue na semana ÷ leitos clínicos e pediátricos existentes (veja \"Como a pressão é calculada?\" no topo)."
+                     if col == "pressao_internacoes_por_leito" else ""))
     col_ui.caption("Dados até %s" % (da[chave].strftime("%d/%m/%Y") if da[chave] else "-"))
 
 if df.empty:

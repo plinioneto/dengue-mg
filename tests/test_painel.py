@@ -53,6 +53,8 @@ def test_app_executa_sem_erro(final, monkeypatch):
     assert not at.exception, [e.value for e in at.exception]
     assert "Pressão da dengue" in at.title[0].value
     assert any("Dados até" in c.value for c in at.caption)
+    # ajuda: a explicação do indicador de pressão está no painel (popover) e traz a fórmula
+    assert any("internações por dengue na semana ÷ leitos clínicos e pediátricos" in m.value for m in at.markdown)
 
     # ranking com o piso de internações em 0: o município 0 aparece (gráfico e tabela renderizam sem erro)
     at.number_input[0].set_value(0).run()
