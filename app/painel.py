@@ -69,7 +69,7 @@ for col_ui, (rot, col, chave) in zip(k, [("Casos notificados (SINAN)", "casos_no
                                           ("Leitos clínicos e pediátricos (CNES)", "leitos_clinicos_pediatricos", "leitos"),
                                           ("Pressão (internações por leito)", "pressao_internacoes_por_leito", "pressao")]):
     val, sem = ultimo(col)
-    col_ui.metric(rot, "-" if val is None else ("%.2f" % val if col == "pressao_internacoes_por_leito" else "{:,.0f}".format(val).replace(",", ".")),
+    col_ui.metric(rot, "-" if val is None else ("%.4f" % val if col == "pressao_internacoes_por_leito" else "{:,.0f}".format(val).replace(",", ".")),
                   help=("Última semana completa do recorte com valor conhecido: %s." % (rotulo.get(int(sem)) if sem else "nenhuma"))
                   + (" Pressão = internações por dengue na semana ÷ leitos clínicos e pediátricos existentes (veja \"Como a pressão é calculada?\" no topo)."
                      if col == "pressao_internacoes_por_leito" else ""))
