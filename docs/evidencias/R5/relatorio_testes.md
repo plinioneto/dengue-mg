@@ -1,17 +1,18 @@
 # Relatório de execução dos testes (R5)
 
-Gerado em 15/11/2026 15:09. Total: 68 testes (pass: 66, warn: 2).
+Gerado em 22/11/2026 21:36. Total: 86 testes (pass: 84, warn: 2).
 
 | Teste | Resultado | Linhas com falha |
 |---|---|---|
 | data_no_periodo_stg_sih_dengue_dt_inter | warn | 24 |
-| relationships_stg_sinan_municipio_residencia_6__cod6__ref_dim_municipio_ | warn | 4919 |
+| relationships_stg_sinan_municipio_residencia_6__cod6__ref_dim_municipio_ | warn | 4924 |
 | accepted_values_stg_sih_dengue_morte__False__0__1 | pass | 0 |
 | accepted_values_stg_sinan_fonte__sinan_final__sinan_prelim | pass | 0 |
 | chave_unica_fct_casos_semana_geocodigo__semana_id | pass | 0 |
 | chave_unica_fct_infodengue_semana_geocodigo__semana_id | pass | 0 |
 | chave_unica_fct_internacoes_semana_geocodigo__semana_id | pass | 0 |
 | chave_unica_fct_leitos_mes_geocodigo__competencia | pass | 0 |
+| chave_unica_indicadores_municipio_semana_geocodigo__semana_id | pass | 0 |
 | chave_unica_rec_sinan_infodengue_geocodigo__semana_id | pass | 0 |
 | data_no_periodo_stg_cnes_leitos_competencia | pass | 0 |
 | data_no_periodo_stg_sinan_dt_notific | pass | 0 |
@@ -24,11 +25,17 @@ Gerado em 15/11/2026 15:09. Total: 68 testes (pass: 66, warn: 2).
 | entre_fct_infodengue_semana_casos_provaveis__0 | pass | 0 |
 | entre_fct_internacoes_semana_internacoes__1 | pass | 0 |
 | entre_fct_leitos_mes_leitos_existentes__0 | pass | 0 |
+| entre_indicadores_municipio_semana_casos_notificados__200000__0 | pass | 0 |
+| entre_indicadores_municipio_semana_internacoes__20000__0 | pass | 0 |
+| entre_indicadores_municipio_semana_leitos_clinicos_pediatricos__5000__0 | pass | 0 |
+| entre_indicadores_municipio_semana_pressao_internacoes_por_leito__1000__0 | pass | 0 |
 | entre_rec_sinan_infodengue_divergencia__0 | pass | 0 |
 | entre_stg_cnes_leitos_qt_exist__5000__0 | pass | 0 |
 | entre_stg_infodengue_casos__0 | pass | 0 |
 | entre_stg_sih_dengue_dias_perm__365__0 | pass | 0 |
 | fatos_valores_plausiveis | pass | 0 |
+| final_grade_completa | pass | 0 |
+| final_pressao_coerente | pass | 0 |
 | not_null_dim_municipio_cod6 | pass | 0 |
 | not_null_dim_municipio_geocodigo | pass | 0 |
 | not_null_dim_municipio_municipio | pass | 0 |
@@ -47,6 +54,15 @@ Gerado em 15/11/2026 15:09. Total: 68 testes (pass: 66, warn: 2).
 | not_null_fct_leitos_mes_dados_ate | pass | 0 |
 | not_null_fct_leitos_mes_geocodigo | pass | 0 |
 | not_null_fct_leitos_mes_leitos_existentes | pass | 0 |
+| not_null_indicadores_municipio_semana_casos_dados_ate | pass | 0 |
+| not_null_indicadores_municipio_semana_casos_provisorio | pass | 0 |
+| not_null_indicadores_municipio_semana_geocodigo | pass | 0 |
+| not_null_indicadores_municipio_semana_infodengue_dados_ate | pass | 0 |
+| not_null_indicadores_municipio_semana_internacoes_dados_ate | pass | 0 |
+| not_null_indicadores_municipio_semana_leitos_dados_ate | pass | 0 |
+| not_null_indicadores_municipio_semana_pressao_dados_ate | pass | 0 |
+| not_null_indicadores_municipio_semana_regiao_saude | pass | 0 |
+| not_null_indicadores_municipio_semana_semana_id | pass | 0 |
 | not_null_regiao_saude_mg_cod6 | pass | 0 |
 | not_null_regiao_saude_mg_macrorregiao_saude | pass | 0 |
 | not_null_regiao_saude_mg_regiao_saude | pass | 0 |
@@ -63,6 +79,8 @@ Gerado em 15/11/2026 15:09. Total: 68 testes (pass: 66, warn: 2).
 | relationships_fct_internacoes_semana_geocodigo__geocodigo__ref_dim_municipio_ | pass | 0 |
 | relationships_fct_internacoes_semana_semana_id__semana_id__ref_dim_semana_epi_ | pass | 0 |
 | relationships_fct_leitos_mes_geocodigo__geocodigo__ref_dim_municipio_ | pass | 0 |
+| relationships_indicadores_municipio_semana_geocodigo__geocodigo__ref_dim_municipio_ | pass | 0 |
+| relationships_indicadores_municipio_semana_semana_id__semana_id__ref_dim_semana_epi_ | pass | 0 |
 | relationships_stg_cnes_leitos_municipio_6__cod6__ref_dim_municipio_ | pass | 0 |
 | relationships_stg_infodengue_geocodigo__geocodigo__ref_dim_municipio_ | pass | 0 |
 | relationships_stg_infodengue_semana_id__semana_id__ref_dim_semana_epi_ | pass | 0 |

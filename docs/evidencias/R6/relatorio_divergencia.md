@@ -1,6 +1,6 @@
 # Reconciliação SINAN x InfoDengue (R6)
 
-Gerado em 15/11/2026 15:09. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade.
+Gerado em 22/11/2026 21:36. Divergência = |SINAN - InfoDengue| / SINAN. Par elegível: SINAN com 10 casos ou mais e semana com mais de 9 semanas de idade.
 
 ## Meta (90% dos pares com divergência até 15%)
 
@@ -10,8 +10,8 @@ Gerado em 15/11/2026 15:09. Divergência = |SINAN - InfoDengue| / SINAN. Par ele
 | 2023 | 5318 | 4582 | 86.2% | 90% | 0.2% |
 | 2024 | 11578 | 10853 | 93.7% | 90% | 0.0% |
 | 2025 | 2784 | 2525 | 90.7% | 90% | 0.0% |
-| 2026 | 1172 | 994 | 84.8% | 90% | 0.0% |
-| total | 22731 | 20653 | 90.9% | 90% | 0.0% |
+| 2026 | 1176 | 996 | 84.7% | 90% | 0.0% |
+| total | 22735 | 20655 | 90.9% | 90% | 0.0% |
 
 ## Sensibilidade ao limite de divergência
 
@@ -31,20 +31,20 @@ Limite calibrado no R6 (ADR-0004): 15%, o menor entre 5%, 10% e 15% que atinge 9
 | Bertópolis | 5 | 0.0 |
 | Cambuí | 11 | 18.2 |
 | Uberaba | 162 | 28.4 |
-| Belo Horizonte | 244 | 35.7 |
+| Belo Horizonte | 245 | 36.3 |
 | Antônio Dias | 10 | 40.0 |
-| Contagem | 183 | 41.5 |
+| Contagem | 182 | 41.2 |
 | Chiador | 12 | 41.7 |
+| Ribeirão das Neves | 112 | 44.6 |
 | Matozinhos | 24 | 45.8 |
 | Simão Pereira | 13 | 46.2 |
-| Ribeirão das Neves | 113 | 47.8 |
 | Vespasiano | 48 | 47.9 |
 | Fama | 6 | 50.0 |
 | Abaeté | 27 | 51.9 |
 | Além Paraíba | 44 | 54.5 |
 | Esmeraldas | 43 | 60.5 |
-| Nazareno | 13 | 61.5 |
 | Funilândia | 13 | 61.5 |
+| Nazareno | 13 | 61.5 |
 | Presidente Olegário | 19 | 63.2 |
 | Pirapora | 69 | 63.8 |
 | Berilo | 14 | 64.3 |
