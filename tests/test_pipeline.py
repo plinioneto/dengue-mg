@@ -39,3 +39,46 @@ def test_etapa_com_falha_e_registrada_e_nao_para_as_outras(banco):
     assert c.execute("SELECT etapa, status FROM execucoes ORDER BY etapa").fetchall() == [("ingestao:fonte_ruim", "erro"), ("outra", "ok")]
     assert c.execute("SELECT count(*) FROM execucoes WHERE status = 'erro' AND detalhe LIKE '%sem rede%'").fetchone()[0] == 1
     c.close()
+
+
+def _preparar_frescor(c, cargas, recente):
+    """Tabela final mínima (só os 'dados até', todos dentro da tolerância de idade em `recente`) e cargas: (fonte, publicada, carregada_em)."""
+    c.execute("CREATE SCHEMA IF NOT EXISTS final")
+    c.execute("""CREATE OR REPLACE TABLE final.indicadores_municipio_semana AS SELECT
+        CAST(? AS DATE) AS casos_dados_ate, CAST(? AS DATE) AS infodengue_dados_ate,
+        CAST(? AS DATE) - 40 AS internacoes_dados_ate, CAST(? AS DATE) - 40 AS leitos_dados_ate""", [recente] * 4)
+    for i, (fonte, pub, carga) in enumerate(cargas):
+        c.execute("INSERT INTO bronze_loads VALUES (?,?,?,?,?,?,?,?,?)", [fonte, "f%d" % i, "%064x" % i, 0, pub, 10, "x", carga, ""])
+
+
+def test_frescor_latencia_nao_se_aplica_na_carga_inicial(tmp_path, monkeypatch):
+    """Falso positivo visto no 1º fluxo do GitHub: carga do zero de arquivos antigos não é atraso de atualização."""
+    import datetime as dt
+    monkeypatch.setenv("DENGUE_DATA", str(tmp_path / "data"))
+    from dengue_mg import bronze, frescor
+    importlib.reload(bronze)
+    c = bronze.con()
+    carga = dt.datetime(2026, 2, 1, 9, 0)
+    _preparar_frescor(c, [("sinan_prelim", dt.date(2026, 1, 10), carga), ("infodengue", dt.date(2026, 2, 1), carga),
+                          ("cnes_lt", dt.date(2026, 1, 15), carga), ("sih_rd", dt.date(2026, 1, 5), carga)], recente=dt.date(2026, 1, 28))
+    linhas = {l[0]: l for l in frescor.verificar(c, dt.date(2026, 2, 1))}
+    # publicado há 22 dias e carregado agora: sem a regra, seria "atrasado" por latência; na carga inicial a latência é nula
+    assert linhas["casos_sinan"][7] is None and linhas["casos_sinan"][-1] is True and linhas["casos_sinan"][9] == "ok"
+    c.close()
+
+
+def test_frescor_latencia_vale_depois_da_carga_inicial(tmp_path, monkeypatch):
+    import datetime as dt
+    monkeypatch.setenv("DENGUE_DATA", str(tmp_path / "data"))
+    from dengue_mg import bronze, frescor
+    importlib.reload(bronze)
+    c = bronze.con()
+    inicial = dt.datetime(2026, 2, 1, 9, 0)
+    _preparar_frescor(c, [("infodengue", dt.date(2026, 2, 1), inicial), ("cnes_lt", dt.date(2026, 1, 15), inicial), ("sih_rd", dt.date(2026, 1, 5), inicial),
+                          ("sinan_prelim", dt.date(2026, 1, 10), inicial),
+                          # versão nova do preliminar: publicada em 03/02 e só carregada em 15/02 (12 dias depois)
+                          ("sinan_prelim", dt.date(2026, 2, 3), dt.datetime(2026, 2, 15, 9, 0))], recente=dt.date(2026, 2, 10))
+    linhas = {l[0]: l for l in frescor.verificar(c, dt.date(2026, 2, 15))}
+    assert linhas["casos_sinan"][7] == 12 and linhas["casos_sinan"][-1] is False and linhas["casos_sinan"][9] == "atrasado"
+    assert linhas["infodengue"][9] == "ok"   # mesma idade dos dados, mas sem atraso de carga
+    c.close()

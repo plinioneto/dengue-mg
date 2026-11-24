@@ -1,0 +1,37 @@
+Primeira execução do fluxo agendado no GitHub Actions (disparo manual, workflow_dispatch), sem cache: carga completa do zero.
+Repositório plinioneto/dengue-mg, workflow "atualizacao", run 45283259350, job 138072918478, commit e07e9ad (main).
+Início 22:49 UTC, fim 00:17 UTC; o passo "Atualizar" levou 1h27. Excertos do log (cortes indicados por "...").
+
+Passo "Verificar acesso às fontes": sucesso em 5 s (FTP do DATASUS, IBGE e InfoDengue alcançados do servidor do GitHub).
+
+Execução 20261123T224951-66250e
+[OK] ingestao:ibge: 1s
+[OK] ingestao:cnes_lt: 163s
+[OK] ingestao:sih_rd: 2025s
+[+] sinan_final DENGBR22.dbc: 89613 linhas em 143s -> data/bronze/sinan_final/DENGBR22__1a5a3a1b.parquet
+[+] sinan_final DENGBR23.dbc: 407238 linhas em 155s -> data/bronze/sinan_final/DENGBR23__c0e7f95e.parquet
+[+] sinan_final DENGBR24.dbc: 1661600 linhas em 675s -> data/bronze/sinan_final/DENGBR24__cd66ee77.parquet
+[+] sinan_final DENGBR25.dbc: 163010 linhas em 156s -> data/bronze/sinan_final/DENGBR25__87831a1e.parquet
+[OK] ingestao:sinan_final: 1760s
+[+] sinan_prelim DENGBR26.dbc: 67456 linhas em 54s -> data/bronze/sinan_prelim/DENGBR26__3c93a3b3.parquet
+[OK] ingestao:sinan_prelim: 92s
+[+] infodengue: 216662 linhas
+[OK] ingestao:infodengue: 1192s
+...
+00:17:10  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=1
+00:17:13  Done. PASS=15 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=15
+00:17:16  Completed with 2 warnings:
+00:17:16  Done. PASS=90 WARN=2 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=92
+[OK] tratada_e_final: 11s seed, run e test aprovados
+[OK] revisao_sinan: 0s 1 versões; relatório /home/runner/work/dengue-mg/dengue-mg/docs/evidencias/R8/relatorio_revisao.md
+[OK] frescor: 0s casos_sinan=ok (dados até 2026-11-14); infodengue=ok (dados até 2026-11-14); leitos_cnes=ok (dados até 2026-10-01); internacoes_sih=atrasado (dados até 2026-09-27)
+[OK] publicacao: 0s indicadores_municipio_semana.parquet, frescor.parquet, fluxo_internacoes_ano.parquet
+Cache saved with key: dados-45283259350 (84,7 MB)
+Artifact log-execucoes-45283259350 successfully uploaded (1180 bytes)
+Process completed with exit code 1.   <- passo final "Falhar se alguma etapa falhou ou há fonte atrasada" (codigo_saida: 2)
+
+Observações
+- Todas as etapas do pipeline terminaram em [OK]; o código de saída 2 veio de "internacoes_sih=atrasado".
+- Os dados do SIH têm 57 dias (tolerância de 90): o "atrasado" veio da latência de carga (carga em 23/11 de arquivo publicado em 10/11 = 13 dias, acima do limite de 7).
+  Numa carga do zero, a data de carga não reflete atraso de atualização: falso positivo do monitor, corrigido em frescor.py (latência não se aplica na carga inicial).
+- Os arquivos do SINAN têm o mesmo prefixo de SHA-256 da carga feita na máquina do autor (1a5a3a1b, c0e7f95e, cd66ee77, 87831a1e, 3c93a3b3): a carga é reprodutível.

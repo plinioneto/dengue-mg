@@ -10,7 +10,7 @@
 | R6 | Reconciliação dos casos SINAN com InfoDengue | S2 | Relatório de divergência por município e semana | H6, Objetivo (M) | Executado; limite calibrado para 15%: 90,9% dos pares dentro (meta 90%); 75,3% dentro de 5% (ADR-0004) |
 | R7 | Tabela final por município e semana: casos, internações, leitos, indicador de pressão, "dados até" por indicador | S3 | Tabela final e dicionário de dados | H1 a H3 | Feito (executado em 22/11: 218.368 linhas, 853 municípios x 256 semanas; ADR-0005) |
 | R8 | Versionamento das cargas e medição da revisão das semanas preliminares | S3 | Relatório de revisão média por semana | H4 | Executado em 22/11 com 2 versões do SINAN preliminar; semanas entre versões ainda poucas (o agendamento acumula mais) |
-| R9 | Atualização automática agendada e monitoramento de frescor | S3 | Fluxo agendado e log de execuções | Objetivo (M, frescor) | Pipeline executado em 22/11 (log em `execucoes`); falta a primeira execução do fluxo agendado (depende do merge na `main`) |
+| R9 | Atualização automática agendada e monitoramento de frescor | S3 | Fluxo agendado e log de execuções | Objetivo (M, frescor) | Pipeline executado em 22/11 e fluxo do GitHub executado em 23/11 (carga completa do zero em 1h27, todas as etapas ok); a execução saiu com código 2 por um falso positivo do monitor de frescor, já corrigido; falta repetir o fluxo e anexar o log (docs/evidencias/R9/) |
 | R10 | Painel de consulta por município, região de saúde e semana | S3 | Capturas do painel | Objetivo (S) | Código e testes prontos; faltam as capturas com dados reais |
 
 Se o tempo faltar, o corte é pela ordem inversa de prioridade: primeiro R10, depois R8.

@@ -5,7 +5,9 @@ Tolerâncias (dias) derivadas da periodicidade medida em 25/10/2026 (`CLAUDE.md`
 - InfoDengue: semanal; "dados até" é o fim da última semana carregada -> 14.
 - CNES: mensal, publicado em meados do mês seguinte; "dados até" é o primeiro dia da competência -> 75.
 - SIH: mensal, cerca de 2 meses de atraso -> 90.
-Meta do objetivo: atualizar em até 7 dias após cada publicação da fonte (`LIMITE_LATENCIA`), medida em `bronze_loads`.
+Meta do objetivo: atualizar em até 7 dias após cada publicação da fonte (`LIMITE_LATENCIA`), medida em `bronze_loads` (data da carga menos
+data de publicação do arquivo mais recente). Na **carga inicial** (a mesma execução que cria o banco, ou refaz o banco depois de perder o
+cache) a data da carga não reflete o atraso real de atualização, então a latência não se aplica (nula) e só vale a idade do "dados até".
 """
 import datetime as dt
 from typing import Optional
@@ -24,7 +26,8 @@ def verificar(c, hoje: Optional[dt.date] = None) -> list:
     c.execute("""CREATE OR REPLACE TABLE final.frescor (
         indicador VARCHAR, fonte VARCHAR, dados_ate DATE, idade_dias INTEGER, tolerancia_dias INTEGER,
         ultima_publicacao DATE, ultima_carga TIMESTAMP, latencia_dias INTEGER, limite_latencia_dias INTEGER,
-        situacao VARCHAR, verificado_em TIMESTAMP)""")
+        situacao VARCHAR, verificado_em TIMESTAMP, carga_inicial BOOLEAN)""")
+    primeira = c.execute("SELECT min(loaded_at) FROM bronze_loads").fetchone()[0]
     linhas = []
     for ind, col in COLUNAS_DADOS_ATE.items():
         ate = c.execute("SELECT max(%s) FROM final.indicadores_municipio_semana" % col).fetchone()[0]
@@ -33,13 +36,14 @@ def verificar(c, hoje: Optional[dt.date] = None) -> list:
             "SELECT remote_published, loaded_at FROM bronze_loads WHERE source = ? AND \"rows\" > 0 "
             "ORDER BY remote_published DESC NULLS LAST, loaded_at DESC LIMIT 1", [fonte]).fetchone() or (None, None)
         idade = (hoje - ate).days if ate else None
-        latencia = (carga.date() - pub).days if pub and carga else None
+        carga_inicial = bool(carga and primeira and (carga - primeira) < dt.timedelta(days=1))
+        latencia = (carga.date() - pub).days if pub and carga and not carga_inicial else None
         if ate is None:
             situacao = "sem_dados"
         elif idade > TOLERANCIA_DIAS[ind] or (latencia is not None and latencia > LIMITE_LATENCIA):
             situacao = "atrasado"
         else:
             situacao = "ok"
-        linhas.append((ind, fonte, ate, idade, TOLERANCIA_DIAS[ind], pub, carga, latencia, LIMITE_LATENCIA, situacao, dt.datetime.now()))
-    c.executemany("INSERT INTO final.frescor VALUES (?,?,?,?,?,?,?,?,?,?,?)", linhas)
+        linhas.append((ind, fonte, ate, idade, TOLERANCIA_DIAS[ind], pub, carga, latencia, LIMITE_LATENCIA, situacao, dt.datetime.now(), carga_inicial))
+    c.executemany("INSERT INTO final.frescor VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", linhas)
     return linhas
