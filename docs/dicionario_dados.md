@@ -37,7 +37,7 @@
 
 ## Tabelas auxiliares
 
-- `final.frescor` (uma linha por indicador): `indicador`, `fonte`, `dados_ate`, `idade_dias`, `tolerancia_dias`, `ultima_publicacao`, `ultima_carga`, `latencia_dias` (da publicação da fonte à carga; meta de até 7), `situacao` (`ok`, `atrasado` ou `sem_dados`), `verificado_em`.
+- `final.frescor` (uma linha por indicador): `indicador`, `fonte`, `dados_ate`, `idade_dias`, `tolerancia_dias`, `ultima_publicacao`, `ultima_carga`, `latencia_dias` (da publicação da fonte à carga; meta de até 7; nula na carga inicial, quando a data de carga não indica atraso), `carga_inicial`, `situacao` (`ok`, `atrasado` ou `sem_dados`), `verificado_em`.
 - `final.fluxo_internacoes_ano` (apoio à H3): contagem de internações por dengue por ano, município de residência e município de ocorrência (com as regiões de saúde de cada um); só agregados. Residência fora de MG ou ignorada aparece como "Fora de MG ou ignorado".
 - `final.revisao_sinan_versoes` (R8): casos por município e semana em cada versão do SINAN preliminar.
 - `final.rec_sinan_infodengue` e `final.rec_resumo` (R6): reconciliação SINAN x InfoDengue.
