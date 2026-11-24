@@ -1,6 +1,6 @@
 Terceira execução do fluxo agendado no GitHub Actions (disparo manual), com o cache da segunda: VERDE (código de saída 0).
 Repositório plinioneto/dengue-mg, workflow "atualizacao", run 45302636950, job 138138678428, commit e8f5df4 (main).
-Início 01:07 UTC, fim 01:27 UTC; o passo "Atualizar" levou 19 min (execução incremental). Excertos do log.
+Início 01:07 UTC de 24/11 (22:07 de 23/11 em Brasília), fim 01:27 UTC; o passo "Atualizar" levou 19 min (execução incremental). Excertos do log.
 
 Cache hit for restore-key: dados-45297941073 (96 MB); cache restaurado.
 
@@ -23,7 +23,7 @@ Cache saved with key: dados-45302636950
 Passo final "Falhar se alguma etapa falhou ou há fonte atrasada": sucesso
 
 Resumo das três execuções do fluxo
-1) run 45283259350 (23/11): carga completa do zero em 1h27; todas as etapas ok; código 2 por falso positivo da latência de carga na carga inicial.
-2) run 45297941073 (24/11): incremental em 15 min; código 2 por leitura da coluna errada do quadro de frescor (defeito da correção anterior).
-3) run 45302636950 (24/11): incremental em 19 min; todas as etapas ok, as 4 fontes em "ok" e código 0.
+1) run 45283259350 (23/11, 19:49 em Brasília): carga completa do zero em 1h27; todas as etapas ok; código 2 por falso positivo da latência de carga na carga inicial.
+2) run 45297941073 (23/11, 21:32 em Brasília): incremental em 15 min; código 2 por leitura da coluna errada do quadro de frescor (defeito da correção anterior).
+3) run 45302636950 (23/11, 22:07 em Brasília): incremental em 19 min; todas as etapas ok, as 4 fontes em "ok" e código 0.
 Observação: "1 versões" na revisão do SINAN é esperado: a bruta do GitHub nasceu na 1ª execução e o arquivo preliminar não mudou na fonte desde então; as versões se acumulam com as execuções diárias agendadas.
