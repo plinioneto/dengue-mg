@@ -101,8 +101,8 @@ def _frescor(frescor, hoje, atrasadas):
         linhas = frescor.verificar(c, dt.date.fromisoformat(hoje) if hoje else None)
     finally:
         c.close()
-    atrasadas.extend(l[0] for l in linhas if l[-2] != "ok")
-    return "; ".join("%s=%s (dados até %s)" % (l[0], l[-2], l[2]) for l in linhas)
+    atrasadas.extend(l.indicador for l in linhas if l.situacao != "ok")
+    return "; ".join("%s=%s (dados até %s)" % (l.indicador, l.situacao, l.dados_ate) for l in linhas)
 
 
 def main(argv=None):
