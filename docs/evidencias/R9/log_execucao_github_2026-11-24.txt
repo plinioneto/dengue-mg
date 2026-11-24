@@ -1,0 +1,27 @@
+Segunda execução do fluxo agendado no GitHub Actions (disparo manual), com o cache da primeira.
+Repositório plinioneto/dengue-mg, workflow "atualizacao", run 45297941073, job 138122981863, commit 9aa5a85 (main).
+Início 00:32 UTC, fim 00:48 UTC; o passo "Atualizar" levou 15 min (execução incremental). Excertos do log.
+
+Cache hit for restore-key: dados-45283259350 (84,7 MB); cache restaurado.
+
+Execução 20261124T003250-382527
+[OK] ingestao:ibge: 0s
+[OK] ingestao:cnes_lt: 2s
+[OK] ingestao:sih_rd: 3s
+[OK] ingestao:sinan_final: 2s
+[OK] ingestao:sinan_prelim: 2s
+[OK] ingestao:infodengue: 900s
+00:48:04  Done. PASS=15 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=15
+00:48:07  Done. PASS=90 WARN=2 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=92
+[OK] tratada_e_final: 8s seed, run e test aprovados
+[OK] frescor: 0s casos_sinan=2026-11-24 00:48:07.067610 (dados até 2026-11-14); infodengue=2026-11-24 00:48:07.068917 (dados até 2026-11-14); ...
+[OK] publicacao: 0s indicadores_municipio_semana.parquet, frescor.parquet, fluxo_internacoes_ano.parquet
+Cache saved with key: dados-45297941073
+Process completed with exit code 1.   <- passo final (codigo_saida: 2)
+
+Observações
+- A execução incremental funcionou: as fontes que não mudaram foram puladas em 0 a 3 s, e só o InfoDengue (consulta à API, 900 s) levou tempo.
+- O código de saída 2 voltou por um defeito do pipeline, não por fonte atrasada: ao acrescentar a coluna `carga_inicial` ao quadro de frescor, o pipeline passou a ler a coluna
+  errada como "situação" (a data da verificação, em vez de "ok"), e todas as fontes eram contadas como atrasadas. O log mostra isso: "casos_sinan=2026-11-24 00:48:07".
+- Correção: o quadro de frescor passou a ser um namedtuple (acesso por nome) e há um teste de regressão que exige código de saída 0 quando todas as fontes estão em dia
+  (o teste falha com o código antigo, com código de saída 2, e passa com a correção).

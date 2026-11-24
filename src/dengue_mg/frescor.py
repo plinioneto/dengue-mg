@@ -10,6 +10,7 @@ data de publicação do arquivo mais recente). Na **carga inicial** (a mesma exe
 cache) a data da carga não reflete o atraso real de atualização, então a latência não se aplica (nula) e só vale a idade do "dados até".
 """
 import datetime as dt
+from collections import namedtuple
 from typing import Optional
 
 TOLERANCIA_DIAS = {"casos_sinan": 14, "infodengue": 14, "leitos_cnes": 75, "internacoes_sih": 90}
@@ -17,6 +18,8 @@ COLUNAS_DADOS_ATE = {"casos_sinan": "casos_dados_ate", "infodengue": "infodengue
                      "leitos_cnes": "leitos_dados_ate", "internacoes_sih": "internacoes_dados_ate"}
 FONTE_BRUTA = {"casos_sinan": "sinan_prelim", "infodengue": "infodengue", "leitos_cnes": "cnes_lt", "internacoes_sih": "sih_rd"}
 LIMITE_LATENCIA = 7
+Linha = namedtuple("Linha", "indicador fonte dados_ate idade_dias tolerancia_dias ultima_publicacao ultima_carga latencia_dias "
+                              "limite_latencia_dias situacao verificado_em carga_inicial")
 
 
 def verificar(c, hoje: Optional[dt.date] = None) -> list:
@@ -44,6 +47,6 @@ def verificar(c, hoje: Optional[dt.date] = None) -> list:
             situacao = "atrasado"
         else:
             situacao = "ok"
-        linhas.append((ind, fonte, ate, idade, TOLERANCIA_DIAS[ind], pub, carga, latencia, LIMITE_LATENCIA, situacao, dt.datetime.now(), carga_inicial))
+        linhas.append(Linha(ind, fonte, ate, idade, TOLERANCIA_DIAS[ind], pub, carga, latencia, LIMITE_LATENCIA, situacao, dt.datetime.now(), carga_inicial))
     c.executemany("INSERT INTO final.frescor VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", linhas)
     return linhas

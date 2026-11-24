@@ -82,3 +82,18 @@ def test_frescor_latencia_vale_depois_da_carga_inicial(tmp_path, monkeypatch):
     assert linhas["casos_sinan"][7] == 12 and linhas["casos_sinan"][-1] is False and linhas["casos_sinan"][9] == "atrasado"
     assert linhas["infodengue"][9] == "ok"   # mesma idade dos dados, mas sem atraso de carga
     c.close()
+
+
+def test_pipeline_sai_com_zero_quando_tudo_esta_em_dia(banco):
+    """Regressão: o código de saída 2 só vale para fonte realmente atrasada (o 2º fluxo do GitHub saiu com 2 por ler a coluna errada)."""
+    from dengue_mg import bronze, pipeline, tratada
+    importlib.reload(tratada)
+    importlib.reload(pipeline)
+    # com a data de referência logo depois dos "dados até" sintéticos (17/01), nenhuma fonte passa da tolerância
+    assert pipeline.executar([], "2026-01-20", tolerar_atraso=False) == 0
+    c = bronze.con()
+    assert {r[0] for r in c.execute("SELECT situacao FROM final.frescor").fetchall()} == {"ok"}
+    c.close()
+    linhas = [json.loads(l) for l in open(os.path.join(bronze.DATA, "logs", "execucoes.jsonl"), encoding="utf-8")]
+    frescor = next(l for l in linhas if l["etapa"] == "frescor")
+    assert "casos_sinan=ok" in frescor["detalhe"] and "internacoes_sih=ok" in frescor["detalhe"]
