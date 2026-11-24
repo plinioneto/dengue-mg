@@ -9,9 +9,12 @@
 | R5 | Testes de qualidade: chaves, nulos, datas fora do período, valores plausíveis | S2 | Relatório de execução dos testes | Objetivo (M, qualidade) | Feito (66 de 68 testes passam, 2 avisos da fonte) |
 | R6 | Reconciliação dos casos SINAN com InfoDengue | S2 | Relatório de divergência por município e semana | H6, Objetivo (M) | Executado; limite calibrado para 15%: 90,9% dos pares dentro (meta 90%); 75,3% dentro de 5% (ADR-0004) |
 | R7 | Tabela final por município e semana: casos, internações, leitos, indicador de pressão, "dados até" por indicador | S3 | Tabela final e dicionário de dados | H1 a H3 | Feito (executado em 22/11: 218.368 linhas, 853 municípios x 256 semanas; ADR-0005) |
-| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | S3 | Relatório de revisão média por semana | H4 | Executado em 22/11 com 2 versões do SINAN preliminar; semanas entre versões ainda poucas (o agendamento acumula mais) |
+| R8 | Versionamento das cargas e medição da revisão das semanas preliminares | S3 | Relatório de revisão média por semana | H4 | Feito (1ª medida: executado em 22/11 com 2 versões do SINAN preliminar; consolida-se com as versões das execuções diárias; docs/evidencias/R8/) |
 | R9 | Atualização automática agendada e monitoramento de frescor | S3 | Fluxo agendado e log de execuções | Objetivo (M, frescor) | Pipeline executado em 22/11 e fluxo do GitHub executado em 23/11 (carga completa do zero em 1h27, todas as etapas ok); as duas primeiras execuções saíram com código 2 (falso positivo do monitor na carga inicial e leitura da coluna errada do quadro de frescor, ambos corrigidos com testes); a terceira, também em 23/11, terminou verde (incremental em 19 min, código 0); logs em docs/evidencias/R9/. Feito |
-| R10 | Painel de consulta por município, região de saúde e semana | S3 | Capturas do painel | Objetivo (S) | Código e testes prontos; faltam as capturas com dados reais |
+| R10 | Painel de consulta por município, região de saúde e semana | S3 | Capturas do painel | Objetivo (S) | Feito (painel executado com dados reais; capturas nas Figuras 6 a 8 do relatório e em docs/evidencias/R10/) |
 
 Se o tempo faltar, o corte é pela ordem inversa de prioridade: primeiro R10, depois R8.
 Indicador de pressão: definido no ADR-0005 (internações por dengue na semana por leito clínico e pediátrico existente no município).
+
+## Situação ao fim da Sprint 3 (23/11/2026)
+Os 10 requisitos têm código ou modelo, testes e artefato de evidência. O que segue fica **fora do escopo do ciclo** e é trabalho futuro (ver "Próximos passos" do relatório): observar o primeiro disparo diário automático do fluxo e acumular versões do SINAN preliminar (R8 e R9); população do IBGE para a incidência (H2 completa); H5 (clima) e H7 (validação por entrevistas).
