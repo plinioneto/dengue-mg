@@ -1,6 +1,6 @@
 Segunda execução do fluxo agendado no GitHub Actions (disparo manual), com o cache da primeira.
 Repositório plinioneto/dengue-mg, workflow "atualizacao", run 45297941073, job 138122981863, commit 9aa5a85 (main).
-Início 00:32 UTC, fim 00:48 UTC; o passo "Atualizar" levou 15 min (execução incremental). Excertos do log.
+Início 00:32 UTC de 24/11 (21:32 de 23/11 em Brasília), fim 00:48 UTC; o passo "Atualizar" levou 15 min (execução incremental). Excertos do log.
 
 Cache hit for restore-key: dados-45283259350 (84,7 MB); cache restaurado.
 
